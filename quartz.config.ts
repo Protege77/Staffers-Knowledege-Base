@@ -46,26 +46,26 @@ const config: QuartzConfig = {
       },
       colors: {
         lightMode: {
-          light: "#F8FAFC",          // slate-50 background
-          lightgray: "#E2E8F0",      // slate-200 borders
-          gray: "#94A3B8",           // slate-400 muted
-          darkgray: "#475569",       // slate-600 body text
-          dark: "#0F172A",           // slate-900 headings
-          secondary: "#D97706",      // amber-600 links
-          tertiary: "#EA580C",       // orange-600 hover
-          highlight: "rgba(251, 191, 36, 0.15)", // amber wash
-          textHighlight: "#FEF3C7",  // amber-100 selection
+          light: "#FFF6E8",          // cream background
+          lightgray: "#F0E6D4",      // warm borders
+          gray: "#B8A898",           // muted warm gray
+          darkgray: "#5C4A3A",       // warm brown body text
+          dark: "#3A2A1A",           // deep brown headings
+          secondary: "#7DD5D2",      // teal links
+          tertiary: "#E8806A",       // coral hover
+          highlight: "rgba(255, 224, 138, 0.35)", // yellow wash
+          textHighlight: "#FFE08A",  // yellow selection
         },
         darkMode: {
-          light: "#0F172A",          // slate-900 dark bg
-          lightgray: "#1E293B",      // slate-800 dark borders
-          gray: "#64748B",           // slate-500 muted on dark
-          darkgray: "#CBD5E1",       // slate-300 body text on dark
-          dark: "#F1F5F9",           // slate-100 headings on dark
-          secondary: "#FCD34D",      // amber-300 on dark
-          tertiary: "#FB923C",       // orange-400 hover on dark
-          highlight: "rgba(251, 191, 36, 0.10)", // amber wash dark
-          textHighlight: "#451A03",  // amber-950 selection
+          light: "#2A1F14",          // deep warm dark bg
+          lightgray: "#3D2E20",      // dark warm borders
+          gray: "#8A7060",           // muted on dark
+          darkgray: "#E8D8C4",       // warm body text on dark
+          dark: "#FFF6E8",           // cream headings on dark
+          secondary: "#7DD5D2",      // teal on dark
+          tertiary: "#E8806A",       // coral hover on dark
+          highlight: "rgba(255, 224, 138, 0.15)", // yellow wash dark
+          textHighlight: "#5C3A1A",  // deep amber selection
         },
       },
     },

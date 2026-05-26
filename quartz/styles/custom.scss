@@ -5,26 +5,26 @@
 
 
 // ============================================================
-// DARK TOPBAR — full-width slate header
+// TOPBAR — warm teal header
 // ============================================================
 
 header {
-  background-color: #0F172A !important;
-  border-bottom: 1px solid #1E293B !important;
+  background-color: #7DD5D2 !important;
+  border-bottom: 1px solid #5BBFBC !important;
   padding: 0.6rem 1rem !important;
 }
 
 header * {
-  color: #F1F5F9 !important;
+  color: #3A2A1A !important;
 }
 
 header .darkmode {
-  color: #94A3B8 !important;
+  color: #5C4A3A !important;
 }
 
 header .page-title,
 header h1 {
-  color: #F1F5F9 !important;
+  color: #3A2A1A !important;
   font-size: 1rem !important;
   font-weight: 600 !important;
   letter-spacing: -0.01em;
@@ -156,12 +156,12 @@ blockquote {
 // ============================================================
 
 pre {
-  background-color: #F1F5F9 !important;
+  background-color: #F0E6D4 !important;
   border: 0.5px solid var(--lightgray);
 }
 
 [saved-theme="dark"] pre {
-  background-color: #1E293B !important;
+  background-color: #3D2E20 !important;
 }
 
 
