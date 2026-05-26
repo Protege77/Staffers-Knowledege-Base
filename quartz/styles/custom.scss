@@ -1,25 +1,35 @@
 a.tag-link {
-  background-color: rgba(125, 211, 206, 0.18);
-  border: 0.5px solid rgba(42, 140, 135, 0.35);
-  border-radius: 20px;
-  padding: 2px 10px;
-  font-size: 0.72rem;
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 0 0 11px !important;
+  font-size: 0.78rem;
   color: var(--secondary);
   text-decoration: none;
+  position: relative;
+  transition: color 0.15s;
+}
+a.tag-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--secondary);
   transition: background-color 0.15s;
 }
-a.tag-link:hover {
-  background-color: rgba(125, 211, 206, 0.35);
-  border-color: var(--secondary);
-}
-blockquote {
-  border-left: 3px solid var(--secondary);
-  background-color: var(--highlight);
-  border-radius: 0 6px 6px 0;
-  padding: 0.75rem 1rem;
-  margin: 1.25rem 0;
-}
-pre {
-  background-color: var(--highlight) !important;
-  border: 0.5px solid var(--lightgray);
-}
+a.tag-link:hover { color: var(--tertiary) !important; }
+a.tag-link:hover::before { background-color: var(--tertiary); }
+
+.left { gap: 0.35rem !important; padding-top: 1rem !important; }
+.page-title { font-size: 1rem !important; font-weight: 500; }
+.explorer-content li > a, .explorer-content li > span { font-size: 0.8rem !important; padding: 3px 8px !important; border-radius: 5px; }
+.explorer-content li > a:hover { color: var(--secondary) !important; background-color: var(--highlight) !important; }
+
+blockquote { border-left: 3px solid var(--secondary); background-color: var(--highlight); border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin: 1.25rem 0; }
+pre { background-color: var(--highlight) !important; border: 0.5px solid var(--lightgray); }
+#search-bar:focus { border-color: var(--secondary) !important; box-shadow: 0 0 0 2px rgba(125,211,206,0.25); }
+.recent-notes ul li:hover { border-left: 2px solid var(--secondary); padding-left: 6px; }
