@@ -1,71 +1,45 @@
-# ============================================================
-# GitHub Actions — Build Quartz & Deploy to GitHub Pages
-#
-# Triggers automatically every time a new article is pushed
-# to main (i.e. every time the Apps Script adds a note).
-# You can also trigger it manually from the Actions tab.
-# ============================================================
-
 name: Deploy Knowledge Base
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:          # allows manual runs from GitHub UI
+  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Only one deploy runs at a time; newer pushes cancel queued ones
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-
-  # ----------------------------------------------------------
-  # JOB 1 — Build the Quartz static site
-  # ----------------------------------------------------------
   build:
     runs-on: ubuntu-22.04
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0       # full history so Quartz can show "last modified" dates
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-
       - name: Install dependencies
-        run: npm ci
-
+        run: npm install
       - name: Build Quartz site
         run: npx quartz build
-
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public          # Quartz outputs to ./public by default
+          path: public
 
-  # ----------------------------------------------------------
-  # JOB 2 — Deploy to GitHub Pages
-  # ----------------------------------------------------------
   deploy:
     needs: build
     runs-on: ubuntu-22.04
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

@@ -30,6 +30,7 @@ const config: QuartzConfig = {
     // --------------------------------------------------------
     locale: "en-US",
     defaultDateType: "created",
+    ignorePatterns: ["private", "templates", ".obsidian"],
 
     // --------------------------------------------------------
     // THEME
