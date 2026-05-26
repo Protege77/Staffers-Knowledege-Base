@@ -18,7 +18,7 @@ const config: QuartzConfig = {
 
     // Your GitHub Pages URL: https://<username>.github.io/<repo>
     // Example: https://hermantan.github.io/gis-knowledge-base
-    baseUrl: "Protege77.github.io/Staffers-Knowledege-Base",
+    baseUrl: "protege77.github.io/Staffers-Knowledege-Base",
 
     // --------------------------------------------------------
     // ANALYTICS — optional, add your Plausible/Google ID or leave as-is
