@@ -2,18 +2,22 @@ import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 
 // ============================================================
-// QUARTZ LAYOUT
-// Defines what appears in the sidebar, header, and footer
+// QUARTZ LAYOUT — Warm Editorial
+// Top navigation bar, no left sidebar, slim right panel
 // ============================================================
 
 // Components shared across ALL pages
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
-  header: [],
+  header: [
+    Component.PageTitle(),
+    Component.Search(),
+    Component.Darkmode(),
+  ],
   afterBody: [],
   footer: Component.Footer({
     links: {
-      "Submit an Article": "https://protege77.github.io/Staffers-Knowledege-Base/submit",   // ← paste your form URL here
+      "Submit an Article": "https://protege77.github.io/Staffers-Knowledege-Base/submit",
       "GitHub": "https://github.com/Protege77/Staffers-Knowledege-Base",
     },
   }),
@@ -24,64 +28,16 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.Breadcrumbs(),
     Component.ArticleTitle(),
-    Component.ContentMeta(),     // shows date, submitter, category from frontmatter
-    Component.TagList(),         // tag chips under the title
+    Component.ContentMeta(),
+    Component.TagList(),
   ],
-  left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Search(),
-    Component.Darkmode(),
-    Component.DesktopOnly(
-      Component.Explorer({
-        title: "Browse",
-        folderClickBehavior: "collapse",
-        folderDefaultState: "open",
-        useSavedState: true,
-        sortFn: (a, b) => {
-          // Folders first, then files sorted newest-first by name
-          if ((!a.file && !b.file) || (a.file && b.file)) {
-            return b.name.localeCompare(a.name)   // newest first (YYYY-MM-DD prefix)
-          }
-          if (a.file && !b.file) return 1
-          return -1
-        },
-      })
-    ),
-  ],
+  left: [],
   right: [
     Component.DesktopOnly(Component.TableOfContents()),
-    Component.DesktopOnly(Component.Graph({
-      localGraph: {
-        drag: true,
-        zoom: true,
-        depth: 2,
-        scale: 1.1,
-        repelForce: 0.5,
-        centerForce: 0.3,
-        linkDistance: 30,
-        fontSize: 0.6,
-        opacityScale: 1,
-        showTags: true,
-      },
-      globalGraph: {
-        drag: true,
-        zoom: true,
-        depth: -1,
-        scale: 0.9,
-        repelForce: 0.5,
-        centerForce: 0.3,
-        linkDistance: 30,
-        fontSize: 0.6,
-        opacityScale: 1,
-        showTags: true,
-      },
-    })),
-    Component.DesktopOnly(Component.Backlinks()),
     Component.DesktopOnly(Component.RecentNotes({
       title: "Recently Added",
-      limit: 5,
-      showTags: true,
+      limit: 4,
+      showTags: false,
     })),
   ],
 }
@@ -93,12 +49,6 @@ export const defaultListPageLayout: PageLayout = {
     Component.ArticleTitle(),
     Component.ContentMeta(),
   ],
-  left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Search(),
-    Component.Darkmode(),
-    Component.DesktopOnly(Component.Explorer()),
-  ],
+  left: [],
   right: [],
 }

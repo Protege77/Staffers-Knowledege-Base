@@ -40,8 +40,8 @@ const config: QuartzConfig = {
       fontOrigin: "googleFonts",
       cdnCaching: true,
       typography: {
-        header: "Inter",
-        body: "Source Sans Pro",
+        header: "Playfair Display",
+        body: "Lato",
         code: "JetBrains Mono",
       },
       colors: {

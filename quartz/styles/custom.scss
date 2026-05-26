@@ -1,89 +1,141 @@
 // ============================================================
-// FILO Knowledge Bank — custom styles (Slate & Amber theme)
-// quartz/styles/custom.scss
+// FILO Knowledge Bank — Warm Editorial Theme
 // ============================================================
 
 
 // ============================================================
-// TOPBAR — warm teal header
+// GRID OVERRIDE — collapse left sidebar, full editorial layout
 // ============================================================
 
-header {
-  background-color: #7DD5D2 !important;
-  border-bottom: 1px solid #5BBFBC !important;
-  padding: 0.6rem 1rem !important;
+.page > #quartz-body {
+  grid-template-columns: 0 auto 260px !important;
+  column-gap: 2rem !important;
 }
 
-header * {
-  color: #3A2A1A !important;
-}
-
-header .darkmode {
-  color: #5C4A3A !important;
-}
-
-header .page-title,
-header h1 {
-  color: #3A2A1A !important;
-  font-size: 1rem !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.01em;
-}
-
-
-// ============================================================
-// SIDEBAR — minimal / icon-feel
-// ============================================================
-
-.explorer > .explorer-title,
-.sidebar-label,
-.explorer button.collapsible {
-  font-size: 0.7rem !important;
-  color: var(--gray) !important;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-.left {
-  gap: 0.35rem !important;
-  padding-top: 0.75rem !important;
-}
-
-.explorer-content li > a,
-.explorer-content li > span {
-  font-size: 0.8rem !important;
-  padding: 3px 8px !important;
-  border-radius: 5px;
-}
-
-.explorer-content li > a:hover {
-  color: var(--secondary) !important;
-  background-color: var(--highlight) !important;
-}
-
-#quartz-body .left h1.page-title,
-.page-title {
-  font-size: 1rem !important;
-  line-height: 1.3 !important;
-  font-weight: 600;
-}
-
-.tags-sidebar,
-.left .tag-list {
+.sidebar.left {
   display: none !important;
 }
 
+@media (max-width: 1200px) {
+  .page > #quartz-body {
+    grid-template-columns: 0 auto !important;
+  }
+  .sidebar.right {
+    display: none !important;
+  }
+}
+
 
 // ============================================================
-// TAG CHIPS — amber dot + plain text
+// PAGE HEADER / MASTHEAD — full-width top bar
+// ============================================================
+
+.page-header {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1.5rem !important;
+  padding: 1rem 2rem !important;
+  margin: 0 0 2.5rem !important;
+  background-color: var(--secondary) !important;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+// Site title in masthead
+.page-header .page-title {
+  font-family: var(--headerFont) !important;
+  font-size: 1.4rem !important;
+  font-weight: 700 !important;
+  color: var(--dark) !important;
+  letter-spacing: -0.01em !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+  flex-shrink: 0;
+}
+
+.page-header .page-title a {
+  color: var(--dark) !important;
+  text-decoration: none !important;
+}
+
+// Search bar in masthead
+.page-header .search {
+  flex: 1 !important;
+  max-width: 22rem !important;
+  min-width: 0 !important;
+}
+
+.page-header .search > .search-button {
+  background-color: rgba(255, 255, 255, 0.45) !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  border-radius: 6px !important;
+}
+
+// Darkmode toggle in masthead
+.page-header .darkmode svg {
+  fill: var(--dark) !important;
+}
+
+
+// ============================================================
+// TYPOGRAPHY — editorial serif headings
+// ============================================================
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--headerFont);
+  letter-spacing: -0.02em;
+  color: var(--dark);
+}
+
+.article-title {
+  font-size: 2.4rem !important;
+  line-height: 1.18 !important;
+  margin: 0 0 0.5rem !important;
+  font-weight: 700 !important;
+}
+
+article p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+article h2 {
+  font-size: 1.6rem;
+  margin-top: 2rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--lightgray);
+}
+
+article h3 {
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+
+// ============================================================
+// CONTENT META (date / read time)
+// ============================================================
+
+.content-meta {
+  font-size: 0.82rem !important;
+  color: var(--gray) !important;
+  margin-bottom: 1.5rem !important;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+
+// ============================================================
+// TAG CHIPS — teal dot, no background
 // ============================================================
 
 a.tag-link {
   background: none !important;
   border: none !important;
   border-radius: 0 !important;
-  padding: 0 0 0 11px !important;
+  padding: 0 0 0 12px !important;
   font-size: 0.78rem;
   color: var(--secondary);
   text-decoration: none;
@@ -105,7 +157,6 @@ a.tag-link {
 
   &:hover {
     color: var(--tertiary) !important;
-
     &::before {
       background-color: var(--tertiary);
     }
@@ -114,22 +165,72 @@ a.tag-link {
 
 
 // ============================================================
-// ARTICLE CARDS — amber accent on hover
+// ARTICLE LIST — editorial newspaper-style cards
 // ============================================================
 
-.section-li:hover .section-title a,
-ul.section-ul li:hover h3 a {
-  color: var(--tertiary);
+ul.section-ul {
+  margin-top: 1rem !important;
+  padding-left: 0 !important;
+}
+
+li.section-li {
+  margin-bottom: 0 !important;
+  padding: 1.4rem 0 !important;
+  border-bottom: 1px solid var(--lightgray) !important;
+
+  &:first-child {
+    border-top: 1px solid var(--lightgray);
+  }
+}
+
+// Override the default 3-column grid on article cards
+li.section-li > .section {
+  display: block !important;
+}
+
+li.section-li > .section > .desc > h3 {
+  font-family: var(--headerFont);
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  margin: 0 0 0.3rem !important;
+}
+
+li.section-li > .section > .desc > h3 > a {
+  color: var(--dark) !important;
+  text-decoration: none !important;
+  transition: color 0.15s;
+
+  &:hover {
+    color: var(--secondary) !important;
+  }
+}
+
+// Article description/excerpt
+li.section-li > .section > .desc > p {
+  font-size: 0.92rem !important;
+  color: var(--darkgray) !important;
+  margin: 0.2rem 0 0.5rem !important;
+  line-height: 1.5 !important;
+}
+
+li.section-li > .section > .meta {
+  font-size: 0.78rem !important;
+  color: var(--gray) !important;
+  margin: 0 0 0.4rem !important;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 
 // ============================================================
-// INTERNAL LINKS — amber with orange hover
+// INTERNAL LINKS
 // ============================================================
 
 article a[href^="/"]:not(.tag-link) {
   color: var(--secondary);
-  text-decoration-color: rgba(217, 119, 6, 0.35);
+  text-decoration-color: rgba(125, 213, 210, 0.4);
+  transition: color 0.15s;
 
   &:hover {
     color: var(--tertiary);
@@ -139,25 +240,27 @@ article a[href^="/"]:not(.tag-link) {
 
 
 // ============================================================
-// BLOCKQUOTE — amber left border
+// BLOCKQUOTE — teal left border with warm wash
 // ============================================================
 
 blockquote {
   border-left: 3px solid var(--secondary);
   background-color: var(--highlight);
-  border-radius: 0 6px 6px 0;
-  padding: 0.75rem 1rem;
-  margin: 1.25rem 0;
+  border-radius: 0 8px 8px 0;
+  padding: 0.85rem 1.2rem;
+  margin: 1.5rem 0;
+  font-style: italic;
 }
 
 
 // ============================================================
-// CODE BLOCKS
+// CODE BLOCKS — warm background
 // ============================================================
 
 pre {
   background-color: #F0E6D4 !important;
-  border: 0.5px solid var(--lightgray);
+  border: 1px solid var(--lightgray);
+  border-radius: 8px !important;
 }
 
 [saved-theme="dark"] pre {
@@ -166,20 +269,73 @@ pre {
 
 
 // ============================================================
-// SEARCH BAR — amber focus ring
+// SEARCH BAR — teal focus ring
 // ============================================================
 
 #search-bar:focus {
   border-color: var(--secondary) !important;
-  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.2);
+  box-shadow: 0 0 0 2px rgba(125, 213, 210, 0.3);
 }
 
 
 // ============================================================
-// RECENTLY ADDED SIDEBAR — amber left accent on hover
+// RIGHT SIDEBAR
 // ============================================================
 
-.recent-notes ul li:hover {
-  border-left: 2px solid var(--secondary);
-  padding-left: 6px;
+.sidebar.right {
+  padding-top: 0 !important;
+  gap: 2rem !important;
+}
+
+.toc button.toc-header h3,
+.recent-notes > h3 {
+  font-size: 0.72rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--gray) !important;
+  font-family: var(--bodyFont) !important;
+  font-weight: 600 !important;
+}
+
+.recent-notes > ul.recent-ul > li {
+  margin: 0.6rem 0 !important;
+  padding-bottom: 0.6rem !important;
+  border-bottom: 1px solid var(--lightgray);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.recent-notes > ul.recent-ul > li .section > .desc > h3 {
+  font-size: 0.88rem !important;
+  font-weight: 500 !important;
+}
+
+
+// ============================================================
+// FOOTER
+// ============================================================
+
+footer {
+  border-top: 1px solid var(--lightgray) !important;
+  padding-top: 1.5rem !important;
+  margin-top: 3rem !important;
+  font-size: 0.85rem !important;
+  opacity: 0.8 !important;
+}
+
+
+// ============================================================
+// BREADCRUMBS — slim and muted
+// ============================================================
+
+.breadcrumb-container {
+  font-size: 0.78rem !important;
+  color: var(--gray) !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.breadcrumb-element p {
+  color: var(--gray) !important;
 }
