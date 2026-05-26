@@ -1,61 +1,85 @@
 import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
 
-/**
- * Quartz 4 Configuration
- *
- * See https://quartz.jzhao.xyz/configuration for more information.
- */
+// ============================================================
+// QUARTZ CONFIGURATION
+// GIS & Data Science Community Knowledge Base
+// ============================================================
+
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "Quartz 4",
+    // --------------------------------------------------------
+    // SITE IDENTITY — update these
+    // --------------------------------------------------------
+    pageTitle: "GIS & Data Science Knowledge Base",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
-    analytics: {
-      provider: "plausible",
-    },
+
+    // Your GitHub Pages URL: https://<username>.github.io/<repo>
+    // Example: https://hermantan.github.io/gis-knowledge-base
+    baseUrl: "Protege77.github.io/Staffers-Knowledege-Base",
+
+    // --------------------------------------------------------
+    // ANALYTICS — optional, add your Plausible/Google ID or leave as-is
+    // --------------------------------------------------------
+    analytics: null,
+
+    // --------------------------------------------------------
+    // LOCALE & DISPLAY
+    // --------------------------------------------------------
     locale: "en-US",
-    baseUrl: "quartz.jzhao.xyz",
-    ignorePatterns: ["private", "templates", ".obsidian"],
-    defaultDateType: "modified",
+    defaultDateType: "created",
+
+    // --------------------------------------------------------
+    // THEME
+    // Light/dark mode with a clean, professional colour scheme
+    // --------------------------------------------------------
     theme: {
       fontOrigin: "googleFonts",
       cdnCaching: true,
       typography: {
-        header: "Schibsted Grotesk",
+        header: "Inter",
         body: "Source Sans Pro",
-        code: "IBM Plex Mono",
+        code: "JetBrains Mono",
       },
       colors: {
         lightMode: {
-          light: "#faf8f8",
-          lightgray: "#e5e5e5",
-          gray: "#b8b8b8",
-          darkgray: "#4e4e4e",
-          dark: "#2b2b2b",
-          secondary: "#284b63",
-          tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#fff23688",
+          light: "#fafafa",
+          lightgray: "#e8e8e8",
+          gray: "#9b9b9b",
+          darkgray: "#3a3a3a",
+          dark: "#1a1a1a",
+          secondary: "#2563eb",     // blue — links and highlights
+          tertiary: "#16a34a",      // green — hover states
+          highlight: "rgba(37, 99, 235, 0.08)",
+          textHighlight: "#fff3b0", // yellow — text highlight
         },
         darkMode: {
-          light: "#161618",
-          lightgray: "#393639",
-          gray: "#646464",
-          darkgray: "#d4d4d4",
-          dark: "#ebebec",
-          secondary: "#7b97aa",
-          tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#b3aa0288",
+          light: "#1a1a2e",
+          lightgray: "#2a2a3e",
+          gray: "#6b7280",
+          darkgray: "#d1d5db",
+          dark: "#f9fafb",
+          secondary: "#60a5fa",
+          tertiary: "#34d399",
+          highlight: "rgba(96, 165, 250, 0.10)",
+          textHighlight: "#4b5320",
         },
       },
     },
   },
+
+  // ============================================================
+  // PLUGINS
+  // ============================================================
   plugins: {
+
+    // ----------------------------------------------------------
+    // TRANSFORMERS — process markdown content
+    // ----------------------------------------------------------
     transformers: [
-      Plugin.FrontMatter(),
+      Plugin.FrontMatter(),                   // reads YAML frontmatter (title, tags, date, etc.)
       Plugin.CreatedModifiedDate({
         priority: ["frontmatter", "git", "filesystem"],
       }),
@@ -66,30 +90,54 @@ const config: QuartzConfig = {
         },
         keepBackground: false,
       }),
-      Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false }),
+      Plugin.ObsidianFlavoredMarkdown({
+        enableInHtmlEmbed: false,
+        parseTags: true,
+        parseArrows: true,
+        parseBlockReferences: true,
+      }),
       Plugin.GitHubFlavoredMarkdown(),
-      Plugin.TableOfContents(),
-      Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
+      Plugin.TableOfContents({
+        maxDepth: 3,
+        minEntries: 3,                         // only show ToC if 3+ headings
+        showByDefault: true,
+      }),
+      Plugin.CrawlLinks({
+        markdownLinkResolution: "shortest",
+        prettyLinks: true,
+        openLinksInNewTab: true,               // external article links open in new tab
+        lazyLoad: true,
+      }),
       Plugin.Description(),
       Plugin.Latex({ renderEngine: "katex" }),
     ],
-    filters: [Plugin.RemoveDrafts()],
+
+    // ----------------------------------------------------------
+    // FILTERS — control which files are published
+    // ----------------------------------------------------------
+    filters: [
+      Plugin.RemoveDrafts(),                   // exclude notes with draft: true in frontmatter
+    ],
+
+    // ----------------------------------------------------------
+    // EMITTERS — generate the site pages
+    // ----------------------------------------------------------
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
       Plugin.ContentPage(),
       Plugin.FolderPage(),
-      Plugin.TagPage(),
+      Plugin.TagPage(),                        // generates a page for each tag
       Plugin.ContentIndex({
         enableSiteMap: true,
-        enableRSS: true,
+        enableRSS: true,                       // RSS feed for members who prefer it
+        rssLimit: 30,
+        rssFullHtml: false,
+        includeEmptyFiles: false,
       }),
       Plugin.Assets(),
       Plugin.Static(),
-      Plugin.Favicon(),
       Plugin.NotFoundPage(),
-      // Comment out CustomOgImages to speed up build time
-      Plugin.CustomOgImages(),
     ],
   },
 }

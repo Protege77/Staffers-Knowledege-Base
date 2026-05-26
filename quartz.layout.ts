@@ -1,68 +1,104 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 
-// components shared across all pages
+// ============================================================
+// QUARTZ LAYOUT
+// Defines what appears in the sidebar, header, and footer
+// ============================================================
+
+// Components shared across ALL pages
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
   afterBody: [],
   footer: Component.Footer({
     links: {
-      GitHub: "https://github.com/jackyzha0/quartz",
-      "Discord Community": "https://discord.gg/cRFFHYye7t",
+      "Submit an Article": "https://YOUR_GOOGLE_FORM_URL",   // ← paste your form URL here
+      "GitHub": "https://github.com/YOUR_USERNAME/YOUR_REPO",
     },
   }),
 }
 
-// components for pages that display a single page (e.g. a single note)
+// Layout for regular article/note pages
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
-    Component.ConditionalRender({
-      component: Component.Breadcrumbs(),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
+    Component.Breadcrumbs(),
     Component.ArticleTitle(),
-    Component.ContentMeta(),
-    Component.TagList(),
+    Component.ContentMeta(),     // shows date, submitter, category from frontmatter
+    Component.TagList(),         // tag chips under the title
   ],
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
+    Component.Search(),
+    Component.Darkmode(),
+    Component.DesktopOnly(
+      Component.Explorer({
+        title: "Browse",
+        folderClickBehavior: "collapse",
+        folderDefaultState: "open",
+        useSavedState: true,
+        sortFn: (a, b) => {
+          // Folders first, then files sorted newest-first by name
+          if ((!a.file && !b.file) || (a.file && b.file)) {
+            return b.name.localeCompare(a.name)   // newest first (YYYY-MM-DD prefix)
+          }
+          if (a.file && !b.file) return 1
+          return -1
         },
-        { Component: Component.Darkmode() },
-        { Component: Component.ReaderMode() },
-      ],
-    }),
-    Component.Explorer(),
+      })
+    ),
   ],
   right: [
-    Component.Graph(),
     Component.DesktopOnly(Component.TableOfContents()),
-    Component.Backlinks(),
+    Component.DesktopOnly(Component.Graph({
+      localGraph: {
+        drag: true,
+        zoom: true,
+        depth: 2,
+        scale: 1.1,
+        repelForce: 0.5,
+        centerForce: 0.3,
+        linkDistance: 30,
+        fontSize: 0.6,
+        opacityScale: 1,
+        showTags: true,
+      },
+      globalGraph: {
+        drag: true,
+        zoom: true,
+        depth: -1,
+        scale: 0.9,
+        repelForce: 0.5,
+        centerForce: 0.3,
+        linkDistance: 30,
+        fontSize: 0.6,
+        opacityScale: 1,
+        showTags: true,
+      },
+    })),
+    Component.DesktopOnly(Component.Backlinks()),
+    Component.DesktopOnly(Component.RecentNotes({
+      title: "Recently Added",
+      limit: 5,
+      showTags: true,
+    })),
   ],
 }
 
-// components for pages that display lists of pages  (e.g. tags or folders)
+// Layout for folder/index pages (e.g. /articles/)
 export const defaultListPageLayout: PageLayout = {
-  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
+  beforeBody: [
+    Component.Breadcrumbs(),
+    Component.ArticleTitle(),
+    Component.ContentMeta(),
+  ],
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-      ],
-    }),
-    Component.Explorer(),
+    Component.Search(),
+    Component.Darkmode(),
+    Component.DesktopOnly(Component.Explorer()),
   ],
   right: [],
 }
