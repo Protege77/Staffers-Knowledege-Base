@@ -1,5 +1,5 @@
 ---
-title: Staffers Knowledge Base
+title: FILO Knowledge Bank
 ---
 
 Welcome to our shared knowledge base. Browse by tag, explore the graph, or search for topics.
