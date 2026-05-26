@@ -19,17 +19,18 @@ a.tag-link::before {
   height: 5px;
   border-radius: 50%;
   background-color: var(--secondary);
-  transition: background-color 0.15s;
 }
 a.tag-link:hover { color: var(--tertiary) !important; }
 a.tag-link:hover::before { background-color: var(--tertiary); }
 
-.left { gap: 0.35rem !important; padding-top: 1rem !important; }
-.page-title { font-size: 1rem !important; font-weight: 500; }
-.explorer-content li > a, .explorer-content li > span { font-size: 0.8rem !important; padding: 3px 8px !important; border-radius: 5px; }
-.explorer-content li > a:hover { color: var(--secondary) !important; background-color: var(--highlight) !important; }
-
-blockquote { border-left: 3px solid var(--secondary); background-color: var(--highlight); border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin: 1.25rem 0; }
-pre { background-color: var(--highlight) !important; border: 0.5px solid var(--lightgray); }
-#search-bar:focus { border-color: var(--secondary) !important; box-shadow: 0 0 0 2px rgba(125,211,206,0.25); }
-.recent-notes ul li:hover { border-left: 2px solid var(--secondary); padding-left: 6px; }
+blockquote {
+  border-left: 3px solid var(--secondary);
+  background-color: var(--highlight);
+  border-radius: 0 6px 6px 0;
+  padding: 0.75rem 1rem;
+  margin: 1.25rem 0;
+}
+pre {
+  background-color: var(--highlight) !important;
+  border: 0.5px solid var(--lightgray);
+}
