@@ -13,8 +13,8 @@ export const sharedPageComponents: SharedLayout = {
   afterBody: [],
   footer: Component.Footer({
     links: {
-      "Submit an Article": "https://YOUR_GOOGLE_FORM_URL",   // ← paste your form URL here
-      "GitHub": "https://github.com/YOUR_USERNAME/YOUR_REPO",
+      "Submit an Article": "/submit",   // ← paste your form URL here
+      "GitHub": "https://github.com/Protege77/Staffers-Knowledege-Base",
     },
   }),
 }
