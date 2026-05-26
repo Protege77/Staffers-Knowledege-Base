@@ -1,3 +1,84 @@
+// ============================================================
+// FILO Knowledge Bank — custom styles (Slate & Amber theme)
+// quartz/styles/custom.scss
+// ============================================================
+
+
+// ============================================================
+// DARK TOPBAR — full-width slate header
+// ============================================================
+
+header {
+  background-color: #0F172A !important;
+  border-bottom: 1px solid #1E293B !important;
+  padding: 0.6rem 1rem !important;
+}
+
+header * {
+  color: #F1F5F9 !important;
+}
+
+header .darkmode {
+  color: #94A3B8 !important;
+}
+
+header .page-title,
+header h1 {
+  color: #F1F5F9 !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em;
+}
+
+
+// ============================================================
+// SIDEBAR — minimal / icon-feel
+// ============================================================
+
+.explorer > .explorer-title,
+.sidebar-label,
+.explorer button.collapsible {
+  font-size: 0.7rem !important;
+  color: var(--gray) !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.left {
+  gap: 0.35rem !important;
+  padding-top: 0.75rem !important;
+}
+
+.explorer-content li > a,
+.explorer-content li > span {
+  font-size: 0.8rem !important;
+  padding: 3px 8px !important;
+  border-radius: 5px;
+}
+
+.explorer-content li > a:hover {
+  color: var(--secondary) !important;
+  background-color: var(--highlight) !important;
+}
+
+#quartz-body .left h1.page-title,
+.page-title {
+  font-size: 1rem !important;
+  line-height: 1.3 !important;
+  font-weight: 600;
+}
+
+.tags-sidebar,
+.left .tag-list {
+  display: none !important;
+}
+
+
+// ============================================================
+// TAG CHIPS — amber dot + plain text
+// ============================================================
+
 a.tag-link {
   background: none !important;
   border: none !important;
@@ -8,20 +89,58 @@ a.tag-link {
   text-decoration: none;
   position: relative;
   transition: color 0.15s;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--secondary);
+    transition: background-color 0.15s;
+  }
+
+  &:hover {
+    color: var(--tertiary) !important;
+
+    &::before {
+      background-color: var(--tertiary);
+    }
+  }
 }
-a.tag-link::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: var(--secondary);
+
+
+// ============================================================
+// ARTICLE CARDS — amber accent on hover
+// ============================================================
+
+.section-li:hover .section-title a,
+ul.section-ul li:hover h3 a {
+  color: var(--tertiary);
 }
-a.tag-link:hover { color: var(--tertiary) !important; }
-a.tag-link:hover::before { background-color: var(--tertiary); }
+
+
+// ============================================================
+// INTERNAL LINKS — amber with orange hover
+// ============================================================
+
+article a[href^="/"]:not(.tag-link) {
+  color: var(--secondary);
+  text-decoration-color: rgba(217, 119, 6, 0.35);
+
+  &:hover {
+    color: var(--tertiary);
+    text-decoration-color: var(--tertiary);
+  }
+}
+
+
+// ============================================================
+// BLOCKQUOTE — amber left border
+// ============================================================
 
 blockquote {
   border-left: 3px solid var(--secondary);
@@ -30,7 +149,37 @@ blockquote {
   padding: 0.75rem 1rem;
   margin: 1.25rem 0;
 }
+
+
+// ============================================================
+// CODE BLOCKS
+// ============================================================
+
 pre {
-  background-color: var(--highlight) !important;
+  background-color: #F1F5F9 !important;
   border: 0.5px solid var(--lightgray);
+}
+
+[saved-theme="dark"] pre {
+  background-color: #1E293B !important;
+}
+
+
+// ============================================================
+// SEARCH BAR — amber focus ring
+// ============================================================
+
+#search-bar:focus {
+  border-color: var(--secondary) !important;
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.2);
+}
+
+
+// ============================================================
+// RECENTLY ADDED SIDEBAR — amber left accent on hover
+// ============================================================
+
+.recent-notes ul li:hover {
+  border-left: 2px solid var(--secondary);
+  padding-left: 6px;
 }

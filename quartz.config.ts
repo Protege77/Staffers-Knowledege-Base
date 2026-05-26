@@ -46,26 +46,26 @@ const config: QuartzConfig = {
       },
       colors: {
         lightMode: {
-          light: "#FFF8E8",
-          lightgray: "#EDE0C8",
-          gray: "#A09080",
-          darkgray: "#5A5040",
-          dark: "#1A1510",
-          secondary: "#2A8C87",
-          tertiary: "#E8876A",
-          highlight: "rgba(125, 211, 206, 0.18)",
-          textHighlight: "#FFF0A0",
+          light: "#F8FAFC",          // slate-50 background
+          lightgray: "#E2E8F0",      // slate-200 borders
+          gray: "#94A3B8",           // slate-400 muted
+          darkgray: "#475569",       // slate-600 body text
+          dark: "#0F172A",           // slate-900 headings
+          secondary: "#D97706",      // amber-600 links
+          tertiary: "#EA580C",       // orange-600 hover
+          highlight: "rgba(251, 191, 36, 0.15)", // amber wash
+          textHighlight: "#FEF3C7",  // amber-100 selection
         },
         darkMode: {
-          light: "#1C1E1A",
-          lightgray: "#2A2C28",
-          gray: "#6B6A60",
-          darkgray: "#D4CFC0",
-          dark: "#F5F0E8",
-          secondary: "#7DD3CE",
-          tertiary: "#E8876A",
-          highlight: "rgba(125, 211, 206, 0.12)",
-          textHighlight: "#4A3C10",
+          light: "#0F172A",          // slate-900 dark bg
+          lightgray: "#1E293B",      // slate-800 dark borders
+          gray: "#64748B",           // slate-500 muted on dark
+          darkgray: "#CBD5E1",       // slate-300 body text on dark
+          dark: "#F1F5F9",           // slate-100 headings on dark
+          secondary: "#FCD34D",      // amber-300 on dark
+          tertiary: "#FB923C",       // orange-400 hover on dark
+          highlight: "rgba(251, 191, 36, 0.10)", // amber wash dark
+          textHighlight: "#451A03",  // amber-950 selection
         },
       },
     },
