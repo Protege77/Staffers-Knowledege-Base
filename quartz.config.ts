@@ -11,7 +11,7 @@ const config: QuartzConfig = {
     // --------------------------------------------------------
     // SITE IDENTITY — update these
     // --------------------------------------------------------
-    pageTitle: "GIS & Data Science Knowledge Base",
+    pageTitle: "FILO Knowledge Bank",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
