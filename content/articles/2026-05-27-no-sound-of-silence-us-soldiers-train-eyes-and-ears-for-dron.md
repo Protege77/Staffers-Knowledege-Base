@@ -23,7 +23,7 @@ The U.S. Army is developing new tactics and doctrine to combat drone swarms thro
 ## Location
 
 <p class="article-map-label">Lithuania</p>
-<div id="article-map" class="article-map" data-lat="55.1694" data-lng="23.8813" data-label="Lithuania"></div>
+<div id="article-location-map" class="article-map" data-lat="55.1694" data-lng="23.8813" data-label="Lithuania"></div>
 
 ## Related Topics
 

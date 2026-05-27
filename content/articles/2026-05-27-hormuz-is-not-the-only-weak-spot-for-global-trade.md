@@ -23,7 +23,7 @@ The article identifies critical vulnerabilities in global trade infrastructure b
 ## Location
 
 <p class="article-map-label">Strait of Hormuz</p>
-<div id="article-map" class="article-map" data-lat="26.57" data-lng="56.55" data-label="Strait of Hormuz"></div>
+<div id="article-location-map" class="article-map" data-lat="26.57" data-lng="56.55" data-label="Strait of Hormuz"></div>
 
 ## Related Topics
 

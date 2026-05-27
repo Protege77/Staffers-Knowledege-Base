@@ -23,7 +23,7 @@ Ukraine has deployed Mission Control, a unified digital command-and-control syst
 ## Location
 
 <p class="article-map-label">Ukraine</p>
-<div id="article-map" class="article-map" data-lat="48.3794" data-lng="31.1656" data-label="Ukraine"></div>
+<div id="article-location-map" class="article-map" data-lat="48.3794" data-lng="31.1656" data-label="Ukraine"></div>
 
 ## Related Topics
 

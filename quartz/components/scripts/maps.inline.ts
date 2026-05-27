@@ -21,8 +21,12 @@ type LeafletMap = {
 }
 
 let leafletPromise: Promise<void> | null = null
-let initPromise: Promise<void> | null = null
+let initGeneration = 0
 const mapObservers = new WeakMap<HTMLElement, IntersectionObserver>()
+
+function getArticleMapEl(): HTMLElement | null {
+  return document.querySelector(".article-map[data-lat][data-lng]")
+}
 
 function loadStylesheet(href: string): Promise<void> {
   const existing = document.querySelector(`link[href="${href}"]`) as HTMLLinkElement | null
@@ -108,7 +112,7 @@ function destroyMap(el: HTMLElement | null) {
   }
 
   el.innerHTML = ""
-  if (el.id === "article-map") el.className = "article-map"
+  if (el.classList.contains("article-map")) el.className = "article-map"
   else if (el.id === "site-map") el.className = "site-map"
 }
 
@@ -138,7 +142,7 @@ function watchMapVisibility(el: HTMLElement, map: LeafletMap) {
 }
 
 function initArticleMap() {
-  const el = document.getElementById("article-map") as HTMLElement | null
+  const el = getArticleMapEl()
   if (!el) return
 
   const lat = Number(el.dataset.lat)
@@ -162,7 +166,7 @@ function initArticleMap() {
   refreshMapSize(map)
 }
 
-async function initSiteMap() {
+async function initSiteMap(generation: number) {
   const el = document.getElementById("site-map") as HTMLElement | null
   if (!el) return
 
@@ -179,6 +183,8 @@ async function initSiteMap() {
     console.warn("Could not load article-locations.json:", err)
   }
 
+  if (generation !== initGeneration) return
+
   const L = (window as any).L
   const map = L.map(el, { scrollWheelZoom: true }) as LeafletMap
   ;(el as any)._leafletMap = map
@@ -187,13 +193,6 @@ async function initSiteMap() {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     maxZoom: 18,
   }).addTo(map)
-
-  if (locations.length === 0) {
-    map.setView([20, 0], 2)
-    watchMapVisibility(el, map)
-    refreshMapSize(map)
-    return
-  }
 
   const bounds = L.latLngBounds([])
   const articleBase = new URL("articles/", window.location.href)
@@ -205,36 +204,51 @@ async function initSiteMap() {
     bounds.extend([loc.lat, loc.lng])
   }
 
-  map.fitBounds(bounds.pad(0.2))
+  const fitView = () => {
+    if (generation !== initGeneration) return
+    if (locations.length === 0) {
+      map.setView([20, 0], 2)
+    } else {
+      map.fitBounds(bounds.pad(0.2))
+    }
+    refreshMapSize(map)
+  }
+
   watchMapVisibility(el, map)
-  refreshMapSize(map)
+  fitView()
+  requestAnimationFrame(() => requestAnimationFrame(fitView))
+  window.setTimeout(fitView, 300)
 }
 
 function cleanupMaps() {
-  destroyMap(document.getElementById("article-map"))
+  destroyMap(getArticleMapEl())
   destroyMap(document.getElementById("site-map"))
 }
 
 async function initMaps() {
-  if (initPromise) return initPromise
+  const generation = ++initGeneration
 
-  initPromise = (async () => {
-    try {
-      await ensureLeaflet()
-      initArticleMap()
-      await initSiteMap()
-    } catch (err) {
-      console.error("Map initialization failed:", err)
-    }
-  })().finally(() => {
-    initPromise = null
-  })
+  try {
+    await ensureLeaflet()
+    if (generation !== initGeneration) return
 
-  return initPromise
+    initArticleMap()
+    if (generation !== initGeneration) return
+
+    await initSiteMap(generation)
+  } catch (err) {
+    console.error("Map initialization failed:", err)
+  }
 }
 
-document.addEventListener("nav", () => {
-  void initMaps()
-})
+function scheduleMapInit() {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      void initMaps()
+    })
+  })
+}
+
+document.addEventListener("nav", scheduleMapInit)
 
 window.addCleanup?.(() => cleanupMaps())

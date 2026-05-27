@@ -22,7 +22,7 @@ Singapore's Ministry of Defence announces a new initiative focused on applying g
 ## Location
 
 <p class="article-map-label">Singapore</p>
-<div id="article-map" class="article-map" data-lat="1.3521" data-lng="103.8198" data-label="Singapore"></div>
+<div id="article-location-map" class="article-map" data-lat="1.3521" data-lng="103.8198" data-label="Singapore"></div>
 
 ## Related Topics
 

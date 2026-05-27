@@ -24,7 +24,7 @@ Latvia is deploying mobile drone-interceptor units equipped with locally-manufac
 ## Location
 
 <p class="article-map-label">Latvia-Russia border</p>
-<div id="article-map" class="article-map" data-lat="56.5" data-lng="27.5" data-label="Latvia-Russia border"></div>
+<div id="article-location-map" class="article-map" data-lat="56.5" data-lng="27.5" data-label="Latvia-Russia border"></div>
 
 ## Related Topics
 

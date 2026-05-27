@@ -663,7 +663,7 @@ function formatLocationMapSection(loc) {
   if (!loc) return '';
   return '## Location\n\n'
     + '<p class="article-map-label">' + escapeHtml(loc.name) + '</p>\n'
-    + '<div id="article-map" class="article-map" data-lat="' + loc.lat + '" data-lng="' + loc.lng + '" data-label="' + escapeQuotes(loc.name) + '"></div>\n\n';
+    + '<div id="article-location-map" class="article-map" data-lat="' + loc.lat + '" data-lng="' + loc.lng + '" data-label="' + escapeQuotes(loc.name) + '"></div>\n\n';
 }
 
 function classifyWithClaude(url, article, opts) {

@@ -23,7 +23,7 @@ RAM chip prices have surged 200-250% in recent months, forcing computer retailer
 ## Location
 
 <p class="article-map-label">Sim Lim Square, Singapore</p>
-<div id="article-map" class="article-map" data-lat="1.2947" data-lng="103.8547" data-label="Sim Lim Square, Singapore"></div>
+<div id="article-location-map" class="article-map" data-lat="1.2947" data-lng="103.8547" data-label="Sim Lim Square, Singapore"></div>
 
 ## Related Topics
 

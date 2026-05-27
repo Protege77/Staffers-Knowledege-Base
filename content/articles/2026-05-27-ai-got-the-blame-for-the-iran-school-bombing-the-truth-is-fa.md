@@ -23,7 +23,7 @@ A US bombing of an Iranian school was widely misattributed to AI chatbots, when 
 ## Location
 
 <p class="article-map-label">Iran</p>
-<div id="article-map" class="article-map" data-lat="32.4279" data-lng="53.688" data-label="Iran"></div>
+<div id="article-location-map" class="article-map" data-lat="32.4279" data-lng="53.688" data-label="Iran"></div>
 
 ## Related Topics
 
