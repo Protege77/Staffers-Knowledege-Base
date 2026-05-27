@@ -18,11 +18,10 @@ This article explores spatial analysis capabilities and applications within GIS 
 
 ## Related Topics
 
-- [[Spatial Analysis]]
-- [[GIS Fundamentals]]
-- [[Data Visualization]]
-- [[Geographic Information Systems]]
-
+- <span class="topic-search-link" data-topic="Spatial Analysis" role="button" tabindex="0">Spatial Analysis</span>
+- <span class="topic-search-link" data-topic="GIS Fundamentals" role="button" tabindex="0">GIS Fundamentals</span>
+- <span class="topic-search-link" data-topic="Data Visualization" role="button" tabindex="0">Data Visualization</span>
+- <span class="topic-search-link" data-topic="Geographic Information Systems" role="button" tabindex="0">Geographic Information Systems</span>
 ## Member Notes
 
 Good overview of spatial analysis trends

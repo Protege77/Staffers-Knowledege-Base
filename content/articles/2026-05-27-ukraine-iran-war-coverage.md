@@ -18,9 +18,9 @@ This article covers developments in the Ukraine-Iran conflict and broader intern
 
 ## Related Topics
 
-- [[Geopolitical Analysis]]
-- [[Conflict Mapping]]
-- [[Regional Security]]
+- <span class="topic-search-link" data-topic="Geopolitical Analysis" role="button" tabindex="0">Geopolitical Analysis</span>
+- <span class="topic-search-link" data-topic="Conflict Mapping" role="button" tabindex="0">Conflict Mapping</span>
+- <span class="topic-search-link" data-topic="Regional Security" role="button" tabindex="0">Regional Security</span>
 ## Source
 
 [Ukraine-Iran War Coverage](https://www.wsj.com/world/ukraine-iran-war-807d697d?st=MwGx3a)

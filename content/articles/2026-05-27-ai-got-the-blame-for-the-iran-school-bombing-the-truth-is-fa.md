@@ -18,10 +18,10 @@ A US bombing of an Iranian school was widely misattributed to AI chatbots, when 
 
 ## Related Topics
 
-- [[Military AI Systems]]
-- [[Data Quality and Governance]]
-- [[Technology Accountability]]
-- [[Defense Contractors]]
+- <span class="topic-search-link" data-topic="Military AI Systems" role="button" tabindex="0">Military AI Systems</span>
+- <span class="topic-search-link" data-topic="Data Quality and Governance" role="button" tabindex="0">Data Quality and Governance</span>
+- <span class="topic-search-link" data-topic="Technology Accountability" role="button" tabindex="0">Technology Accountability</span>
+- <span class="topic-search-link" data-topic="Defense Contractors" role="button" tabindex="0">Defense Contractors</span>
 ## Source
 
 [AI got the blame for the Iran school bombing. The truth is far more worrying](https://www.theguardian.com/news/2026/mar/26/ai-got-the-blame-for-the-iran-school-bombing-the-truth-is-far-more-worrying)

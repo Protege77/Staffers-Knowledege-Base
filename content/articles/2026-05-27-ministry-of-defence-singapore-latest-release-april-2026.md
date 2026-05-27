@@ -17,9 +17,9 @@ Singapore's Ministry of Defence announces a new initiative focused on applying g
 
 ## Related Topics
 
-- [[Defence GIS Applications]]
-- [[Geospatial Intelligence]]
-- [[Government Data Systems]]
+- <span class="topic-search-link" data-topic="Defence GIS Applications" role="button" tabindex="0">Defence GIS Applications</span>
+- <span class="topic-search-link" data-topic="Geospatial Intelligence" role="button" tabindex="0">Geospatial Intelligence</span>
+- <span class="topic-search-link" data-topic="Government Data Systems" role="button" tabindex="0">Government Data Systems</span>
 ## Source
 
 [Ministry of Defence Singapore Latest Release - April 2026](https://www.mindef.gov.sg/news-and-events/latest-releases/13apr26-nr/)

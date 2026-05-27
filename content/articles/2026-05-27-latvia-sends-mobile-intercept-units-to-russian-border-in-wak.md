@@ -19,10 +19,10 @@ Latvia is deploying mobile drone-interceptor units equipped with locally-manufac
 
 ## Related Topics
 
-- [[Drone Technology]]
-- [[Border Security]]
-- [[NATO Defense]]
-- [[Autonomous Systems]]
+- <span class="topic-search-link" data-topic="Drone Technology" role="button" tabindex="0">Drone Technology</span>
+- <span class="topic-search-link" data-topic="Border Security" role="button" tabindex="0">Border Security</span>
+- <span class="topic-search-link" data-topic="NATO Defense" role="button" tabindex="0">NATO Defense</span>
+- <span class="topic-search-link" data-topic="Autonomous Systems" role="button" tabindex="0">Autonomous Systems</span>
 ## Source
 
 [Latvia sends mobile intercept units to Russian border in wake of drone incursions](https://www.defensenews.com/global/europe/2026/05/27/latvia-sends-mobile-intercept-units-to-russian-border-in-wake-of-drone-incursions/)

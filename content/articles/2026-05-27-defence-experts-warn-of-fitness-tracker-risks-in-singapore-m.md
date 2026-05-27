@@ -18,10 +18,10 @@ Defence experts in Singapore have warned that fitness tracking apps like Strava 
 
 ## Related Topics
 
-- [[Geospatial Security]]
-- [[Location Data Privacy]]
-- [[Cybersecurity Threats]]
-- [[Military Intelligence]]
+- <span class="topic-search-link" data-topic="Geospatial Security" role="button" tabindex="0">Geospatial Security</span>
+- <span class="topic-search-link" data-topic="Location Data Privacy" role="button" tabindex="0">Location Data Privacy</span>
+- <span class="topic-search-link" data-topic="Cybersecurity Threats" role="button" tabindex="0">Cybersecurity Threats</span>
+- <span class="topic-search-link" data-topic="Military Intelligence" role="button" tabindex="0">Military Intelligence</span>
 ## Source
 
 [Defence experts warn of fitness tracker risks in Singapore military bases amid global Strava breaches](https://www.channelnewsasia.com/singapore/strava-military-bases-fitness-tracker-mindef-saf-6076076)

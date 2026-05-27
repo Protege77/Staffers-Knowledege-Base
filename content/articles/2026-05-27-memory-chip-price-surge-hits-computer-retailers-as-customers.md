@@ -18,9 +18,9 @@ RAM chip prices have surged 200-250% in recent months, forcing computer retailer
 
 ## Related Topics
 
-- [[Semiconductor Supply Chain]]
-- [[Hardware Market Trends]]
-- [[Computer Hardware Economics]]
+- <span class="topic-search-link" data-topic="Semiconductor Supply Chain" role="button" tabindex="0">Semiconductor Supply Chain</span>
+- <span class="topic-search-link" data-topic="Hardware Market Trends" role="button" tabindex="0">Hardware Market Trends</span>
+- <span class="topic-search-link" data-topic="Computer Hardware Economics" role="button" tabindex="0">Computer Hardware Economics</span>
 ## Source
 
 [Memory Chip Price Surge Hits Computer Retailers as Customers Delay Upgrades](https://www.channelnewsasia.com/singapore/ram-memory-chips-ai-retailers-computers-price-hikes-micron-samsung-5824181?cid=internal_sharetool_web_02022026_cna)

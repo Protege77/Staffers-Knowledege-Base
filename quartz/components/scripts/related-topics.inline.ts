@@ -8,35 +8,33 @@ function openTopicSearch(label: string) {
   searchBar.focus()
 }
 
-function wireRelatedTopicLinks() {
-  const heading = document.getElementById("related-topics")
-  if (!heading) return
-
-  let el: Element | null = heading.nextElementSibling
-  while (el && el.tagName !== "H2") {
-    if (el.tagName === "UL" || el.tagName === "OL") {
-      el.querySelectorAll("a").forEach((anchor) => {
-        const label = anchor.textContent?.trim() ?? ""
-        if (!label) return
-
-        anchor.classList.add("topic-search-link")
-        anchor.setAttribute("data-router-ignore", "")
-        anchor.setAttribute("href", "#")
-        anchor.setAttribute("title", `Search for "${label}"`)
-
-        const onClick = (e: Event) => {
-          e.preventDefault()
-          e.stopPropagation()
-          openTopicSearch(label)
-        }
-        anchor.addEventListener("click", onClick, true)
-        window.addCleanup(() => anchor.removeEventListener("click", onClick, true))
-      })
-      break
-    }
-    el = el.nextElementSibling
-  }
+function getTopicLabel(el: Element): string {
+  return el.getAttribute("data-topic")?.trim() || el.textContent?.trim() || ""
 }
 
-document.addEventListener("nav", wireRelatedTopicLinks)
-wireRelatedTopicLinks()
+function isRelatedTopicLink(el: Element): boolean {
+  const list = el.closest("ul, ol")
+  if (!list) return false
+  const heading = list.previousElementSibling
+  return heading?.id === "related-topics"
+}
+
+function handleRelatedTopicClick(e: Event) {
+  const target = e.target
+  if (!(target instanceof Element)) return
+
+  const topicEl = target.closest(".topic-search-link")
+  if (!topicEl || !isRelatedTopicLink(topicEl)) return
+
+  e.preventDefault()
+  e.stopImmediatePropagation()
+  openTopicSearch(getTopicLabel(topicEl))
+}
+
+function handleRelatedTopicKeydown(e: KeyboardEvent) {
+  if (e.key !== "Enter" && e.key !== " ") return
+  handleRelatedTopicClick(e)
+}
+
+document.addEventListener("click", handleRelatedTopicClick, true)
+document.addEventListener("keydown", handleRelatedTopicKeydown, true)

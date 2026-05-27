@@ -703,10 +703,14 @@ function classifyWithClaude(url, article, opts) {
 // ============================================================
 // BUILD MARKDOWN NOTE
 // ============================================================
+function formatRelatedTopicLine(topic) {
+  return '- <span class="topic-search-link" data-topic="' + escapeQuotes(topic) + '" role="button" tabindex="0">' + escapeHtml(topic) + '</span>';
+}
+
 function buildMarkdown(url, submitter, userNotes, c) {
   const date      = today();
   const tagList   = (c.tags || []).map(function(t) { return '  - ' + t; }).join('\n');
-  const wikilinks = (c.related_topics || []).map(function(t) { return '- [[' + t + ']]'; }).join('\n');
+  const wikilinks = (c.related_topics || []).map(formatRelatedTopicLine).join('\n');
   const notesSection = userNotes ? '\n## Member Notes\n\n' + userNotes + '\n' : '';
 
   return '---\n'
@@ -730,7 +734,7 @@ function buildMarkdown(url, submitter, userNotes, c) {
 function rebuildMarkdownFromExisting(parsed, c, userNotes) {
   const title     = c.title || parsed.title || 'Untitled';
   const tagList   = (c.tags || parsed.tags || []).map(function(t) { return '  - ' + t; }).join('\n');
-  const wikilinks = (c.related_topics || []).map(function(t) { return '- [[' + t + ']]'; }).join('\n');
+  const wikilinks = (c.related_topics || parsed.related_topics || []).map(formatRelatedTopicLine).join('\n');
   const notesSection = userNotes ? '\n## Member Notes\n\n' + userNotes + '\n' : '';
 
   return '---\n'
@@ -917,9 +921,14 @@ function parseRelatedTopicsFromBody(body) {
 
   const topics = [];
   const wikilinkRe = /\[\[([^\]]+)\]\]/g;
+  const spanRe = /data-topic="([^"]+)"/g;
   let match;
   while ((match = wikilinkRe.exec(sectionMatch[1])) !== null) {
     const topic = (match[1] || '').trim();
+    if (topic && topic !== '_None suggested_') topics.push(topic);
+  }
+  while ((match = spanRe.exec(sectionMatch[1])) !== null) {
+    const topic = (match[1] || '').trim().replace(/\\"/g, '"');
     if (topic && topic !== '_None suggested_') topics.push(topic);
   }
   return topics;

@@ -18,10 +18,10 @@ Harvard Business Review curates practical management tips for leaders experienci
 
 ## Related Topics
 
-- [[Leadership Development]]
-- [[Burnout Prevention]]
-- [[Stress Management]]
-- [[Team Management]]
+- <span class="topic-search-link" data-topic="Leadership Development" role="button" tabindex="0">Leadership Development</span>
+- <span class="topic-search-link" data-topic="Burnout Prevention" role="button" tabindex="0">Burnout Prevention</span>
+- <span class="topic-search-link" data-topic="Stress Management" role="button" tabindex="0">Stress Management</span>
+- <span class="topic-search-link" data-topic="Team Management" role="button" tabindex="0">Team Management</span>
 ## Source
 
 [Our Favorite Management Tips on Leading When You're Overwhelmed](https://hbr.org/2025/11/our-favorite-management-tips-on-leading-when-youre-overwhelmed)

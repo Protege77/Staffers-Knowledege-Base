@@ -18,10 +18,10 @@ Singapore's Armed Forces and Home Team will implement a refreshed medical classi
 
 ## Related Topics
 
-- [[Military Health Assessment]]
-- [[Defense Policy Implementation]]
-- [[Workforce Classification Systems]]
-- [[Personnel Deployment Optimization]]
+- <span class="topic-search-link" data-topic="Military Health Assessment" role="button" tabindex="0">Military Health Assessment</span>
+- <span class="topic-search-link" data-topic="Defense Policy Implementation" role="button" tabindex="0">Defense Policy Implementation</span>
+- <span class="topic-search-link" data-topic="Workforce Classification Systems" role="button" tabindex="0">Workforce Classification Systems</span>
+- <span class="topic-search-link" data-topic="Personnel Deployment Optimization" role="button" tabindex="0">Personnel Deployment Optimization</span>
 ## Source
 
 [Refreshed NS Medical Classification System to Take Effect from October 2027](https://www.straitstimes.com/singapore/politics/saf-home-teams-refreshed-medical-classification-system-to-take-effect-for-nsfs-from-oct-2027?ref=latest-headlines)

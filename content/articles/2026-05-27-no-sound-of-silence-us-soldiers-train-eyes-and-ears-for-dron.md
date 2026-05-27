@@ -18,10 +18,10 @@ The U.S. Army is developing new tactics and doctrine to combat drone swarms thro
 
 ## Related Topics
 
-- [[Unmanned Aerial Systems]]
-- [[Counter-UAS Technology]]
-- [[Military Doctrine]]
-- [[Defense Innovation]]
+- <span class="topic-search-link" data-topic="Unmanned Aerial Systems" role="button" tabindex="0">Unmanned Aerial Systems</span>
+- <span class="topic-search-link" data-topic="Counter-UAS Technology" role="button" tabindex="0">Counter-UAS Technology</span>
+- <span class="topic-search-link" data-topic="Military Doctrine" role="button" tabindex="0">Military Doctrine</span>
+- <span class="topic-search-link" data-topic="Defense Innovation" role="button" tabindex="0">Defense Innovation</span>
 ## Source
 
 [No Sound of Silence: US Soldiers Train Eyes and Ears for Drone Swarms](https://www.defensenews.com/news/your-military/2026/05/15/no-sound-of-silence-us-soldiers-train-eyes-and-ears-for-drone-swarms/)

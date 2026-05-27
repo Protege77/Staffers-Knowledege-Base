@@ -18,10 +18,10 @@ The article identifies critical vulnerabilities in global trade infrastructure b
 
 ## Related Topics
 
-- [[Supply Chain Analysis]]
-- [[Geopolitical Risk Assessment]]
-- [[International Trade Networks]]
-- [[Critical Infrastructure]]
+- <span class="topic-search-link" data-topic="Supply Chain Analysis" role="button" tabindex="0">Supply Chain Analysis</span>
+- <span class="topic-search-link" data-topic="Geopolitical Risk Assessment" role="button" tabindex="0">Geopolitical Risk Assessment</span>
+- <span class="topic-search-link" data-topic="International Trade Networks" role="button" tabindex="0">International Trade Networks</span>
+- <span class="topic-search-link" data-topic="Critical Infrastructure" role="button" tabindex="0">Critical Infrastructure</span>
 ## Source
 
 [Hormuz Is Not the Only Weak Spot for Global Trade](https://www.economist.com/briefing/2026/03/26/hormuz-is-not-the-only-weak-spot-for-global-trade?giftId=NDYzN2JjNzAtZWI3Yi00NjNhLWJiNGUtM2YzNDMxOTZkOTYz&utm_campaign=gifted_article)

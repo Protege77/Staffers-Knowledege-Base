@@ -18,10 +18,10 @@ Prime Minister Lawrence Wong emphasized Singapore's need to prioritize defence s
 
 ## Related Topics
 
-- [[Drone Technology]]
-- [[Military Strategy]]
-- [[Geopolitical Risk]]
-- [[Unmanned Aerial Systems]]
+- <span class="topic-search-link" data-topic="Drone Technology" role="button" tabindex="0">Drone Technology</span>
+- <span class="topic-search-link" data-topic="Military Strategy" role="button" tabindex="0">Military Strategy</span>
+- <span class="topic-search-link" data-topic="Geopolitical Risk" role="button" tabindex="0">Geopolitical Risk</span>
+- <span class="topic-search-link" data-topic="Unmanned Aerial Systems" role="button" tabindex="0">Unmanned Aerial Systems</span>
 ## Source
 
 [Singapore must continue to pay particular attention to defence if global order falls apart: PM Wong](https://www.channelnewsasia.com/singapore/drones-defence-warfare-saf-lawrence-wong-6045856?cid=internal_sharetool_iphone_09042026_cna)

@@ -18,10 +18,10 @@ Ukraine has deployed Mission Control, a unified digital command-and-control syst
 
 ## Related Topics
 
-- [[Command And Control Systems]]
-- [[Unmanned Aerial Systems]]
-- [[Battlefield Data Management]]
-- [[Military GIS Applications]]
+- <span class="topic-search-link" data-topic="Command And Control Systems" role="button" tabindex="0">Command And Control Systems</span>
+- <span class="topic-search-link" data-topic="Unmanned Aerial Systems" role="button" tabindex="0">Unmanned Aerial Systems</span>
+- <span class="topic-search-link" data-topic="Battlefield Data Management" role="button" tabindex="0">Battlefield Data Management</span>
+- <span class="topic-search-link" data-topic="Military GIS Applications" role="button" tabindex="0">Military GIS Applications</span>
 ## Source
 
 [Ukraine Seeks God Mode with New Control App for Drone War](https://www.defensenews.com/unmanned/2026/02/09/ukraine-seeks-god-mode-with-new-control-app-for-drone-war/?utm_source=sailthru&utm_medium=email&utm_campaign=c4-overmatch)

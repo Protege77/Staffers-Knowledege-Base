@@ -338,9 +338,19 @@ footer {
   opacity: 0.8 !important;
 }
 
-// Related topic wikilinks are search shortcuts, not note pages
-article a.internal.topic-search-link {
+// Related topic labels are search shortcuts, not note pages
+article .topic-search-link {
   cursor: pointer;
+  text-decoration: none;
+  background-color: var(--highlight);
+  padding: 0 0.1rem;
+  border-radius: 5px;
+  line-height: 1.4rem;
+  color: inherit;
+
+  &:hover {
+    color: var(--tertiary);
+  }
 }
 
 

@@ -19,10 +19,10 @@ This article examines how Geographic Information Systems (GIS) technology suppor
 
 ## Related Topics
 
-- [[Geospatial Intelligence]]
-- [[Defense Applications]]
-- [[Spatial Analysis]]
-- [[GIS Technology]]
+- <span class="topic-search-link" data-topic="Geospatial Intelligence" role="button" tabindex="0">Geospatial Intelligence</span>
+- <span class="topic-search-link" data-topic="Defense Applications" role="button" tabindex="0">Defense Applications</span>
+- <span class="topic-search-link" data-topic="Spatial Analysis" role="button" tabindex="0">Spatial Analysis</span>
+- <span class="topic-search-link" data-topic="GIS Technology" role="button" tabindex="0">GIS Technology</span>
 ## Source
 
 [Military Applications of GIS](https://geospatialworld.net/article/military-applications-of-gis/)
