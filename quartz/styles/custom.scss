@@ -30,6 +30,15 @@
   }
 }
 
+// Base mobile layout uses single-column grid areas; the 0 auto columns above
+// squeeze footer/sidebar into the zero-width first column on phones.
+@media (max-width: 800px) {
+  .page > #quartz-body {
+    grid-template-columns: auto !important;
+    column-gap: 5px !important;
+  }
+}
+
 
 // ============================================================
 // MASTHEAD — style the <header> element, NOT .page-header
