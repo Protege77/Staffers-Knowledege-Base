@@ -7,26 +7,24 @@ category: GIS
 tags:
   - spatial-analysis
   - gis
+  - data-analysis
   - esri
-  - geospatial-analysis
-  - spatial-data
 ---
 
 ## Summary
 
-This article explores the capabilities and applications of spatial analysis in GIS, highlighting how it enables professionals to uncover patterns and relationships in geographic data. Spatial analysis is a fundamental GIS function that transforms raw location data into actionable insights for decision-making.
+This article explores the capabilities and applications of spatial analysis in GIS, demonstrating how geographic data can be leveraged to solve complex problems. It highlights the practical benefits of spatial analysis techniques for decision-making across various industries and domains.
 
 ## Related Topics
 
-- [[GIS Fundamentals]]
-- [[Spatial Analysis Techniques]]
+- [[Spatial Analysis Methods]]
+- [[GIS Applications]]
 - [[Geospatial Data]]
 - [[ArcGIS]]
 
 ## Member Notes
 
 Good overview of spatial analysis trends
-
 ## Source
 
 [The Power of Spatial Analysis](https://www.esri.com/about/newsroom/arcuser/the-power-of-spatial-analysis/)
