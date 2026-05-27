@@ -86,7 +86,16 @@ async function _navigate(url: URL, isBack: boolean = false) {
   cleanupFns.clear()
 
   const html = p.parseFromString(contents, "text/html")
-  normalizeRelativeURLs(html, url)
+
+  // Folder listings (e.g. articles/index) need a trailing slash on the URL base so
+  // normalizeRelativeURLs resolves sibling links under a project subpath correctly.
+  let resolvedUrl = new URL(url.toString())
+  const pageSlug = html.body?.dataset?.slug
+  if (pageSlug?.endsWith("/index") && !resolvedUrl.pathname.endsWith("/")) {
+    resolvedUrl.pathname = `${resolvedUrl.pathname}/`
+  }
+
+  normalizeRelativeURLs(html, resolvedUrl)
 
   let title = html.querySelector("title")?.textContent
   if (title) {
@@ -106,8 +115,8 @@ async function _navigate(url: URL, isBack: boolean = false) {
 
   // scroll into place and add history
   if (!isBack) {
-    if (url.hash) {
-      const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
+    if (resolvedUrl.hash) {
+      const el = document.getElementById(decodeURIComponent(resolvedUrl.hash.substring(1)))
       el?.scrollIntoView()
     } else {
       window.scrollTo({ top: 0 })
@@ -123,7 +132,7 @@ async function _navigate(url: URL, isBack: boolean = false) {
   // delay setting the url until now
   // at this point everything is loaded so changing the url should resolve to the correct addresses
   if (!isBack) {
-    history.pushState({}, "", url)
+    history.pushState({}, "", resolvedUrl)
   }
 
   notifyNav(getFullSlug(window))

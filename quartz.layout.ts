@@ -21,7 +21,7 @@ export const sharedPageComponents: SharedLayout = {
   ],
   footer: Component.Footer({
     links: {
-      "Articles": "https://protege77.github.io/Staffers-Knowledege-Base/articles",
+      "Articles": "https://protege77.github.io/Staffers-Knowledege-Base/articles/",
       "Graph": "https://protege77.github.io/Staffers-Knowledege-Base/graph",
       "Ask Claude": "https://protege77.github.io/Staffers-Knowledege-Base/ask",
       "Tags": "https://protege77.github.io/Staffers-Knowledege-Base/tags/",
