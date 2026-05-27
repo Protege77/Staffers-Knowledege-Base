@@ -10,11 +10,20 @@ tags:
   - defense-policy
   - workforce-management
   - singapore-armed-forces
+location_name: "Singapore"
+location_lat: 1.3521
+location_lng: 103.8198
+location_confidence: high
 ---
 
 ## Summary
 
 Singapore's Armed Forces and Home Team will implement a refreshed medical classification system from October 2027 that replaces Physical Employment Standard status with functional ability-based medical exemptions. The new system will enable approximately 1,200 servicemen annually to deploy to previously unavailable roles while incorporating modern warfighting concepts including cyber operations.
+
+## Location
+
+<p class="article-map-label">Singapore</p>
+<div id="article-map" class="article-map" data-lat="1.3521" data-lng="103.8198" data-label="Singapore"></div>
 
 ## Related Topics
 
