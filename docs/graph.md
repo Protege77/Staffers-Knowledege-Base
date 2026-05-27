@@ -12,7 +12,7 @@ Articles and their connected topics — click a node to open the article, drag t
 </div>
 
 <p style="font-size:0.8rem;color:#B8A898;margin-top:0.5rem;">
-  🔵 Articles &nbsp;·&nbsp; 🟤 Topics &nbsp;·&nbsp; Click an article node to open it &nbsp;·&nbsp; Scroll to zoom
+  🔵 Articles — click to open &nbsp;·&nbsp; 🟤 Topics — click to search &nbsp;·&nbsp; Scroll to zoom
 </p>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
@@ -138,7 +138,7 @@ function initGraph() {
     .attr('fill', d => d.type === 'article' ? '#7DD5D2' : '#B8A898')
     .attr('stroke', d => d.type === 'article' ? '#5ABFBB' : '#8A7060')
     .attr('stroke-width', 1.5)
-    .style('cursor', d => d.type === 'article' ? 'pointer' : 'default')
+    .style('cursor', 'pointer')
     .call(d3.drag()
       .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
       .on('drag',  (e, d) => { d.fx = e.x; d.fy = e.y; })
@@ -165,7 +165,9 @@ function initGraph() {
       link.attr('opacity', 1);
     })
     .on('click', (e, d) => {
-      if (d.type === 'article') {
+      if (d.type === 'topic') {
+        window.location.href = base + 'search.html?q=' + encodeURIComponent(d.label);
+      } else if (d.type === 'article') {
         window.location.href = base + 'articles/' + d.id + '/';
       }
     });
