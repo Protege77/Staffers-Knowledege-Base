@@ -371,17 +371,22 @@ article .topic-search-link {
   position: relative;
   isolation: isolate;
 
-  &.leaflet-container,
-  .leaflet-container {
-    height: 100% !important;
-    width: 100% !important;
-    min-height: inherit;
+  // Leaflet adds leaflet-container to this same element — keep explicit height.
+  &.leaflet-container {
+    width: 100%;
+    height: 280px;
+    min-height: 280px;
   }
 }
 
 .site-map {
   height: 520px;
   min-height: 520px;
+
+  &.leaflet-container {
+    height: 520px;
+    min-height: 520px;
+  }
 }
 
 .leaflet-container {
