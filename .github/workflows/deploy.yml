@@ -1,10 +1,10 @@
 name: Deploy Knowledge Base
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      disabled:
+        description: 'Disabled — replaced by mkdocs.yml'
 
 permissions:
   contents: read
