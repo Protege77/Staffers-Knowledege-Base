@@ -60,5 +60,6 @@ extra:
 nav:
   - Home: index.md
   - Articles: articles/index.md
+  - Graph: graph.md
   - Tags: tags.md
   - Submit: submit.md
