@@ -137,7 +137,7 @@ function initGraph() {
     .selectAll('circle')
     .data(nodes)
     .join('circle')
-    .attr('r', d => d.type === 'article' ? 10 : 6)
+    .attr('r', d => d.type === 'article' ? 18 : 10)
     .attr('fill', d => d.type === 'article' ? '#7DD5D2' : '#B8A898')
     .attr('stroke', d => d.type === 'article' ? '#5ABFBB' : '#8A7060')
     .attr('stroke-width', 1.5)
