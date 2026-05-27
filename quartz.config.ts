@@ -46,26 +46,26 @@ const config: QuartzConfig = {
       },
       colors: {
         lightMode: {
-          light: "#FFF6E8",          // cream background
-          lightgray: "#F0E6D4",      // warm borders
-          gray: "#B8A898",           // muted warm gray
-          darkgray: "#5C4A3A",       // warm brown body text
-          dark: "#3A2A1A",           // deep brown headings
-          secondary: "#7DD5D2",      // teal links
-          tertiary: "#E8806A",       // coral hover
-          highlight: "rgba(255, 224, 138, 0.35)", // yellow wash
-          textHighlight: "#FFE08A",  // yellow selection
+          light: "#ebedef",          // off-white background
+          lightgray: "#d4d8dc",      // borders
+          gray: "#737b85",           // muted text
+          darkgray: "#373e47",       // body text
+          dark: "#22272e",           // headings
+          secondary: "#00adb5",      // teal accent
+          tertiary: "#22272e",       // hover / emphasis
+          highlight: "rgba(0, 173, 181, 0.12)",
+          textHighlight: "rgba(0, 173, 181, 0.35)",
         },
         darkMode: {
-          light: "#2A1F14",          // deep warm dark bg
-          lightgray: "#3D2E20",      // dark warm borders
-          gray: "#8A7060",           // muted on dark
-          darkgray: "#E8D8C4",       // warm body text on dark
-          dark: "#FFF6E8",           // cream headings on dark
-          secondary: "#7DD5D2",      // teal on dark
-          tertiary: "#E8806A",       // coral hover on dark
-          highlight: "rgba(255, 224, 138, 0.15)", // yellow wash dark
-          textHighlight: "#5C3A1A",  // deep amber selection
+          light: "#22272e",          // charcoal background
+          lightgray: "#373e47",      // borders / surfaces
+          gray: "#9aa3ad",           // muted text
+          darkgray: "#ebedef",       // body text
+          dark: "#ebedef",           // headings
+          secondary: "#00adb5",      // teal accent
+          tertiary: "#ebedef",       // hover on links
+          highlight: "rgba(0, 173, 181, 0.18)",
+          textHighlight: "rgba(0, 173, 181, 0.45)",
         },
       },
     },

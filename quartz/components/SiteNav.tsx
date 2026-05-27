@@ -1,7 +1,8 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import style from "./styles/siteNav.scss"
-import { FullSlug, resolveRelative } from "../util/path"
+import { FullSlug, simplifySlug } from "../util/path"
 import { classNames } from "../util/lang"
+import { GlobalConfiguration } from "../cfg"
 
 const navItems: { label: string; slug: FullSlug }[] = [
   { label: "Home", slug: "index" },
@@ -12,6 +13,13 @@ const navItems: { label: string; slug: FullSlug }[] = [
   { label: "Tags", slug: "tags/index" },
 ]
 
+function navHref(cfg: GlobalConfiguration, slug: FullSlug): string {
+  const site = `https://${cfg.baseUrl}`
+  const path = simplifySlug(slug)
+  if (path === "/") return `${site}/`
+  return `${site}/${path}`
+}
+
 function isActive(current: FullSlug, target: FullSlug): boolean {
   if (target === "index") return current === "index"
   if (target === "articles") return current === "articles" || current.startsWith("articles/")
@@ -19,14 +27,14 @@ function isActive(current: FullSlug, target: FullSlug): boolean {
   return current === target
 }
 
-const SiteNav: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
+const SiteNav: QuartzComponent = ({ fileData, displayClass, cfg }: QuartzComponentProps) => {
   const currentSlug = fileData.slug!
 
   return (
     <nav class={classNames(displayClass, "site-nav")} aria-label="Site navigation">
       {navItems.map(({ label, slug }) => (
         <a
-          href={resolveRelative(currentSlug, slug)}
+          href={navHref(cfg, slug)}
           class={classNames(
             undefined,
             "site-nav-btn",
