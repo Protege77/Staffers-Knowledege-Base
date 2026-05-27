@@ -1,8 +1,7 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import style from "./styles/siteNav.scss"
-import { FullSlug, simplifySlug } from "../util/path"
+import { FullSlug, resolveRelative } from "../util/path"
 import { classNames } from "../util/lang"
-import { GlobalConfiguration } from "../cfg"
 
 const navItems: { label: string; slug: FullSlug }[] = [
   { label: "Home", slug: "index" },
@@ -14,15 +13,6 @@ const navItems: { label: string; slug: FullSlug }[] = [
   { label: "Tags", slug: "tags/index" },
 ]
 
-function navHref(cfg: GlobalConfiguration, slug: FullSlug): string {
-  const site = `https://${cfg.baseUrl}`
-  const path = simplifySlug(slug)
-  if (path === "/") return `${site}/`
-  // Folder index pages must keep a trailing slash or relative links on the listing break under SPA nav.
-  const folderTrailingSlash = slug.endsWith("/index") || slug === "articles" ? "/" : ""
-  return `${site}/${path}${folderTrailingSlash}`
-}
-
 function isActive(current: FullSlug, target: FullSlug): boolean {
   if (target === "index") return current === "index"
   if (target === "articles") return current === "articles" || current.startsWith("articles/")
@@ -30,14 +20,14 @@ function isActive(current: FullSlug, target: FullSlug): boolean {
   return current === target
 }
 
-const SiteNav: QuartzComponent = ({ fileData, displayClass, cfg }: QuartzComponentProps) => {
+const SiteNav: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
   const currentSlug = fileData.slug!
 
   return (
     <nav class={classNames(displayClass, "site-nav")} aria-label="Site navigation">
       {navItems.map(({ label, slug }) => (
         <a
-          href={navHref(cfg, slug)}
+          href={resolveRelative(currentSlug, slug)}
           class={classNames(
             undefined,
             "site-nav-btn",

@@ -273,6 +273,8 @@ async function initArticleMap(generation: number) {
   const label = el.dataset.label || "Article location"
   if (!Number.isFinite(lat) || !Number.isFinite(lng)) return
 
+  if (el.querySelector(".leaflet-tile") && (el as any)._leafletMap) return
+
   el = resetMapHost(el, "article-map")
   await waitForStableSize(el, 120)
   if (generation !== initGeneration) return
@@ -302,6 +304,8 @@ async function initArticleMap(generation: number) {
 async function initSiteMap(generation: number) {
   let el = document.getElementById("site-map")
   if (!el) return
+
+  if (el.querySelector(".leaflet-tile") && (el as any)._leafletMap) return
 
   el = resetMapHost(el, "site-map")
   await waitForStableSize(el, 200)
@@ -366,6 +370,15 @@ async function initMaps() {
 }
 
 let initTimer: number | null = null
+let retryTimer: number | null = null
+
+function mapNeedsInit(): boolean {
+  const site = document.getElementById("site-map")
+  if (site && !site.querySelector(".leaflet-tile")) return true
+  const article = getArticleMapEl()
+  if (article && !article.querySelector(".leaflet-tile")) return true
+  return false
+}
 
 function scheduleMapInit() {
   fixPersistedStylesheet()
@@ -376,11 +389,30 @@ function scheduleMapInit() {
 
   initTimer = window.setTimeout(() => {
     initTimer = null
-    void initMaps()
-  }, 120)
+    void initMaps().finally(() => {
+      if (!mapNeedsInit()) return
+      if (retryTimer !== null) window.clearTimeout(retryTimer)
+      retryTimer = window.setTimeout(() => {
+        retryTimer = null
+        if (mapNeedsInit()) void initMaps()
+      }, 600)
+    })
+  }, 150)
 }
 
-document.addEventListener("nav", scheduleMapInit)
-scheduleMapInit()
+function registerMapLoader() {
+  document.addEventListener("nav", scheduleMapInit)
+  window.addEventListener("pageshow", () => scheduleMapInit())
 
-window.addCleanup?.(() => cleanupMaps())
+  document.addEventListener(
+    "nav",
+    () => {
+      window.addCleanup?.(() => cleanupMaps())
+    },
+    { once: true },
+  )
+
+  scheduleMapInit()
+}
+
+registerMapLoader()
