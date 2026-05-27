@@ -10,11 +10,20 @@ tags:
   - battlefield-management
   - military-technology
   - data-driven-operations
+location_name: "Ukraine"
+location_lat: 48.3794
+location_lng: 31.1656
+location_confidence: medium
 ---
 
 ## Summary
 
 Ukraine has deployed Mission Control, a unified digital command-and-control system integrated into its DELTA battlefield management ecosystem to standardize drone operations and eliminate paper-based reporting. The system enables data-driven, speed-focused military operations designed to offset Russia's numerical advantages through technological innovation.
+
+## Location
+
+<p class="article-map-label">Ukraine</p>
+<div id="article-map" class="article-map" data-lat="48.3794" data-lng="31.1656" data-label="Ukraine"></div>
 
 ## Related Topics
 
