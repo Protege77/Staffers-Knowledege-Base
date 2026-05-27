@@ -10,11 +10,20 @@ tags:
   - military-strategy
   - geopolitical-risk
   - unmanned-systems
+location_name: "Singapore"
+location_lat: 1.3521
+location_lng: 103.8198
+location_confidence: high
 ---
 
 ## Summary
 
 Prime Minister Lawrence Wong emphasized Singapore's need to prioritize defence spending as modern warfare increasingly relies on drone technology, highlighting the asymmetric challenge of countering cheap drone swarms with expensive assets. Wong warned that deterioration of the global order would increase vulnerability for small nations like Singapore, creating unpredictability and potential resort to force by larger powers.
+
+## Location
+
+<p class="article-map-label">Singapore</p>
+<div id="article-map" class="article-map" data-lat="1.3521" data-lng="103.8198" data-label="Singapore"></div>
 
 ## Related Topics
 
