@@ -10,11 +10,20 @@ tags:
   - military-training
   - defense-technology
   - project-flytrap
+location_name: "Lithuania"
+location_lat: 55.1694
+location_lng: 23.8813
+location_confidence: high
 ---
 
 ## Summary
 
 The U.S. Army is developing new tactics and doctrine to combat drone swarms through exercises like Project Flytrap, which tested counter-UAS defenses and offensive drone strategies with nearly 1,000 personnel in Lithuania. Soldiers are being trained to detect threats from multiple altitudes, including identifying drone sounds, while the Army establishes standardized testing frameworks and leverages additive manufacturing for rapid field adaptation.
+
+## Location
+
+<p class="article-map-label">Lithuania</p>
+<div id="article-map" class="article-map" data-lat="55.1694" data-lng="23.8813" data-label="Lithuania"></div>
 
 ## Related Topics
 
