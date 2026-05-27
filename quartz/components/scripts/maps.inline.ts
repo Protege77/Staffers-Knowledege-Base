@@ -22,7 +22,8 @@ type LeafletMap = {
 }
 
 let leafletPromise: Promise<void> | null = null
-let initGeneration = 0
+let articleInitGeneration = 0
+let siteInitGeneration = 0
 const mapObservers = new WeakMap<HTMLElement, IntersectionObserver>()
 const resizeObservers = new WeakMap<HTMLElement, ResizeObserver>()
 
@@ -32,10 +33,14 @@ function getArticleMapEl(): HTMLElement | null {
 
 function loadStylesheet(href: string): Promise<void> {
   const existing = document.querySelector(`link[href="${href}"]`) as HTMLLinkElement | null
-  if (existing?.sheet) return Promise.resolve()
+  if (existing?.sheet) {
+    existing.setAttribute("data-persist", "true")
+    return Promise.resolve()
+  }
 
   return new Promise((resolve, reject) => {
     if (existing) {
+      existing.setAttribute("data-persist", "true")
       existing.addEventListener("load", () => resolve(), { once: true })
       existing.addEventListener("error", () => reject(new Error(`Failed to load ${href}`)), {
         once: true,
@@ -46,6 +51,7 @@ function loadStylesheet(href: string): Promise<void> {
     const link = document.createElement("link")
     link.rel = "stylesheet"
     link.href = href
+    link.setAttribute("data-persist", "true")
     link.onload = () => resolve()
     link.onerror = () => reject(new Error(`Failed to load ${href}`))
     document.head.appendChild(link)
@@ -86,10 +92,14 @@ function configureLeafletIcons(L: any) {
 }
 
 function ensureLeaflet(): Promise<void> {
-  if ((window as any).L) return Promise.resolve()
+  const cssPromise = loadStylesheet(LEAFLET_CSS)
+
+  // Leaflet JS persists across SPA navigations but head morph strips dynamic CSS.
+  if ((window as any).L) return cssPromise
+
   if (leafletPromise) return leafletPromise
 
-  leafletPromise = Promise.all([loadStylesheet(LEAFLET_CSS), loadScript(LEAFLET_JS)]).then(() => {
+  leafletPromise = Promise.all([cssPromise, loadScript(LEAFLET_JS)]).then(() => {
     const L = (window as any).L
     if (!L) throw new Error("Leaflet failed to load")
     configureLeafletIcons(L)
@@ -273,14 +283,15 @@ async function initArticleMap(generation: number) {
   const label = el.dataset.label || "Article location"
   if (!Number.isFinite(lat) || !Number.isFinite(lng)) return
 
-  if (el.querySelector(".leaflet-tile") && (el as any)._leafletMap) return
+  if (mapIsHealthy(el)) return
 
   el = resetMapHost(el, "article-map")
+  el.scrollIntoView({ block: "nearest" })
   await waitForStableSize(el, 120)
-  if (generation !== initGeneration) return
+  if (generation !== articleInitGeneration) return
 
   const L = (window as any).L
-  const map = L.map(el, { scrollWheelZoom: false }).setView([lat, lng], 10) as LeafletMap
+  const map = L.map(el, { scrollWheelZoom: false }) as LeafletMap
   ;(el as any)._leafletMap = map
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -291,28 +302,33 @@ async function initArticleMap(generation: number) {
   L.marker([lat, lng]).addTo(map).bindPopup(label)
 
   const fitView = () => {
-    if (generation !== initGeneration) return
+    if (generation !== articleInitGeneration) return
     map.setView([lat, lng], 10)
     refreshMapSize(map)
   }
 
   watchMapVisibility(el, map, fitView)
   watchMapResize(el, map, fitView)
-  scheduleFit(map, fitView)
+
+  map.whenReady(() => {
+    fitView()
+    window.setTimeout(fitView, 100)
+    window.setTimeout(fitView, 400)
+  })
 }
 
 async function initSiteMap(generation: number) {
   let el = document.getElementById("site-map")
   if (!el) return
 
-  if (el.querySelector(".leaflet-tile") && (el as any)._leafletMap) return
+  if (mapIsHealthy(el)) return
 
   el = resetMapHost(el, "site-map")
   await waitForStableSize(el, 200)
-  if (generation !== initGeneration) return
+  if (generation !== siteInitGeneration) return
 
   const locations = await loadArticleLocations()
-  if (generation !== initGeneration) return
+  if (generation !== siteInitGeneration) return
 
   const L = (window as any).L
   const map = L.map(el, { scrollWheelZoom: true }) as LeafletMap
@@ -334,7 +350,7 @@ async function initSiteMap(generation: number) {
   }
 
   const fitView = () => {
-    if (generation !== initGeneration) return
+    if (generation !== siteInitGeneration) return
     if (locations.length === 0) {
       map.setView([20, 0], 2)
     } else {
@@ -348,22 +364,56 @@ async function initSiteMap(generation: number) {
   scheduleFit(map, fitView)
 }
 
+function mapIsHealthy(el: HTMLElement): boolean {
+  const map = (el as any)._leafletMap as LeafletMap | undefined
+  if (!map || !el.querySelector(".leaflet-tile")) return false
+
+  const rect = el.getBoundingClientRect()
+  if (rect.width < 200 || rect.height < 120) return false
+
+  const pane = el.querySelector(".leaflet-map-pane") as HTMLElement | null
+  if (pane && pane.getBoundingClientRect().height > rect.height + 20) return false
+
+  const cx = rect.left + rect.width / 2
+  const cy = rect.top + rect.height / 2
+  const centerTile = [...el.querySelectorAll(".leaflet-tile")].find((tile) => {
+    const tileRect = tile.getBoundingClientRect()
+    return tileRect.left <= cx && tileRect.right >= cx && tileRect.top <= cy && tileRect.bottom >= cy
+  })
+
+  if (!centerTile || !(centerTile as HTMLImageElement).complete) return false
+
+  const marker = el.querySelector(".leaflet-marker-icon")
+  if (marker) {
+    const markerRect = marker.getBoundingClientRect()
+    if (markerRect.top < rect.top - 60 || markerRect.bottom > rect.bottom + 60) return false
+  }
+
+  return true
+}
+
 function cleanupMaps() {
-  destroyMap(getArticleMapEl())
-  destroyMap(document.getElementById("site-map"))
+  for (const el of document.querySelectorAll<HTMLElement>(".article-map[data-lat][data-lng], #site-map")) {
+    destroyMap(el)
+  }
 }
 
 async function initMaps() {
-  const generation = ++initGeneration
+  const articleGeneration = ++articleInitGeneration
+  const siteGeneration = ++siteInitGeneration
 
   try {
     await ensureLeaflet()
-    if (generation !== initGeneration) return
 
-    await initArticleMap(generation)
-    if (generation !== initGeneration) return
+    const articleEl = getArticleMapEl()
+    const siteEl = document.getElementById("site-map")
 
-    await initSiteMap(generation)
+    if (articleEl) {
+      await initArticleMap(articleGeneration)
+    }
+    if (siteEl) {
+      await initSiteMap(siteGeneration)
+    }
   } catch (err) {
     console.error("Map initialization failed:", err)
   }
@@ -374,9 +424,9 @@ let retryTimer: number | null = null
 
 function mapNeedsInit(): boolean {
   const site = document.getElementById("site-map")
-  if (site && !site.querySelector(".leaflet-tile")) return true
+  if (site && !mapIsHealthy(site)) return true
   const article = getArticleMapEl()
-  if (article && !article.querySelector(".leaflet-tile")) return true
+  if (article && !mapIsHealthy(article)) return true
   return false
 }
 
@@ -395,9 +445,12 @@ function scheduleMapInit() {
       retryTimer = window.setTimeout(() => {
         retryTimer = null
         if (mapNeedsInit()) void initMaps()
-      }, 600)
+      }, 700)
+      window.setTimeout(() => {
+        if (mapNeedsInit()) void initMaps()
+      }, 1400)
     })
-  }, 150)
+  }, 200)
 }
 
 function registerMapLoader() {
