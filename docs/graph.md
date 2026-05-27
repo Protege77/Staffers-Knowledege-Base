@@ -91,17 +91,16 @@ const links_raw = [
   ["2026-05-27-ukraine-seeks-god-mode-with-new-control-app-for-drone-war", "Military GIS Applications"],
 ];
 
-// Build topic nodes from unique topics
-const topicSet = {};
-links_raw.forEach(([, topic]) => { topicSet[topic] = true; });
-const topics = Object.keys(topicSet).map(t => ({ id: t, label: t, type: "topic" }));
-const nodes = [...articles, ...topics];
-const links = links_raw.map(([source, target]) => ({ source, target }));
-
 // Base URL for article links
 const base = window.location.origin + window.location.pathname.replace(/graph.*/, '');
 
 function initGraph() {
+  // Recreate nodes and links fresh each time — D3 mutates these objects during simulation
+  const topicSet = {};
+  links_raw.forEach(([, topic]) => { topicSet[topic] = true; });
+  const topics = Object.keys(topicSet).map(t => ({ id: t, label: t, type: "topic" }));
+  const nodes  = [...articles.map(a => ({...a})), ...topics];
+  const links  = links_raw.map(([source, target]) => ({ source, target }));
   const container = document.getElementById('graph-container');
   const tooltip   = document.getElementById('graph-tooltip');
   const svgEl     = document.getElementById('graph-svg');
