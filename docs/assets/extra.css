@@ -123,9 +123,17 @@ h1, h2, h3, h4, h5,
   color: var(--dark) !important;
 }
 
-/* Hide the left sidebar nav when tabs are present — avoids duplication */
-.md-nav--primary > .md-nav__list > .md-nav__item--nested {
+/* Hide sidebar top-level nav items — they duplicate the sticky tab bar */
+.md-nav--primary > .md-nav__title,
+.md-nav--primary > .md-nav__list > .md-nav__item {
   display: none;
+}
+
+/* But keep the sidebar visible for article sub-navigation */
+.md-nav--primary > .md-nav__list > .md-nav__item--active,
+.md-nav--primary > .md-nav__list > .md-nav__item--active > .md-nav__link,
+.md-nav--primary > .md-nav__list > .md-nav__item--active .md-nav {
+  display: block;
 }
 
 /* ── Search ── */
