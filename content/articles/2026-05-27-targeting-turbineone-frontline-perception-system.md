@@ -3,19 +3,19 @@ title: "Targeting - TurbineOne Frontline Perception System"
 url: "https://www.turbineone.com/solutions/targeting"
 date: 2026-05-27
 submitted_by: Herman Tan
-category: Industry News
+category: Other
 tags:
   - machine-learning
+  - no-code
   - intelligence-analysis
+  - sensor-data
+  - targeting
   - automatic-target-recognition
-  - no-code-ml
-  - defense-technology
-  - data-processing
 ---
 
 ## Summary
 
-TurbineOne's Frontline Perception System empowers intelligence analysts with no-code machine learning capabilities to manage exponential data volume from multiple sensors and accelerate the targeting cycle. The platform enables rapid model building, deployment, and error correction while freeing analysts to focus on deeper analysis and precision reporting.
+TurbineOne's Frontline Perception System provides intelligence analysts with no-code machine learning tools to process multi-sensor data and accelerate targeting operations. The platform streamlines model creation, deployment, and refinement while enabling analysts to concentrate on advanced analysis and accurate reporting.
 
 ## Related Topics
 
@@ -23,7 +23,6 @@ TurbineOne's Frontline Perception System empowers intelligence analysts with no-
 - [[Automatic Target Recognition]]
 - [[Intelligence Analysis]]
 - [[Sensor Data Processing]]
-
 ## Source
 
 [Targeting - TurbineOne Frontline Perception System](https://www.turbineone.com/solutions/targeting)
