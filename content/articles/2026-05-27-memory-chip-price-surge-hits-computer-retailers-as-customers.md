@@ -10,11 +10,20 @@ tags:
   - hardware-costs
   - supply-chain
   - retail-impact
+location_name: "Sim Lim Square, Singapore"
+location_lat: 1.2947
+location_lng: 103.8547
+location_confidence: high
 ---
 
 ## Summary
 
 RAM chip prices have surged 200-250% in recent months, forcing computer retailers to experience significant losses and customers to delay purchases and upgrades. This price spike represents one of the highest in decades for the memory chip market, affecting retailers like those in Singapore's Sim Lim Square.
+
+## Location
+
+<p class="article-map-label">Sim Lim Square, Singapore</p>
+<div id="article-map" class="article-map" data-lat="1.2947" data-lng="103.8547" data-label="Sim Lim Square, Singapore"></div>
 
 ## Related Topics
 
