@@ -19,10 +19,12 @@ export const sharedPageComponents: SharedLayout = {
     Component.AskKnowledgeBaseLoader(),
     Component.SubmitArticleLoader(),
     Component.RelatedTopicsLoader(),
+    Component.ArticleMapLoader(),
   ],
   footer: Component.Footer({
     links: {
       "Articles": "https://protege77.github.io/Staffers-Knowledege-Base/articles/",
+      "Map": "https://protege77.github.io/Staffers-Knowledege-Base/map",
       "Graph": "https://protege77.github.io/Staffers-Knowledege-Base/graph",
       "Ask Claude": "https://protege77.github.io/Staffers-Knowledege-Base/ask",
       "Tags": "https://protege77.github.io/Staffers-Knowledege-Base/tags/",

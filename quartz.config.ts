@@ -136,6 +136,7 @@ const config: QuartzConfig = {
         rssFullHtml: false,
         includeEmptyFiles: false,
       }),
+      Plugin.ArticleLocations(),
       Plugin.Assets(),
       Plugin.Static(),
       Plugin.NotFoundPage(),

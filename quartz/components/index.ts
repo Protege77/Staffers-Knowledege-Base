@@ -27,6 +27,7 @@ import KnowledgeGraphLoader from "./KnowledgeGraphLoader"
 import AskKnowledgeBaseLoader from "./AskKnowledgeBaseLoader"
 import SubmitArticleLoader from "./SubmitArticleLoader"
 import RelatedTopicsLoader from "./RelatedTopicsLoader"
+import ArticleMapLoader from "./ArticleMapLoader"
 import SiteNav from "./SiteNav"
 
 export {
@@ -59,5 +60,6 @@ export {
   AskKnowledgeBaseLoader,
   SubmitArticleLoader,
   RelatedTopicsLoader,
+  ArticleMapLoader,
   SiteNav,
 }

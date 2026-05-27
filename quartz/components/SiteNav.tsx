@@ -7,6 +7,7 @@ import { GlobalConfiguration } from "../cfg"
 const navItems: { label: string; slug: FullSlug }[] = [
   { label: "Home", slug: "index" },
   { label: "Knowledge Graph", slug: "graph" },
+  { label: "Article Map", slug: "map" },
   { label: "Ask the Knowledge Base", slug: "ask" },
   { label: "Submit an Article", slug: "submit" },
   { label: "Articles", slug: "articles" },

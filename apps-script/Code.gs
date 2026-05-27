@@ -403,7 +403,10 @@ function parseMarkdownFile(content, filename) {
     category:       fm.category       || '',
     tags:           parseTags(fm.tags),
     summary:        fm.summary        || extractSummaryFromBody(body) || '',
-    related_topics: parseList(fm.related_topics),
+    location_name:       fm.location_name       || '',
+    location_lat:        fm.location_lat != null && fm.location_lat !== '' ? parseFloat(fm.location_lat) : null,
+    location_lng:        fm.location_lng != null && fm.location_lng !== '' ? parseFloat(fm.location_lng) : null,
+    location_confidence: fm.location_confidence || '',
     body:           body,
   };
 }
@@ -617,7 +620,50 @@ function finalizeClassification(c, opts) {
 
   if (!category) category = 'Other';
   result.category = category;
+  result.location = normalizeLocation(result.location);
   return result;
+}
+
+function normalizeLocation(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  const name = (raw.name || '').trim();
+  const lat = parseFloat(raw.lat);
+  const lng = parseFloat(raw.lng);
+  const confidence = String(raw.confidence || '').toLowerCase().trim();
+  if (isNaN(lat) || isNaN(lng)) return null;
+  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return null;
+  if (confidence !== 'high' && confidence !== 'medium') return null;
+  return {
+    name: name || (lat + ', ' + lng),
+    lat: lat,
+    lng: lng,
+    confidence: confidence,
+  };
+}
+
+function locationFromParsed(parsed) {
+  if (!parsed || parsed.location_lat == null || parsed.location_lng == null) return null;
+  return normalizeLocation({
+    name: parsed.location_name,
+    lat: parsed.location_lat,
+    lng: parsed.location_lng,
+    confidence: parsed.location_confidence || 'high',
+  });
+}
+
+function formatLocationFrontmatter(loc) {
+  if (!loc) return '';
+  return 'location_name: "' + escapeQuotes(loc.name) + '"\n'
+    + 'location_lat: ' + loc.lat + '\n'
+    + 'location_lng: ' + loc.lng + '\n'
+    + 'location_confidence: ' + loc.confidence + '\n';
+}
+
+function formatLocationMapSection(loc) {
+  if (!loc) return '';
+  return '## Location\n\n'
+    + '<p class="article-map-label">' + escapeHtml(loc.name) + '</p>\n'
+    + '<div id="article-map" class="article-map" data-lat="' + loc.lat + '" data-lng="' + loc.lng + '" data-label="' + escapeQuotes(loc.name) + '"></div>\n\n';
 }
 
 function classifyWithClaude(url, article, opts) {
@@ -642,7 +688,14 @@ function classifyWithClaude(url, article, opts) {
     + catSeedLine + ' Only create a new category if none of the existing ones is a good fit.\n'
     + '- "tags": array of 3–6 lowercase tags, use hyphens for multi-word tags (e.g. "remote-sensing")\n'
     + '- "summary": exactly 2 sentences summarising the key points\n'
-    + '- "related_topics": array of 2–4 topic names that Obsidian wikilinks should point to (Title Case)\n\n'
+    + '- "related_topics": array of 2–4 topic names that Obsidian wikilinks should point to (Title Case)\n'
+    + '- "location": either null or an object with:\n'
+    + '  - "name": human-readable place label (city, strait, base, border region, etc.)\n'
+    + '  - "lat": latitude in decimal degrees (negative for south)\n'
+    + '  - "lng": longitude in decimal degrees (negative for west)\n'
+    + '  - "confidence": "high", "medium", or "low"\n'
+    + '  Return null when the article has no specific geographic focus. Use high/medium only when a real place is discussed.\n'
+    + '  For named military bases, ports, straits, cities, or borders, provide the most precise coordinates you can.\n\n'
     + 'Article URL: ' + url + '\n'
     + 'Page title: ' + (article.title || '(unavailable)') + '\n'
     + 'Content excerpt:\n'
@@ -652,7 +705,7 @@ function classifyWithClaude(url, article, opts) {
 
   const payload = {
     model: CONFIG.CLAUDE_MODEL,
-    max_tokens: 600,
+    max_tokens: 750,
     messages: [{ role: 'user', content: prompt }]
   };
 
@@ -693,10 +746,68 @@ function classifyWithClaude(url, article, opts) {
       category: opts.recategorise && opts.previousCategory ? opts.previousCategory : 'Other',
       tags: ['unclassified'],
       summary: 'Article saved. Manual classification needed.',
-      related_topics: []
+      related_topics: [],
+      location: null,
     };
     return finalizeClassification(fallback, opts);
   }
+}
+
+function extractLocationWithClaude(url, article) {
+  const prompt = 'You are a geospatial analyst helping index news articles on a map.\n\n'
+    + 'Read the article metadata below and return a JSON object with EXACTLY one field:\n'
+    + '- "location": either null or an object with "name", "lat", "lng", and "confidence"\n\n'
+    + 'Rules:\n'
+    + '- Return null if there is no specific geographic focus.\n'
+    + '- Use confidence "high" or "medium" only when a real place is discussed.\n'
+    + '- Provide the most precise coordinates possible for the primary place discussed.\n'
+    + '- For named military bases, ports, straits, cities, borders, or facilities, pin that exact place when you can.\n'
+    + '- Do not guess a country-centroid if the article only discusses a broad topic with no place.\n\n'
+    + 'Article URL: ' + url + '\n'
+    + 'Page title: ' + (article.title || '(unavailable)') + '\n'
+    + 'Content excerpt:\n'
+    + (article.text || '(content unavailable — classify from URL and title only)') + '\n\n'
+    + 'Return ONLY a valid JSON object. No markdown fences, no explanation.';
+
+  const payload = {
+    model: CONFIG.CLAUDE_MODEL,
+    max_tokens: 300,
+    messages: [{ role: 'user', content: prompt }]
+  };
+
+  const response = UrlFetchApp.fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': getClaudeApiKey(),
+      'anthropic-version': '2023-06-01'
+    },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  });
+
+  if (response.getResponseCode() !== 200) {
+    throw new Error('Claude API error ' + response.getResponseCode() + ': ' + response.getContentText());
+  }
+
+  const raw = JSON.parse(response.getContentText()).content[0].text.trim();
+  const cleaned = stripJsonFences(raw);
+
+  try {
+    const parsed = JSON.parse(cleaned);
+    return normalizeLocation(parsed.location);
+  } catch (_) {
+    const match = cleaned.match(/\{[\s\S]*\}/);
+    if (match) {
+      try {
+        return normalizeLocation(JSON.parse(match[0]).location);
+      } catch (err2) {
+        log('Geotag parse failed: ' + err2.message);
+      }
+    }
+  }
+
+  return null;
 }
 
 
@@ -712,6 +823,9 @@ function buildMarkdown(url, submitter, userNotes, c) {
   const tagList   = (c.tags || []).map(function(t) { return '  - ' + t; }).join('\n');
   const wikilinks = (c.related_topics || []).map(formatRelatedTopicLine).join('\n');
   const notesSection = userNotes ? '\n## Member Notes\n\n' + userNotes + '\n' : '';
+  const loc = normalizeLocation(c.location);
+  const locBlock = formatLocationFrontmatter(loc);
+  const mapSection = formatLocationMapSection(loc);
 
   return '---\n'
     + 'title: "' + escapeQuotes(c.title) + '"\n'
@@ -720,9 +834,11 @@ function buildMarkdown(url, submitter, userNotes, c) {
     + 'submitted_by: ' + submitter + '\n'
     + 'category: ' + c.category + '\n'
     + 'tags:\n' + tagList + '\n'
+    + locBlock
     + '---\n\n'
     + '## Summary\n\n'
     + c.summary + '\n\n'
+    + mapSection
     + '## Related Topics\n\n'
     + (wikilinks || '_None suggested_') + '\n'
     + notesSection
@@ -734,19 +850,27 @@ function buildMarkdown(url, submitter, userNotes, c) {
 function rebuildMarkdownFromExisting(parsed, c, userNotes) {
   const title     = c.title || parsed.title || 'Untitled';
   const tagList   = (c.tags || parsed.tags || []).map(function(t) { return '  - ' + t; }).join('\n');
-  const wikilinks = (c.related_topics || parsed.related_topics || []).map(formatRelatedTopicLine).join('\n');
+  const topics    = (c.related_topics && c.related_topics.length)
+    ? c.related_topics
+    : parseRelatedTopicsFromBody(parsed.body);
+  const wikilinks = topics.map(formatRelatedTopicLine).join('\n');
   const notesSection = userNotes ? '\n## Member Notes\n\n' + userNotes + '\n' : '';
+  const loc = normalizeLocation(c.location) || locationFromParsed(parsed);
+  const locBlock = formatLocationFrontmatter(loc);
+  const mapSection = formatLocationMapSection(loc);
 
   return '---\n'
     + 'title: "' + escapeQuotes(title) + '"\n'
     + 'url: "' + parsed.url + '"\n'
     + 'date: ' + parsed.date + '\n'
     + 'submitted_by: ' + parsed.submitted_by + '\n'
-    + 'category: ' + c.category + '\n'
+    + 'category: ' + (c.category || parsed.category) + '\n'
     + 'tags:\n' + tagList + '\n'
+    + locBlock
     + '---\n\n'
     + '## Summary\n\n'
     + (c.summary || parsed.summary || '') + '\n\n'
+    + mapSection
     + '## Related Topics\n\n'
     + (wikilinks || '_None suggested_') + '\n'
     + notesSection
@@ -1131,6 +1255,57 @@ function recategoriseAllArticles() {
 
 
 // ============================================================
+// GEOTAG EXISTING ARTICLES
+// ============================================================
+function geotagArticle(slug) {
+  const path = CONFIG.ARTICLES_GITHUB_PATH + '/' + slug + '.md';
+  const file = githubGetFile(path);
+  if (!file) throw new Error('Article not found: ' + path);
+
+  const parsed = parseMarkdownFile(file.content, slug + '.md');
+  const article = {
+    title: parsed.title,
+    text: (parsed.summary || '') + '\n\n' + (parsed.body || '')
+  };
+  const location = extractLocationWithClaude(parsed.url, article);
+  const userNotes = extractMemberNotes(parsed.body);
+  const markdown = rebuildMarkdownFromExisting(parsed, {
+    title: parsed.title,
+    category: parsed.category,
+    tags: parsed.tags,
+    summary: parsed.summary,
+    location: location,
+  }, userNotes);
+
+  githubPutFile(path, markdown, file.sha, 'Geotag: ' + slug);
+  log('Geotagged ' + slug + ' → ' + (location ? location.name + ' (' + location.lat + ', ' + location.lng + ')' : 'no location'));
+  return location;
+}
+
+function geotagAllArticles() {
+  const token = _ghToken();
+  if (!token) throw new Error('GITHUB_TOKEN not set in Script Properties');
+
+  const articles = getAllArticles();
+  let updated = 0;
+
+  for (var i = 0; i < articles.length; i++) {
+    const slug = articles[i].slug;
+    if (!slug) continue;
+    try {
+      geotagArticle(slug);
+      updated++;
+      Utilities.sleep(1500);
+    } catch (err) {
+      log('Geotag failed for ' + slug + ': ' + err.message);
+    }
+  }
+
+  log('Geotagged ' + updated + ' of ' + articles.length + ' articles');
+}
+
+
+// ============================================================
 // TEST FUNCTIONS
 // ============================================================
 function testListArticles() {
@@ -1159,4 +1334,8 @@ function testPipeline() {
 
 function testRecategoriseOne() {
   recategoriseArticle('2026-05-27-military-applications-of-gis');
+}
+
+function testGeotagOne() {
+  geotagArticle('2026-05-27-hormuz-is-not-the-only-weak-spot-for-global-trade');
 }
