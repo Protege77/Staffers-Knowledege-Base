@@ -338,6 +338,11 @@ footer {
   opacity: 0.8 !important;
 }
 
+// Related topic wikilinks are search shortcuts, not note pages
+article a.internal.topic-search-link {
+  cursor: pointer;
+}
+
 
 // ============================================================
 // BREADCRUMBS

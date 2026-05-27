@@ -18,6 +18,7 @@ export const sharedPageComponents: SharedLayout = {
     Component.KnowledgeGraphLoader(),
     Component.AskKnowledgeBaseLoader(),
     Component.SubmitArticleLoader(),
+    Component.RelatedTopicsLoader(),
   ],
   footer: Component.Footer({
     links: {
