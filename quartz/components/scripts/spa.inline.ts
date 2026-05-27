@@ -32,7 +32,10 @@ const getOpts = ({ target }: Event): { url: URL; scroll?: boolean } | undefined 
   if ("routerIgnore" in a.dataset) return
   const { href } = a
   if (!isLocalUrl(href)) return
-  return { url: new URL(href), scroll: "routerNoscroll" in a.dataset ? false : undefined }
+  const url = new URL(href)
+  // Leaflet site map breaks under SPA due to persisted relative asset URLs.
+  if (/\/map\/?$/.test(url.pathname)) return
+  return { url, scroll: "routerNoscroll" in a.dataset ? false : undefined }
 }
 
 function notifyNav(url: FullSlug) {
@@ -92,6 +95,9 @@ async function _navigate(url: URL, isBack: boolean = false) {
   let resolvedUrl = new URL(url.toString())
   const pageSlug = html.body?.dataset?.slug
   if (pageSlug?.endsWith("/index") && !resolvedUrl.pathname.endsWith("/")) {
+    resolvedUrl.pathname = `${resolvedUrl.pathname}/`
+  }
+  if (pageSlug === "map" && !resolvedUrl.pathname.endsWith("/")) {
     resolvedUrl.pathname = `${resolvedUrl.pathname}/`
   }
 

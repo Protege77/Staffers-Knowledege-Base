@@ -24,14 +24,14 @@ export const sharedPageComponents: SharedLayout = {
   footer: Component.Footer({
     links: {
       "Articles": "https://protege77.github.io/Staffers-Knowledege-Base/articles/",
-      "Map": "https://protege77.github.io/Staffers-Knowledege-Base/map",
+      "Map": "https://protege77.github.io/Staffers-Knowledege-Base/map/",
       "Graph": "https://protege77.github.io/Staffers-Knowledege-Base/graph",
       "Ask Claude": "https://protege77.github.io/Staffers-Knowledege-Base/ask",
       "Tags": "https://protege77.github.io/Staffers-Knowledege-Base/tags/",
       "Submit an Article": "https://protege77.github.io/Staffers-Knowledege-Base/submit",
       "GitHub": "https://github.com/Protege77/Staffers-Knowledege-Base",
     },
-    spaIgnore: ["https://protege77.github.io/Staffers-Knowledege-Base/map"],
+    spaIgnore: ["https://protege77.github.io/Staffers-Knowledege-Base/map/"],
   }),
 }
 

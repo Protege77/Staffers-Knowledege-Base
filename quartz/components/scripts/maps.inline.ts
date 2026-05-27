@@ -208,12 +208,48 @@ function scheduleFit(map: LeafletMap, fitView: () => void) {
   })
 }
 
-function staticAssetUrl(path: string): URL {
-  const css = document.querySelector('link[href$="index.css"]') as HTMLLinkElement | null
-  if (css?.href) {
-    return new URL(path, css.href)
+function pathToRootPrefix(slug: string): string {
+  const segments = slug.split("/").filter((x) => x !== "")
+  const ups = segments
+    .slice(0, -1)
+    .map(() => "..")
+    .join("/")
+  return ups.length === 0 ? "./" : `${ups}/`
+}
+
+function fixPersistedStylesheet(): void {
+  const link = document.querySelector('link[href$="index.css"]') as HTMLLinkElement | null
+  if (!link) return
+  const slug = document.body.dataset.slug ?? "index"
+  link.setAttribute("href", `${pathToRootPrefix(slug)}index.css`)
+}
+
+function projectBaseUrl(): URL {
+  const slug = document.body.dataset.slug ?? ""
+  const og = document.querySelector('meta[property="og:url"]')?.getAttribute("content")
+  if (og && slug) {
+    const base = new URL(og)
+    if (slug !== "index") {
+      const suffix = slug.split("/").join("/")
+      if (base.pathname.endsWith(`/${suffix}`)) {
+        base.pathname = base.pathname.slice(0, -(suffix.length + 1)) || "/"
+      }
+    } else {
+      base.pathname = base.pathname.replace(/\/?index\/?$/, "/") || "/"
+    }
+    if (!base.pathname.endsWith("/")) base.pathname += "/"
+    return base
   }
-  return new URL(path.replace(/^\.\//, ""), window.location.href)
+
+  const segments = window.location.pathname.split("/").filter(Boolean)
+  if (segments.length > 1) {
+    return new URL(`/${segments[0]}/`, window.location.origin)
+  }
+  return new URL("/", window.location.origin)
+}
+
+function staticAssetUrl(path: string): URL {
+  return new URL(path.replace(/^\.\//, ""), projectBaseUrl())
 }
 
 async function loadArticleLocations(): Promise<ArticleLocation[]> {
@@ -329,21 +365,19 @@ async function initMaps() {
   }
 }
 
-function scheduleMapInit() {
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      window.setTimeout(() => {
-        void initMaps()
-      }, 50)
+let initTimer: number | null = null
 
-      // Site map needs a second pass after SPA layout settles (e.g. Recent Notes links).
-      if (document.getElementById("site-map")) {
-        window.setTimeout(() => {
-          void initMaps()
-        }, 750)
-      }
-    })
-  })
+function scheduleMapInit() {
+  fixPersistedStylesheet()
+
+  if (initTimer !== null) {
+    window.clearTimeout(initTimer)
+  }
+
+  initTimer = window.setTimeout(() => {
+    initTimer = null
+    void initMaps()
+  }, 120)
 }
 
 document.addEventListener("nav", scheduleMapInit)
