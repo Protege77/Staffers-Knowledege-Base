@@ -18,11 +18,13 @@ type LeafletMap = {
   invalidateSize: (opts?: { animate?: boolean }) => void
   setView: (coords: [number, number], zoom: number) => LeafletMap
   fitBounds: (bounds: unknown, opts?: { padding?: [number, number] }) => LeafletMap
+  whenReady: (fn: () => void) => void
 }
 
 let leafletPromise: Promise<void> | null = null
 let initGeneration = 0
 const mapObservers = new WeakMap<HTMLElement, IntersectionObserver>()
+const resizeObservers = new WeakMap<HTMLElement, ResizeObserver>()
 
 function getArticleMapEl(): HTMLElement | null {
   return document.querySelector(".article-map[data-lat][data-lng]")
@@ -96,14 +98,24 @@ function ensureLeaflet(): Promise<void> {
   return leafletPromise
 }
 
-function destroyMap(el: HTMLElement | null) {
-  if (!el) return
-
+function disconnectObservers(el: HTMLElement) {
   const observer = mapObservers.get(el)
   if (observer) {
     observer.disconnect()
     mapObservers.delete(el)
   }
+
+  const resizeObserver = resizeObservers.get(el)
+  if (resizeObserver) {
+    resizeObserver.disconnect()
+    resizeObservers.delete(el)
+  }
+}
+
+function destroyMap(el: HTMLElement | null) {
+  if (!el) return
+
+  disconnectObservers(el)
 
   const map = (el as any)._leafletMap as LeafletMap | undefined
   if (map) {
@@ -116,6 +128,42 @@ function destroyMap(el: HTMLElement | null) {
   else if (el.id === "site-map") el.className = "site-map"
 }
 
+function resetMapHost(el: HTMLElement, className: string): HTMLElement {
+  destroyMap(el)
+  const parent = el.parentElement
+  if (!parent) return el
+
+  const replacement = document.createElement("div")
+  replacement.id = el.id
+  replacement.className = className
+  if (el.dataset.lat) replacement.dataset.lat = el.dataset.lat
+  if (el.dataset.lng) replacement.dataset.lng = el.dataset.lng
+  if (el.dataset.label) replacement.dataset.label = el.dataset.label
+  parent.replaceChild(replacement, el)
+  return replacement
+}
+
+async function waitForStableSize(el: HTMLElement, minHeight: number): Promise<void> {
+  let lastW = -1
+  let lastH = -1
+  let stable = 0
+
+  for (let frame = 0; frame < 48; frame++) {
+    await new Promise((resolve) => requestAnimationFrame(resolve))
+    const { width, height } = el.getBoundingClientRect()
+    if (width >= 200 && height >= minHeight) {
+      if (width === lastW && height === lastH) {
+        stable++
+        if (stable >= 3) return
+      } else {
+        stable = 0
+        lastW = width
+        lastH = height
+      }
+    }
+  }
+}
+
 function refreshMapSize(map: LeafletMap) {
   map.invalidateSize({ animate: false })
   requestAnimationFrame(() => {
@@ -125,14 +173,14 @@ function refreshMapSize(map: LeafletMap) {
   window.setTimeout(() => map.invalidateSize({ animate: false }), 250)
 }
 
-function watchMapVisibility(el: HTMLElement, map: LeafletMap) {
-  const prior = mapObservers.get(el)
-  prior?.disconnect()
+function watchMapVisibility(el: HTMLElement, map: LeafletMap, onVisible?: () => void) {
+  disconnectObservers(el)
 
   const observer = new IntersectionObserver(
     (entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
         refreshMapSize(map)
+        onVisible?.()
       }
     },
     { threshold: 0.1 },
@@ -141,8 +189,47 @@ function watchMapVisibility(el: HTMLElement, map: LeafletMap) {
   mapObservers.set(el, observer)
 }
 
-function initArticleMap() {
-  const el = getArticleMapEl()
+function watchMapResize(el: HTMLElement, map: LeafletMap, onResize: () => void) {
+  const resizeObserver = new ResizeObserver(() => {
+    refreshMapSize(map)
+    onResize()
+  })
+  resizeObserver.observe(el)
+  resizeObservers.set(el, resizeObserver)
+}
+
+function scheduleFit(map: LeafletMap, fitView: () => void) {
+  fitView()
+  map.whenReady(() => {
+    fitView()
+    window.setTimeout(fitView, 100)
+    window.setTimeout(fitView, 400)
+    window.setTimeout(fitView, 900)
+  })
+}
+
+function staticAssetUrl(path: string): URL {
+  const css = document.querySelector('link[href$="index.css"]') as HTMLLinkElement | null
+  if (css?.href) {
+    return new URL(path, css.href)
+  }
+  return new URL(path.replace(/^\.\//, ""), window.location.href)
+}
+
+async function loadArticleLocations(): Promise<ArticleLocation[]> {
+  try {
+    const res = await fetch(staticAssetUrl("static/article-locations.json"))
+    if (!res.ok) return []
+    const data = (await res.json()) as { locations?: ArticleLocation[] }
+    return data.locations ?? []
+  } catch (err) {
+    console.warn("Could not load article-locations.json:", err)
+    return []
+  }
+}
+
+async function initArticleMap(generation: number) {
+  let el = getArticleMapEl()
   if (!el) return
 
   const lat = Number(el.dataset.lat)
@@ -150,7 +237,9 @@ function initArticleMap() {
   const label = el.dataset.label || "Article location"
   if (!Number.isFinite(lat) || !Number.isFinite(lng)) return
 
-  destroyMap(el)
+  el = resetMapHost(el, "article-map")
+  await waitForStableSize(el, 120)
+  if (generation !== initGeneration) return
 
   const L = (window as any).L
   const map = L.map(el, { scrollWheelZoom: false }).setView([lat, lng], 10) as LeafletMap
@@ -162,27 +251,27 @@ function initArticleMap() {
   }).addTo(map)
 
   L.marker([lat, lng]).addTo(map).bindPopup(label)
-  watchMapVisibility(el, map)
-  refreshMapSize(map)
+
+  const fitView = () => {
+    if (generation !== initGeneration) return
+    map.setView([lat, lng], 10)
+    refreshMapSize(map)
+  }
+
+  watchMapVisibility(el, map, fitView)
+  watchMapResize(el, map, fitView)
+  scheduleFit(map, fitView)
 }
 
 async function initSiteMap(generation: number) {
-  const el = document.getElementById("site-map") as HTMLElement | null
+  let el = document.getElementById("site-map")
   if (!el) return
 
-  destroyMap(el)
+  el = resetMapHost(el, "site-map")
+  await waitForStableSize(el, 200)
+  if (generation !== initGeneration) return
 
-  let locations: ArticleLocation[] = []
-  try {
-    const res = await fetch(new URL("./static/article-locations.json", window.location.href))
-    if (res.ok) {
-      const data = (await res.json()) as { locations?: ArticleLocation[] }
-      locations = data.locations ?? []
-    }
-  } catch (err) {
-    console.warn("Could not load article-locations.json:", err)
-  }
-
+  const locations = await loadArticleLocations()
   if (generation !== initGeneration) return
 
   const L = (window as any).L
@@ -195,7 +284,7 @@ async function initSiteMap(generation: number) {
   }).addTo(map)
 
   const bounds = L.latLngBounds([])
-  const articleBase = new URL("articles/", window.location.href)
+  const articleBase = staticAssetUrl("articles/")
 
   for (const loc of locations) {
     const marker = L.marker([loc.lat, loc.lng]).addTo(map)
@@ -214,10 +303,9 @@ async function initSiteMap(generation: number) {
     refreshMapSize(map)
   }
 
-  watchMapVisibility(el, map)
-  fitView()
-  requestAnimationFrame(() => requestAnimationFrame(fitView))
-  window.setTimeout(fitView, 300)
+  watchMapVisibility(el, map, fitView)
+  watchMapResize(el, map, fitView)
+  scheduleFit(map, fitView)
 }
 
 function cleanupMaps() {
@@ -232,7 +320,7 @@ async function initMaps() {
     await ensureLeaflet()
     if (generation !== initGeneration) return
 
-    initArticleMap()
+    await initArticleMap(generation)
     if (generation !== initGeneration) return
 
     await initSiteMap(generation)
@@ -244,7 +332,9 @@ async function initMaps() {
 function scheduleMapInit() {
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      void initMaps()
+      window.setTimeout(() => {
+        void initMaps()
+      }, 50)
     })
   })
 }
