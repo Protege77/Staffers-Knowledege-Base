@@ -10,11 +10,20 @@ tags:
   - fitness-tracking
   - operational-security
   - geospatial-intelligence
+location_name: "Singapore"
+location_lat: 1.3521
+location_lng: 103.8198
+location_confidence: high
 ---
 
 ## Summary
 
 Defence experts in Singapore have warned that fitness tracking apps like Strava expose military personnel's daily routines and movement patterns, following breaches affecting French and British forces. Singapore military installations including Sungei Gedong Camp, Changi Naval Base, and Sembawang Air Base were identified on Strava's global heatmap, raising critical operational security concerns.
+
+## Location
+
+<p class="article-map-label">Singapore</p>
+<div id="article-map" class="article-map" data-lat="1.3521" data-lng="103.8198" data-label="Singapore"></div>
 
 ## Related Topics
 
