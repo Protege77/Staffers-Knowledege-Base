@@ -3,18 +3,19 @@ title: "Latvia sends mobile intercept units to Russian border in wake of drone i
 url: "https://www.defensenews.com/global/europe/2026/05/27/latvia-sends-mobile-intercept-units-to-russian-border-in-wake-of-drone-incursions/"
 date: 2026-05-27
 submitted_by: Herman
-category: Industry News
+category: Other
 tags:
   - drone-defense
-  - baltic-security
-  - autonomous-systems
   - border-security
-  - counter-uas
+  - latvia
+  - russia
+  - autonomous-systems
+  - nato
 ---
 
 ## Summary
 
-Latvia is deploying mobile drone-interceptor units equipped with locally-manufactured interceptor drones to its eastern border within days to counter increasing Russian drone incursions. The initial deployment of four-soldier teams in 4x4 vehicles represents a temporary solution, with plans for fully autonomous interceptor systems in launch canisters as a long-term alternative.
+Latvia is deploying mobile drone-interceptor units equipped with locally-manufactured interceptor drones to its eastern border to counter increasing Russian drone incursions. The initial deployment uses four-soldier teams in 4x4 vehicles as a temporary measure, with plans for fully autonomous interceptor systems in launch canisters as a long-term solution.
 
 ## Related Topics
 
