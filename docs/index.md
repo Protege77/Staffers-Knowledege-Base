@@ -10,12 +10,14 @@ Browse the [latest articles](articles/index.md), filter by [tags](tags.md), or [
 
 <style>
 .stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin: 2rem 0;
+  justify-content: flex-end;
 }
 .stat-card {
+  width: 140px;
   background: #FFF6E8;
   border: 1px solid #F0E6D4;
   border-radius: 10px;
