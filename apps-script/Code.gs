@@ -560,31 +560,86 @@ function fetchArticleContent(url) {
 // ============================================================
 // CLASSIFY WITH CLAUDE
 // ============================================================
-function getExistingCategories() {
+/** Categories never offered as seeds during recategorisation. */
+const DEPRECATED_CATEGORIES = ['Industry News', 'Other'];
+
+/** Vocabulary hints for Claude — not a fixed pick list. */
+const CATEGORY_GUIDANCE = [
+  'GIS',
+  'Defence Tech',
+  'Geopolitics',
+  'Singapore Defence',
+  'Military AI',
+  'Tech Industry',
+  'Leadership',
+];
+
+function getExistingCategories(opts) {
+  opts = opts || {};
+  const exclude = opts.excludeDeprecated ? DEPRECATED_CATEGORIES : ['Industry News'];
   try {
     const articles = getAllArticles();
     const cats = new Set();
     articles.forEach(function(a) {
       if (a.category) cats.add(a.category);
     });
-    return [...cats].sort();
+    CATEGORY_GUIDANCE.forEach(function(c) { cats.add(c); });
+    return [...cats]
+      .filter(function(c) {
+        return exclude.indexOf(c) < 0;
+      })
+      .sort();
   } catch (err) {
     log('Warning: could not read existing categories — ' + err.message);
-    return [];
+    return CATEGORY_GUIDANCE.slice();
   }
 }
 
-function classifyWithClaude(url, article) {
-  const existingCats = getExistingCategories();
+function stripJsonFences(text) {
+  return (text || '')
+    .replace(/^```(?:json)?\s*\r?\n?/i, '')
+    .replace(/\r?\n?```\s*$/, '')
+    .trim();
+}
+
+function finalizeClassification(c, opts) {
+  opts = opts || {};
+  const result = c || {};
+  let category = (result.category || '').trim();
+
+  if (opts.recategorise) {
+    const prev = (opts.previousCategory || '').trim();
+    if (DEPRECATED_CATEGORIES.indexOf(category) >= 0 && prev && DEPRECATED_CATEGORIES.indexOf(prev) < 0) {
+      log('Recategorise: Claude returned "' + category + '" — keeping existing "' + prev + '"');
+      category = prev;
+    }
+  }
+
+  if (!category) category = 'Other';
+  result.category = category;
+  return result;
+}
+
+function classifyWithClaude(url, article, opts) {
+  opts = opts || {};
+  const existingCats = getExistingCategories({ excludeDeprecated: !!opts.recategorise });
   const catSeedLine  = existingCats.length > 0
     ? 'Categories already in use (reuse one if it fits): ' + existingCats.join(', ') + '.'
     : 'No categories exist yet — create the first appropriate one.';
+
+  const recategoriseRules = opts.recategorise
+    ? 'This is a recategorisation pass.\n'
+      + '- Do NOT use "Industry News" or "Other".\n'
+      + '- Pick the most specific category that fits the topic.\n'
+      + '- Reuse an existing category when reasonable; create a new Title Case label (1–3 words) when none fit.\n'
+      + '- "Other" is reserved for brand-new submissions with no extractable content — never use it here.\n\n'
+    : '';
 
   const prompt = 'You are a knowledge-base curator for a GIS and Data Science professional community.\n\n'
     + 'Analyse the article below and return a JSON object with EXACTLY these fields:\n'
     + '- "title": clean article title (fix any HTML entities, remove site name suffix)\n'
     + '- "category": a short Title Case label (1–3 words) that best describes this article\'s topic. '
-    + catSeedLine + ' Only create a new category if none of the existing ones is a good fit — prefer consistency over novelty.\n'
+    + catSeedLine + ' Only create a new category if none of the existing ones is a good fit.\n'
     + '- "tags": array of 3–6 lowercase tags, use hyphens for multi-word tags (e.g. "remote-sensing")\n'
     + '- "summary": exactly 2 sentences summarising the key points\n'
     + '- "related_topics": array of 2–4 topic names that Obsidian wikilinks should point to (Title Case)\n\n'
@@ -592,6 +647,7 @@ function classifyWithClaude(url, article) {
     + 'Page title: ' + (article.title || '(unavailable)') + '\n'
     + 'Content excerpt:\n'
     + (article.text || '(content unavailable — classify from URL and title only)') + '\n\n'
+    + recategoriseRules
     + 'Return ONLY a valid JSON object. No markdown fences, no explanation, no trailing text.';
 
   const payload = {
@@ -616,21 +672,30 @@ function classifyWithClaude(url, article) {
   }
 
   const raw = JSON.parse(response.getContentText()).content[0].text.trim();
+  const cleaned = stripJsonFences(raw);
 
   try {
-    return JSON.parse(raw);
+    return finalizeClassification(JSON.parse(cleaned), opts);
   } catch (_) {
-    const match = raw.match(/\{[\s\S]*\}/);
-    if (match) return JSON.parse(match[0]);
+    const match = cleaned.match(/\{[\s\S]*\}/);
+    if (match) {
+      try {
+        return finalizeClassification(JSON.parse(match[0]), opts);
+      } catch (err2) {
+        log('Warning: Could not parse Claude JSON — ' + err2.message);
+      }
+    }
 
     log('Warning: Could not parse Claude response — using fallback classification.');
-    return {
+    log('Raw response (first 300 chars): ' + raw.substring(0, 300));
+    const fallback = {
       title: article.title || 'Untitled Article',
-      category: 'Other',
+      category: opts.recategorise && opts.previousCategory ? opts.previousCategory : 'Other',
       tags: ['unclassified'],
       summary: 'Article saved. Manual classification needed.',
       related_topics: []
     };
+    return finalizeClassification(fallback, opts);
   }
 }
 
@@ -659,6 +724,30 @@ function buildMarkdown(url, submitter, userNotes, c) {
     + notesSection
     + '## Source\n\n'
     + '[' + escapeMarkdown(c.title) + '](' + url + ')\n';
+}
+
+/** Rebuild article markdown on recategorisation — preserves original date and submitter. */
+function rebuildMarkdownFromExisting(parsed, c, userNotes) {
+  const title     = c.title || parsed.title || 'Untitled';
+  const tagList   = (c.tags || parsed.tags || []).map(function(t) { return '  - ' + t; }).join('\n');
+  const wikilinks = (c.related_topics || []).map(function(t) { return '- [[' + t + ']]'; }).join('\n');
+  const notesSection = userNotes ? '\n## Member Notes\n\n' + userNotes + '\n' : '';
+
+  return '---\n'
+    + 'title: "' + escapeQuotes(title) + '"\n'
+    + 'url: "' + parsed.url + '"\n'
+    + 'date: ' + parsed.date + '\n'
+    + 'submitted_by: ' + parsed.submitted_by + '\n'
+    + 'category: ' + c.category + '\n'
+    + 'tags:\n' + tagList + '\n'
+    + '---\n\n'
+    + '## Summary\n\n'
+    + (c.summary || parsed.summary || '') + '\n\n'
+    + '## Related Topics\n\n'
+    + (wikilinks || '_None suggested_') + '\n'
+    + notesSection
+    + '## Source\n\n'
+    + '[' + escapeMarkdown(title) + '](' + parsed.url + ')\n';
 }
 
 
@@ -974,6 +1063,65 @@ function _ghUpdateHomeStats() {
 
 
 // ============================================================
+// RECATEGORISE EXISTING ARTICLES
+// ============================================================
+function extractMemberNotes(body) {
+  const match = (body || '').match(/## Member Notes\s*\r?\n([\s\S]*?)(?:\r?\n## |\s*$)/);
+  return match ? match[1].trim() : '';
+}
+
+function recategoriseArticle(slug) {
+  const path = CONFIG.ARTICLES_GITHUB_PATH + '/' + slug + '.md';
+  const file = githubGetFile(path);
+  if (!file) throw new Error('Article not found: ' + path);
+
+  const parsed = parseMarkdownFile(file.content, slug + '.md');
+  const article = {
+    title: parsed.title,
+    text: (parsed.summary || '') + '\n\n' + (parsed.body || '')
+  };
+  const classification = classifyWithClaude(parsed.url, article, {
+    recategorise: true,
+    previousCategory: parsed.category,
+  });
+  const userNotes = extractMemberNotes(parsed.body);
+  const markdown = rebuildMarkdownFromExisting(parsed, classification, userNotes);
+
+  githubPutFile(path, markdown, file.sha, 'Recategorise: ' + slug);
+  log('Recategorised ' + slug + ' → ' + classification.category);
+  return classification.category;
+}
+
+function recategoriseAllArticles() {
+  const token = _ghToken();
+  if (!token) throw new Error('GITHUB_TOKEN not set in Script Properties');
+
+  const articles = getAllArticles();
+  let updated = 0;
+
+  for (var i = 0; i < articles.length; i++) {
+    const slug = articles[i].slug;
+    if (!slug) continue;
+    try {
+      recategoriseArticle(slug);
+      updated++;
+      Utilities.sleep(1500);
+    } catch (err) {
+      log('Recategorise failed for ' + slug + ': ' + err.message);
+    }
+  }
+
+  try {
+    _ghUpdateHomeStats();
+  } catch (err) {
+    log('Home stats update failed: ' + err.message);
+  }
+
+  log('Recategorised ' + updated + ' of ' + articles.length + ' articles');
+}
+
+
+// ============================================================
 // TEST FUNCTIONS
 // ============================================================
 function testListArticles() {
@@ -998,4 +1146,8 @@ function testPipeline() {
     }
   };
   onFormSubmit(testEvent);
+}
+
+function testRecategoriseOne() {
+  recategoriseArticle('2026-05-27-military-applications-of-gis');
 }

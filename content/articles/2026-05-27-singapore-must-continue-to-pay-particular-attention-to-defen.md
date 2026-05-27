@@ -3,7 +3,7 @@ title: "Singapore must continue to pay particular attention to defence if global
 url: "https://www.channelnewsasia.com/singapore/drones-defence-warfare-saf-lawrence-wong-6045856?cid=internal_sharetool_iphone_09042026_cna"
 date: 2026-05-27
 submitted_by: Herman Tan
-category: Other
+category: Singapore Defence
 tags:
   - drone-technology
   - defence-spending

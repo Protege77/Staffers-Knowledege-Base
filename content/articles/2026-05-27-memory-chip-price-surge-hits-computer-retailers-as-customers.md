@@ -3,7 +3,7 @@ title: "Memory Chip Price Surge Hits Computer Retailers as Customers Delay Upgra
 url: "https://www.channelnewsasia.com/singapore/ram-memory-chips-ai-retailers-computers-price-hikes-micron-samsung-5824181?cid=internal_sharetool_web_02022026_cna"
 date: 2026-05-27
 submitted_by: Herman Tan
-category: Other
+category: Tech Industry
 tags:
   - semiconductor-pricing
   - ram-market

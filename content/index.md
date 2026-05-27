@@ -93,9 +93,9 @@ Browse the latest articles, filter by tags, or submit an article worth sharing w
       <div class="stat-sub">AI-identified connections</div>
     </div>
     <div class="stat-card">
-      <div class="stat-number">2</div>
+      <div class="stat-number">8</div>
       <div class="stat-label">Categories</div>
-      <div class="stat-sub">GIS · Data Science · News · Other</div>
+      <div class="stat-sub">GIS · Defence Tech · Geopolitics · Singapore Defence · more</div>
     </div>
   </div>
 

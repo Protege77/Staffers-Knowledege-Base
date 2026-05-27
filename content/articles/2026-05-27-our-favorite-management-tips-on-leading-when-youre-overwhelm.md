@@ -3,7 +3,7 @@ title: "Our Favorite Management Tips on Leading When You're Overwhelmed"
 url: "https://hbr.org/2025/11/our-favorite-management-tips-on-leading-when-youre-overwhelmed"
 date: 2026-05-27
 submitted_by: Herman Tan
-category: Other
+category: Leadership
 tags:
   - leadership
   - burnout-prevention

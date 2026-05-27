@@ -3,7 +3,7 @@ title: "Latvia sends mobile intercept units to Russian border in wake of drone i
 url: "https://www.defensenews.com/global/europe/2026/05/27/latvia-sends-mobile-intercept-units-to-russian-border-in-wake-of-drone-incursions/"
 date: 2026-05-27
 submitted_by: Herman
-category: Other
+category: Geopolitics
 tags:
   - drone-defense
   - border-security

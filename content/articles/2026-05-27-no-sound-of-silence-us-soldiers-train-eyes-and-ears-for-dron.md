@@ -3,7 +3,7 @@ title: "No Sound of Silence: US Soldiers Train Eyes and Ears for Drone Swarms"
 url: "https://www.defensenews.com/news/your-military/2026/05/15/no-sound-of-silence-us-soldiers-train-eyes-and-ears-for-drone-swarms/"
 date: 2026-05-27
 submitted_by: Herman
-category: Other
+category: Defence Tech
 tags:
   - drone-swarms
   - counter-uas
