@@ -1,0 +1,27 @@
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0 0 1rem;
+}
+
+.site-nav-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--secondary);
+  color: var(--dark) !important;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.88;
+  }
+
+  &.active {
+    outline: 2px solid var(--darkgray);
+    outline-offset: 1px;
+  }
+}

@@ -1,10 +1,9 @@
-name: Deploy Knowledge Base
+name: Deploy Quartz to GitHub Pages
 
 on:
+  push:
+    branches: [main, v4]
   workflow_dispatch:
-    inputs:
-      disabled:
-        description: 'Disabled — replaced by mkdocs.yml'
 
 permissions:
   contents: read

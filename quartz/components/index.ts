@@ -23,6 +23,9 @@ import Breadcrumbs from "./Breadcrumbs"
 import Comments from "./Comments"
 import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
+import KnowledgeGraphLoader from "./KnowledgeGraphLoader"
+import AskKnowledgeBaseLoader from "./AskKnowledgeBaseLoader"
+import SiteNav from "./SiteNav"
 
 export {
   ArticleTitle,
@@ -50,4 +53,7 @@ export {
   Comments,
   Flex,
   ConditionalRender,
+  KnowledgeGraphLoader,
+  AskKnowledgeBaseLoader,
+  SiteNav,
 }
