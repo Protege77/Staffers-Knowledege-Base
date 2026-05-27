@@ -62,7 +62,22 @@ extra:
 
 nav:
   - Home: index.md
-  - Articles: articles/index.md
+  - Articles:
+    - articles/index.md
+    - articles/2026-05-27-the-power-of-spatial-analysis.md
+    - articles/2026-05-27-military-applications-of-gis.md
+    - articles/2026-05-27-ukraine-seeks-god-mode-with-new-control-app-for-drone-war.md
+    - articles/2026-05-27-targeting-turbineone-frontline-perception-system.md
+    - articles/2026-05-27-america-downs-cheap-drones-with-million-dollar-missiles-a-fi.md
+    - articles/2026-05-27-ai-got-the-blame-for-the-iran-school-bombing-the-truth-is-fa.md
+    - articles/2026-05-27-hormuz-is-not-the-only-weak-spot-for-global-trade.md
+    - articles/2026-05-27-memory-chip-price-surge-hits-computer-retailers-as-customers.md
+    - articles/2026-05-27-defence-experts-warn-of-fitness-tracker-risks-in-singapore-m.md
+    - articles/2026-05-27-refreshed-ns-medical-classification-system-to-take-effect-fr.md
+    - articles/2026-05-27-singapore-must-continue-to-pay-particular-attention-to-defen.md
+    - articles/2026-05-27-ministry-of-defence-singapore-latest-release-april-2026.md
+    - articles/2026-05-27-ukraine-iran-war-coverage.md
+    - articles/2026-05-27-our-favorite-management-tips-on-leading-when-youre-overwhelm.md
   - Graph: graph.md
   - Tags: tags.md
   - Submit: submit.md

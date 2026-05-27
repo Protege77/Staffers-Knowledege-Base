@@ -1,6 +1,5 @@
 ---
 title: Tags
-tags: []
 ---
 
 # Tags
