@@ -8,6 +8,7 @@ Articles and their connected topics — click a node to open the article, drag t
 
 <div id="graph-container" style="width:100%;height:620px;background:#FFF6E8;border-radius:12px;border:1px solid #F0E6D4;overflow:hidden;position:relative;">
   <div id="graph-tooltip" style="position:absolute;background:#3A2A1A;color:#FFF6E8;padding:6px 10px;border-radius:6px;font-size:0.78rem;pointer-events:none;opacity:0;transition:opacity 0.15s;max-width:220px;line-height:1.4;"></div>
+  <button id="graph-reset-btn" onclick="resetGraphView()" title="Reset view" style="position:absolute;top:10px;right:10px;z-index:10;background:#FFF6E8;border:1px solid #D4C4B0;border-radius:6px;padding:5px 8px;cursor:pointer;font-size:0.78rem;color:#5C4A3A;opacity:0.8;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">↺ Reset</button>
   <svg id="graph-svg" style="width:100%;height:100%;"></svg>
 </div>
 
@@ -16,6 +17,9 @@ Articles and their connected topics — click a node to open the article, drag t
 </p>
 
 <script>
+let _graphResetFn = null;
+function resetGraphView() { if (_graphResetFn) _graphResetFn(); }
+
 (function() {
 
 const articles = [
@@ -189,8 +193,10 @@ function initGraph() {
     const scale = Math.min(0.9, w / (x1 - x0), h / (y1 - y0));
     const tx = (w - scale * (x0 + x1)) / 2;
     const ty = (h - scale * (y0 + y1)) / 2;
-    svg.transition().duration(600)
-      .call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+    const fitTransform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+    svg.transition().duration(600).call(zoom.transform, fitTransform);
+    // Store reset function so the Reset button can replay the fit
+    _graphResetFn = () => svg.transition().duration(500).call(zoom.transform, fitTransform);
   });
 }
 
