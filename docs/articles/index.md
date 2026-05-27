@@ -68,6 +68,15 @@ All articles submitted by the community, sorted newest first.
 .cat-gis       { background: #d1f0ef; color: #2a7a77; }
 .cat-news      { background: #fde8cc; color: #8a4e0f; }
 .cat-other     { background: #ece8e3; color: #6b5c4e; }
+/* Dynamic palette — assigned by hash so each category always gets the same colour */
+.cat-c0 { background: #d8edf5; color: #1a5a7a; }
+.cat-c1 { background: #ddf0dd; color: #2d6b2d; }
+.cat-c2 { background: #f5e0d8; color: #8a3a20; }
+.cat-c3 { background: #f5f0d0; color: #7a6010; }
+.cat-c4 { background: #e8e0f5; color: #5a3d8a; }
+.cat-c5 { background: #f0dded; color: #7a2a5a; }
+.cat-c6 { background: #d8f5ec; color: #1a7a5a; }
+.cat-c7 { background: #f5dde5; color: #8a2d4a; }
 .no-results {
   text-align: center;
   color: #B8A898;
