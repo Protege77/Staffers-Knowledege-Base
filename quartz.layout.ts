@@ -20,7 +20,7 @@ export const sharedPageComponents: SharedLayout = {
       "Articles": "https://protege77.github.io/Staffers-Knowledege-Base/articles",
       "Graph": "https://protege77.github.io/Staffers-Knowledege-Base/graph",
       "Ask Claude": "https://protege77.github.io/Staffers-Knowledege-Base/ask",
-      "Tags": "https://protege77.github.io/Staffers-Knowledege-Base/tags",
+      "Tags": "https://protege77.github.io/Staffers-Knowledege-Base/tags/",
       "Submit an Article": "https://protege77.github.io/Staffers-Knowledege-Base/submit",
       "GitHub": "https://github.com/Protege77/Staffers-Knowledege-Base",
     },
