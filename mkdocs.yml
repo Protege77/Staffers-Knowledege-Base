@@ -35,7 +35,8 @@ theme:
 
 plugins:
   - search
-  - tags
+  - tags:
+      tags_file: tags.md
 
 markdown_extensions:
   - admonition
