@@ -4,7 +4,6 @@ site_url: https://protege77.github.io/Staffers-Knowledege-Base/
 
 theme:
   name: material
-  custom_dir: overrides
   favicon: assets/favicon.png
 
   palette:
