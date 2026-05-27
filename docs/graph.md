@@ -15,7 +15,6 @@ Articles and their connected topics — click a node to open the article, drag t
   🔵 Articles — click to open &nbsp;·&nbsp; 🟤 Topics — click to search &nbsp;·&nbsp; Scroll to zoom
 </p>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script>
 (function() {
 
@@ -195,18 +194,20 @@ function initGraph() {
   });
 }
 
-// Init on page load — also re-init on MkDocs SPA navigation
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initGraph);
+// Use MkDocs Material's document$ observable for instant navigation
+// This fires on every page load including SPA navigation
+if (typeof document$ !== 'undefined') {
+  document$.subscribe(function() {
+    if (document.getElementById('graph-svg')) initGraph();
+  });
 } else {
-  initGraph();
+  // Fallback for direct page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGraph);
+  } else {
+    initGraph();
+  }
 }
-// MkDocs instant navigation re-fires content — re-init after tab switch
-document.addEventListener('DOMContentMutated', initGraph);
-// Fallback: re-init when page becomes visible (handles tab switching)
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) initGraph();
-});
 
 })();
 </script>

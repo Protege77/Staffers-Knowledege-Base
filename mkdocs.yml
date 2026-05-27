@@ -52,6 +52,9 @@ markdown_extensions:
 extra_css:
   - assets/extra.css
 
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js
+
 extra:
   social:
     - icon: fontawesome/brands/github
