@@ -1,7 +1,9 @@
-const LEAFLET_CSS =
-  "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-const LEAFLET_JS =
-  "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+const LEAFLET_VERSION = "1.9.4"
+const LEAFLET_CSS = `https://unpkg.com/leaflet@${LEAFLET_VERSION}/dist/leaflet.css`
+const LEAFLET_JS = `https://unpkg.com/leaflet@${LEAFLET_VERSION}/dist/leaflet.js`
+const MARKER_ICON = `https://unpkg.com/leaflet@${LEAFLET_VERSION}/dist/images/marker-icon.png`
+const MARKER_ICON_2X = `https://unpkg.com/leaflet@${LEAFLET_VERSION}/dist/images/marker-icon-2x.png`
+const MARKER_SHADOW = `https://unpkg.com/leaflet@${LEAFLET_VERSION}/dist/images/marker-shadow.png`
 
 type ArticleLocation = {
   id: string
@@ -11,45 +13,128 @@ type ArticleLocation = {
   lng: number
 }
 
+type LeafletMap = {
+  remove: () => void
+  invalidateSize: (opts?: { animate?: boolean }) => void
+  setView: (coords: [number, number], zoom: number) => LeafletMap
+  fitBounds: (bounds: unknown, opts?: { padding?: [number, number] }) => LeafletMap
+}
+
 let leafletPromise: Promise<void> | null = null
+let initPromise: Promise<void> | null = null
+const mapObservers = new WeakMap<HTMLElement, IntersectionObserver>()
+
+function loadStylesheet(href: string): Promise<void> {
+  const existing = document.querySelector(`link[href="${href}"]`) as HTMLLinkElement | null
+  if (existing?.sheet) return Promise.resolve()
+
+  return new Promise((resolve, reject) => {
+    if (existing) {
+      existing.addEventListener("load", () => resolve(), { once: true })
+      existing.addEventListener("error", () => reject(new Error(`Failed to load ${href}`)), {
+        once: true,
+      })
+      return
+    }
+
+    const link = document.createElement("link")
+    link.rel = "stylesheet"
+    link.href = href
+    link.onload = () => resolve()
+    link.onerror = () => reject(new Error(`Failed to load ${href}`))
+    document.head.appendChild(link)
+  })
+}
+
+function loadScript(src: string): Promise<void> {
+  if ((window as any).L) return Promise.resolve()
+
+  const existing = document.querySelector(`script[src="${src}"]`) as HTMLScriptElement | null
+  if (existing) {
+    if ((window as any).L) return Promise.resolve()
+    return new Promise((resolve, reject) => {
+      existing.addEventListener("load", () => resolve(), { once: true })
+      existing.addEventListener("error", () => reject(new Error(`Failed to load ${src}`)), {
+        once: true,
+      })
+    })
+  }
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script")
+    script.src = src
+    script.async = true
+    script.onload = () => resolve()
+    script.onerror = () => reject(new Error(`Failed to load ${src}`))
+    document.head.appendChild(script)
+  })
+}
+
+function configureLeafletIcons(L: any) {
+  delete L.Icon.Default.prototype._getIconUrl
+  L.Icon.Default.mergeOptions({
+    iconRetinaUrl: MARKER_ICON_2X,
+    iconUrl: MARKER_ICON,
+    shadowUrl: MARKER_SHADOW,
+  })
+}
 
 function ensureLeaflet(): Promise<void> {
   if ((window as any).L) return Promise.resolve()
   if (leafletPromise) return leafletPromise
 
-  leafletPromise = new Promise((resolve, reject) => {
-    if (!document.querySelector(`link[href="${LEAFLET_CSS}"]`)) {
-      const link = document.createElement("link")
-      link.rel = "stylesheet"
-      link.href = LEAFLET_CSS
-      document.head.appendChild(link)
-    }
-
-    const existing = document.querySelector(`script[src="${LEAFLET_JS}"]`) as HTMLScriptElement | null
-    if (existing) {
-      existing.addEventListener("load", () => resolve(), { once: true })
-      existing.addEventListener("error", () => reject(new Error("Failed to load Leaflet")), { once: true })
-      if ((window as any).L) resolve()
-      return
-    }
-
-    const script = document.createElement("script")
-    script.src = LEAFLET_JS
-    script.async = true
-    script.onload = () => resolve()
-    script.onerror = () => reject(new Error("Failed to load Leaflet"))
-    document.head.appendChild(script)
+  leafletPromise = Promise.all([loadStylesheet(LEAFLET_CSS), loadScript(LEAFLET_JS)]).then(() => {
+    const L = (window as any).L
+    if (!L) throw new Error("Leaflet failed to load")
+    configureLeafletIcons(L)
   })
 
   return leafletPromise
 }
 
-function destroyMap(el: HTMLElement) {
-  const map = (el as any)._leafletMap as { remove: () => void } | undefined
+function destroyMap(el: HTMLElement | null) {
+  if (!el) return
+
+  const observer = mapObservers.get(el)
+  if (observer) {
+    observer.disconnect()
+    mapObservers.delete(el)
+  }
+
+  const map = (el as any)._leafletMap as LeafletMap | undefined
   if (map) {
     map.remove()
     ;(el as any)._leafletMap = null
   }
+
+  el.innerHTML = ""
+  if (el.id === "article-map") el.className = "article-map"
+  else if (el.id === "site-map") el.className = "site-map"
+}
+
+function refreshMapSize(map: LeafletMap) {
+  map.invalidateSize({ animate: false })
+  requestAnimationFrame(() => {
+    map.invalidateSize({ animate: false })
+    requestAnimationFrame(() => map.invalidateSize({ animate: false }))
+  })
+  window.setTimeout(() => map.invalidateSize({ animate: false }), 250)
+}
+
+function watchMapVisibility(el: HTMLElement, map: LeafletMap) {
+  const prior = mapObservers.get(el)
+  prior?.disconnect()
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        refreshMapSize(map)
+      }
+    },
+    { threshold: 0.1 },
+  )
+  observer.observe(el)
+  mapObservers.set(el, observer)
 }
 
 function initArticleMap() {
@@ -64,7 +149,7 @@ function initArticleMap() {
   destroyMap(el)
 
   const L = (window as any).L
-  const map = L.map(el, { scrollWheelZoom: false }).setView([lat, lng], 10)
+  const map = L.map(el, { scrollWheelZoom: false }).setView([lat, lng], 10) as LeafletMap
   ;(el as any)._leafletMap = map
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -73,7 +158,8 @@ function initArticleMap() {
   }).addTo(map)
 
   L.marker([lat, lng]).addTo(map).bindPopup(label)
-  setTimeout(() => map.invalidateSize(), 100)
+  watchMapVisibility(el, map)
+  refreshMapSize(map)
 }
 
 async function initSiteMap() {
@@ -94,7 +180,7 @@ async function initSiteMap() {
   }
 
   const L = (window as any).L
-  const map = L.map(el, { scrollWheelZoom: true })
+  const map = L.map(el, { scrollWheelZoom: true }) as LeafletMap
   ;(el as any)._leafletMap = map
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -104,6 +190,8 @@ async function initSiteMap() {
 
   if (locations.length === 0) {
     map.setView([20, 0], 2)
+    watchMapVisibility(el, map)
+    refreshMapSize(map)
     return
   }
 
@@ -118,21 +206,35 @@ async function initSiteMap() {
   }
 
   map.fitBounds(bounds.pad(0.2))
-  setTimeout(() => map.invalidateSize(), 100)
+  watchMapVisibility(el, map)
+  refreshMapSize(map)
+}
+
+function cleanupMaps() {
+  destroyMap(document.getElementById("article-map"))
+  destroyMap(document.getElementById("site-map"))
 }
 
 async function initMaps() {
-  try {
-    await ensureLeaflet()
-    initArticleMap()
-    await initSiteMap()
-  } catch (err) {
-    console.error("Map initialization failed:", err)
-  }
+  if (initPromise) return initPromise
+
+  initPromise = (async () => {
+    try {
+      await ensureLeaflet()
+      initArticleMap()
+      await initSiteMap()
+    } catch (err) {
+      console.error("Map initialization failed:", err)
+    }
+  })().finally(() => {
+    initPromise = null
+  })
+
+  return initPromise
 }
 
 document.addEventListener("nav", () => {
   void initMaps()
 })
 
-void initMaps()
+window.addCleanup?.(() => cleanupMaps())
