@@ -96,90 +96,115 @@ const topicSet = {};
 links_raw.forEach(([, topic]) => { topicSet[topic] = true; });
 const topics = Object.keys(topicSet).map(t => ({ id: t, label: t, type: "topic" }));
 const nodes = [...articles, ...topics];
-
 const links = links_raw.map(([source, target]) => ({ source, target }));
 
 // Base URL for article links
 const base = window.location.origin + window.location.pathname.replace(/graph.*/, '');
 
-const container = document.getElementById('graph-container');
-const tooltip   = document.getElementById('graph-tooltip');
-const svg       = d3.select('#graph-svg');
-const w = container.clientWidth;
-const h = container.clientHeight;
+function initGraph() {
+  const container = document.getElementById('graph-container');
+  const tooltip   = document.getElementById('graph-tooltip');
+  const svgEl     = document.getElementById('graph-svg');
 
-const g = svg.append('g');
+  // Clear any previous render
+  while (svgEl.firstChild) svgEl.removeChild(svgEl.firstChild);
 
-// Zoom
-svg.call(d3.zoom().scaleExtent([0.3, 3]).on('zoom', e => g.attr('transform', e.transform)));
+  const w = container.clientWidth  || 800;
+  const h = container.clientHeight || 620;
 
-const sim = d3.forceSimulation(nodes)
-  .force('link', d3.forceLink(links).id(d => d.id).distance(90))
-  .force('charge', d3.forceManyBody().strength(-180))
-  .force('center', d3.forceCenter(w / 2, h / 2))
-  .force('collision', d3.forceCollide(28));
+  const svg = d3.select(svgEl);
+  const g   = svg.append('g');
 
-const link = g.append('g')
-  .selectAll('line')
-  .data(links)
-  .join('line')
-  .attr('stroke', '#F0E6D4')
-  .attr('stroke-width', 1.5);
+  const zoom = d3.zoom().scaleExtent([0.2, 3]).on('zoom', e => g.attr('transform', e.transform));
+  svg.call(zoom);
 
-const node = g.append('g')
-  .selectAll('circle')
-  .data(nodes)
-  .join('circle')
-  .attr('r', d => d.type === 'article' ? 10 : 6)
-  .attr('fill', d => d.type === 'article' ? '#7DD5D2' : '#B8A898')
-  .attr('stroke', d => d.type === 'article' ? '#5ABFBB' : '#8A7060')
-  .attr('stroke-width', 1.5)
-  .style('cursor', d => d.type === 'article' ? 'pointer' : 'default')
-  .call(d3.drag()
-    .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
-    .on('drag',  (e, d) => { d.fx = e.x; d.fy = e.y; })
-    .on('end',   (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }))
-  .on('mouseover', (e, d) => {
-    tooltip.style.opacity = '1';
-    tooltip.textContent = d.label;
-  })
-  .on('mousemove', (e) => {
-    const rect = container.getBoundingClientRect();
-    tooltip.style.left = (e.clientX - rect.left + 12) + 'px';
-    tooltip.style.top  = (e.clientY - rect.top  - 28) + 'px';
-  })
-  .on('mouseout', () => { tooltip.style.opacity = '0'; })
-  .on('click', (e, d) => {
-    if (d.type === 'article') {
-      window.location.href = base + 'articles/' + d.id + '/';
-    }
-  });
+  const sim = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d => d.id).distance(100))
+    .force('charge', d3.forceManyBody().strength(-220))
+    .force('center', d3.forceCenter(w / 2, h / 2))
+    .force('collision', d3.forceCollide(30));
 
-// Highlight on hover
-node.on('mouseover', (e, d) => {
-    tooltip.style.opacity = '1';
-    tooltip.textContent = d.label;
-    const connected = new Set();
-    links.forEach(l => {
-      if (l.source.id === d.id) connected.add(l.target.id);
-      if (l.target.id === d.id) connected.add(l.source.id);
+  const link = g.append('g')
+    .selectAll('line')
+    .data(links)
+    .join('line')
+    .attr('stroke', '#D4C4B0')
+    .attr('stroke-width', 1.5);
+
+  const node = g.append('g')
+    .selectAll('circle')
+    .data(nodes)
+    .join('circle')
+    .attr('r', d => d.type === 'article' ? 10 : 6)
+    .attr('fill', d => d.type === 'article' ? '#7DD5D2' : '#B8A898')
+    .attr('stroke', d => d.type === 'article' ? '#5ABFBB' : '#8A7060')
+    .attr('stroke-width', 1.5)
+    .style('cursor', d => d.type === 'article' ? 'pointer' : 'default')
+    .call(d3.drag()
+      .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag',  (e, d) => { d.fx = e.x; d.fy = e.y; })
+      .on('end',   (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }))
+    .on('mouseover', (e, d) => {
+      tooltip.style.opacity = '1';
+      tooltip.textContent = d.label;
+      const connected = new Set();
+      links.forEach(l => {
+        if (l.source.id === d.id) connected.add(l.target.id);
+        if (l.target.id === d.id) connected.add(l.source.id);
+      });
+      node.attr('opacity', n => n.id === d.id || connected.has(n.id) ? 1 : 0.2);
+      link.attr('opacity', l => l.source.id === d.id || l.target.id === d.id ? 1 : 0.1);
+    })
+    .on('mousemove', (e) => {
+      const rect = container.getBoundingClientRect();
+      tooltip.style.left = (e.clientX - rect.left + 12) + 'px';
+      tooltip.style.top  = (e.clientY - rect.top  - 28) + 'px';
+    })
+    .on('mouseout', () => {
+      tooltip.style.opacity = '0';
+      node.attr('opacity', 1);
+      link.attr('opacity', 1);
+    })
+    .on('click', (e, d) => {
+      if (d.type === 'article') {
+        window.location.href = base + 'articles/' + d.id + '/';
+      }
     });
-    node.attr('opacity', n => n.id === d.id || connected.has(n.id) ? 1 : 0.2);
-    link.attr('opacity', l => l.source.id === d.id || l.target.id === d.id ? 1 : 0.1);
-  })
-  .on('mouseout', () => {
-    tooltip.style.opacity = '0';
-    node.attr('opacity', 1);
-    link.attr('opacity', 1);
+
+  sim.on('tick', () => {
+    link
+      .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+      .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+    node
+      .attr('cx', d => d.x)
+      .attr('cy', d => d.y);
   });
 
-sim.on('tick', () => {
-  link
-    .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
-    .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
-  node
-    .attr('cx', d => d.x)
-    .attr('cy', d => d.y);
+  // After simulation settles, auto-fit all nodes into view
+  sim.on('end', () => {
+    const xs = nodes.map(d => d.x);
+    const ys = nodes.map(d => d.y);
+    const x0 = Math.min(...xs) - 40, x1 = Math.max(...xs) + 40;
+    const y0 = Math.min(...ys) - 40, y1 = Math.max(...ys) + 40;
+    const scale = Math.min(0.9, w / (x1 - x0), h / (y1 - y0));
+    const tx = (w - scale * (x0 + x1)) / 2;
+    const ty = (h - scale * (y0 + y1)) / 2;
+    svg.transition().duration(600)
+      .call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+  });
+}
+
+// Init on page load — also re-init on MkDocs SPA navigation
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initGraph);
+} else {
+  initGraph();
+}
+// MkDocs instant navigation re-fires content — re-init after tab switch
+document.addEventListener('DOMContentMutated', initGraph);
+// Fallback: re-init when page becomes visible (handles tab switching)
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) initGraph();
 });
 
 })();
