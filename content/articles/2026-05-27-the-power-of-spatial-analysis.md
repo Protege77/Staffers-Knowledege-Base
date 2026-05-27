@@ -7,19 +7,19 @@ category: GIS
 tags:
   - spatial-analysis
   - gis
+  - esri
   - data-analysis
   - mapping
-  - esri
 ---
 
 ## Summary
 
-This article explores the capabilities and applications of spatial analysis in GIS workflows. It demonstrates how spatial analysis techniques can unlock insights from geographic data.
+This article explores the capabilities and applications of spatial analysis in GIS workflows. It demonstrates how spatial analysis techniques enable professionals to uncover patterns, relationships, and insights from geographic data.
 
 ## Related Topics
 
 - [[Spatial Analysis]]
-- [[GIS Methods]]
+- [[GIS Fundamentals]]
 - [[Data Visualization]]
 - [[Geographic Information Systems]]
 
