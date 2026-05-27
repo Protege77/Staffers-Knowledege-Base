@@ -83,12 +83,12 @@ Browse the latest articles, filter by tags, or submit an article worth sharing w
       <div class="stat-sub">in the knowledge base</div>
     </div>
     <div class="stat-card">
-      <div class="stat-number">75</div>
+      <div class="stat-number">76</div>
       <div class="stat-label">Tags</div>
       <div class="stat-sub">across all articles</div>
     </div>
     <div class="stat-card">
-      <div class="stat-number">53</div>
+      <div class="stat-number">56</div>
       <div class="stat-label">Topics</div>
       <div class="stat-sub">AI-identified connections</div>
     </div>
