@@ -10,11 +10,20 @@ tags:
   - palantir
   - accountability
   - defense-systems
+location_name: "Iran"
+location_lat: 32.4279
+location_lng: 53.688
+location_confidence: medium
 ---
 
 ## Summary
 
 A US bombing of an Iranian school was widely misattributed to AI chatbots, when the actual cause was outdated military databases and the rapid Maven targeting system built by Palantir Technologies. The article reveals how public focus on AI distracted from systemic failures and human decision-making that resulted in nearly 180 children's deaths.
+
+## Location
+
+<p class="article-map-label">Iran</p>
+<div id="article-map" class="article-map" data-lat="32.4279" data-lng="53.688" data-label="Iran"></div>
 
 ## Related Topics
 
