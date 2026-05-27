@@ -44,6 +44,7 @@ const SiteNav: QuartzComponent = ({ fileData, displayClass, cfg }: QuartzCompone
             "internal",
             isActive(currentSlug, slug) ? "active" : "",
           )}
+          {...(slug === "map" ? { "data-router-ignore": "" } : {})}
           data-no-popover="true"
           aria-current={isActive(currentSlug, slug) ? "page" : undefined}
         >

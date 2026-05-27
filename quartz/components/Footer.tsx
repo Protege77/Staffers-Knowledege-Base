@@ -5,12 +5,14 @@ import { i18n } from "../i18n"
 
 interface Options {
   links: Record<string, string>
+  spaIgnore?: string[]
 }
 
 export default ((opts?: Options) => {
   const Footer: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
     const year = new Date().getFullYear()
     const links = opts?.links ?? []
+    const spaIgnore = new Set(opts?.spaIgnore ?? [])
     return (
       <footer class={`${displayClass ?? ""}`}>
         <p>
@@ -20,7 +22,9 @@ export default ((opts?: Options) => {
         <ul>
           {Object.entries(links).map(([text, link]) => (
             <li>
-              <a href={link}>{text}</a>
+              <a href={link} {...(spaIgnore.has(link) ? { "data-router-ignore": "" } : {})}>
+                {text}
+              </a>
             </li>
           ))}
         </ul>

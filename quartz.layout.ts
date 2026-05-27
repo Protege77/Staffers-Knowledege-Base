@@ -31,6 +31,7 @@ export const sharedPageComponents: SharedLayout = {
       "Submit an Article": "https://protege77.github.io/Staffers-Knowledege-Base/submit",
       "GitHub": "https://github.com/Protege77/Staffers-Knowledege-Base",
     },
+    spaIgnore: ["https://protege77.github.io/Staffers-Knowledege-Base/map"],
   }),
 }
 

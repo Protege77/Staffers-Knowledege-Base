@@ -335,6 +335,13 @@ function scheduleMapInit() {
       window.setTimeout(() => {
         void initMaps()
       }, 50)
+
+      // Site map needs a second pass after SPA layout settles (e.g. Recent Notes links).
+      if (document.getElementById("site-map")) {
+        window.setTimeout(() => {
+          void initMaps()
+        }, 750)
+      }
     })
   })
 }
