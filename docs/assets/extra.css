@@ -118,9 +118,14 @@ h1, h2, h3, h4, h5,
   color: var(--dark) !important;
 }
 
-/* Suppress the second nav row that appears on some pages */
-.md-tabs ~ .md-tabs {
+/* Suppress the second nav row (lifted section nav) that duplicates the tab bar */
+.md-nav--lifted > .md-nav__list > .md-nav__item--active > .md-nav__link,
+.md-nav--lifted > .md-nav__list > .md-nav__item > .md-nav__link {
   display: none !important;
+}
+
+.md-nav--lifted > .md-nav__list {
+  gap: 0 !important;
 }
 
 /* ── Search ── */
