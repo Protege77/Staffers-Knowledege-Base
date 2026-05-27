@@ -102,14 +102,9 @@ h1, h2, h3, h4, h5,
   color: var(--dark) !important;
 }
 
-/* ── Navigation tabs — always visible ── */
+/* ── Navigation tabs ── */
 .md-tabs {
   background-color: var(--teal-dark) !important;
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  height: auto !important;
-  overflow: visible !important;
 }
 
 .md-tabs__link {
@@ -123,17 +118,9 @@ h1, h2, h3, h4, h5,
   color: var(--dark) !important;
 }
 
-/* Hide sidebar top-level nav items — they duplicate the sticky tab bar */
-.md-nav--primary > .md-nav__title,
-.md-nav--primary > .md-nav__list > .md-nav__item {
-  display: none;
-}
-
-/* But keep the sidebar visible for article sub-navigation */
-.md-nav--primary > .md-nav__list > .md-nav__item--active,
-.md-nav--primary > .md-nav__list > .md-nav__item--active > .md-nav__link,
-.md-nav--primary > .md-nav__list > .md-nav__item--active .md-nav {
-  display: block;
+/* Suppress the second nav row that appears on some pages */
+.md-tabs ~ .md-tabs {
+  display: none !important;
 }
 
 /* ── Search ── */
