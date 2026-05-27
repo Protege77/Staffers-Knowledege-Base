@@ -370,14 +370,23 @@ article .topic-search-link {
   overflow: hidden;
   position: relative;
   isolation: isolate;
+
+  &.leaflet-container,
+  .leaflet-container {
+    height: 100% !important;
+    width: 100% !important;
+    min-height: inherit;
+  }
 }
 
 .site-map {
   height: 520px;
+  min-height: 520px;
 }
 
 .leaflet-container {
   font-family: var(--bodyFont);
+  background: var(--light);
 }
 
 

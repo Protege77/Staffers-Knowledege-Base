@@ -381,5 +381,6 @@ function scheduleMapInit() {
 }
 
 document.addEventListener("nav", scheduleMapInit)
+scheduleMapInit()
 
 window.addCleanup?.(() => cleanupMaps())

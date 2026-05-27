@@ -116,6 +116,19 @@ async function _navigate(url: URL, isBack: boolean = false) {
   // morph body
   await micromorph(document.body, html.body)
 
+  // Persisted index.css keeps its old relative href after SPA nav (e.g. ../index.css
+  // from an article resolves to the wrong origin on /map). Recompute from slug depth.
+  const cssLink = document.querySelector('link[href$="index.css"]') as HTMLLinkElement | null
+  if (cssLink) {
+    const slug = document.body.dataset.slug ?? "index"
+    const segments = slug.split("/").filter((x) => x !== "")
+    const ups = segments
+      .slice(0, -1)
+      .map(() => "..")
+      .join("/")
+    cssLink.setAttribute("href", `${ups.length === 0 ? "./" : `${ups}/`}index.css`)
+  }
+
   // scroll into place and add history
   if (!isBack) {
     if (resolvedUrl.hash) {

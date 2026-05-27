@@ -2,8 +2,6 @@
 title: Article Map
 ---
 
-# Article Map
-
 Articles with a detected geographic focus — click a pin to open the article.
 
 <div id="site-map" class="site-map"></div>
