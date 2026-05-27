@@ -11,7 +11,7 @@ const config: QuartzConfig = {
     // --------------------------------------------------------
     // SITE IDENTITY — update these
     // --------------------------------------------------------
-    pageTitle: "FILO Knowledge Bank",
+    pageTitle: "The Field Notes",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
