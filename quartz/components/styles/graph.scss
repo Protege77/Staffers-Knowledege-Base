@@ -10,12 +10,13 @@
     border-radius: 5px;
     border: 1px solid var(--lightgray);
     box-sizing: border-box;
-    height: 250px;
+    height: 400px;
     margin: 0.5em 0;
     position: relative;
     overflow: hidden;
 
-    & > .global-graph-icon {
+    & > .global-graph-icon,
+    & > .graph-reset-icon {
       cursor: pointer;
       background: none;
       border: none;
@@ -27,14 +28,21 @@
       padding: 0.2rem;
       margin: 0.3rem;
       top: 0;
-      right: 0;
       border-radius: 4px;
       background-color: transparent;
       transition: background-color 0.5s ease;
-      cursor: pointer;
       &:hover {
         background-color: var(--lightgray);
+        opacity: 1;
       }
+    }
+
+    & > .global-graph-icon {
+      right: 0;
+    }
+
+    & > .graph-reset-icon {
+      right: 30px;
     }
   }
 
