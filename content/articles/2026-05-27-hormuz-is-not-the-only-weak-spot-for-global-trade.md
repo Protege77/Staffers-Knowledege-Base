@@ -10,11 +10,20 @@ tags:
   - geopolitical-risk
   - trade-chokepoints
   - infrastructure
+location_name: "Strait of Hormuz"
+location_lat: 26.57
+location_lng: 56.55
+location_confidence: high
 ---
 
 ## Summary
 
 The article identifies critical vulnerabilities in global trade infrastructure beyond the Strait of Hormuz that threaten international commerce. Geopolitical tensions and weak points in supply chains worldwide pose significant risks to economic stability and trade flows.
+
+## Location
+
+<p class="article-map-label">Strait of Hormuz</p>
+<div id="article-map" class="article-map" data-lat="26.57" data-lng="56.55" data-label="Strait of Hormuz"></div>
 
 ## Related Topics
 
