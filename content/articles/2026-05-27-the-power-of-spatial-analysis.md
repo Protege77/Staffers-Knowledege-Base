@@ -8,19 +8,20 @@ tags:
   - spatial-analysis
   - gis
   - data-analysis
+  - mapping
   - esri
 ---
 
 ## Summary
 
-This article explores the capabilities and applications of spatial analysis in GIS, demonstrating how geographic data can be leveraged to solve complex problems. It highlights the practical benefits of spatial analysis techniques for decision-making across various industries and domains.
+This article explores the capabilities and applications of spatial analysis in GIS workflows. It demonstrates how spatial analysis techniques can unlock insights from geographic data.
 
 ## Related Topics
 
-- [[Spatial Analysis Methods]]
-- [[GIS Applications]]
-- [[Geospatial Data]]
-- [[ArcGIS]]
+- [[Spatial Analysis]]
+- [[GIS Methods]]
+- [[Data Visualization]]
+- [[Geographic Information Systems]]
 
 ## Member Notes
 
