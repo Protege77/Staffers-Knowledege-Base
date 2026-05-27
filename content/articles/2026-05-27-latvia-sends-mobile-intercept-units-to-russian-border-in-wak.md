@@ -11,11 +11,20 @@ tags:
   - russia
   - autonomous-systems
   - nato
+location_name: "Latvia-Russia border"
+location_lat: 56.5
+location_lng: 27.5
+location_confidence: high
 ---
 
 ## Summary
 
 Latvia is deploying mobile drone-interceptor units equipped with locally-manufactured interceptor drones to its eastern border to counter increasing Russian drone incursions. The initial deployment uses four-soldier teams in 4x4 vehicles as a temporary measure, with plans for fully autonomous interceptor systems in launch canisters as a long-term solution.
+
+## Location
+
+<p class="article-map-label">Latvia-Russia border</p>
+<div id="article-map" class="article-map" data-lat="56.5" data-lng="27.5" data-label="Latvia-Russia border"></div>
 
 ## Related Topics
 
