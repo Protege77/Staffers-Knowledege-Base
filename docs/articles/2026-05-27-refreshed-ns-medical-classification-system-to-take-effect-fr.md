@@ -3,7 +3,7 @@ title: "Refreshed NS Medical Classification System to Take Effect from October 2
 url: "https://www.straitstimes.com/singapore/politics/saf-home-teams-refreshed-medical-classification-system-to-take-effect-for-nsfs-from-oct-2027?ref=latest-headlines"
 date: 2026-05-27
 submitted_by: Herman Tan
-category: Industry News
+category: Singapore Defence
 tags:
   - military-health
   - singapore-defense

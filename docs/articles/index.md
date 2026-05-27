@@ -113,65 +113,65 @@ All articles submitted by the community, sorted newest first.
       <td><a href="2026-05-27-military-applications-of-gis/">Military Applications of GIS</a></td>
       <td><span class="cat-badge cat-gis">GIS</span></td>
     </tr>
-    <tr data-cat="Industry News" data-title="ukraine seeks god mode with new control app for drone war">
+    <tr data-cat="Defence Tech" data-title="ukraine seeks god mode with new control app for drone war">
       <td>27 May 2026</td>
       <td><a href="2026-05-27-ukraine-seeks-god-mode-with-new-control-app-for-drone-war/">Ukraine Seeks God Mode with New Control App for Drone War</a></td>
-      <td><span class="cat-badge cat-news">Industry News</span></td>
+      <td><span class="cat-badge cat-c6">Defence Tech</span></td>
     </tr>
-    <tr data-cat="Industry News" data-title="targeting turbineone frontline perception system">
+    <tr data-cat="Defence Tech" data-title="targeting turbineone frontline perception system">
       <td>27 May 2026</td>
       <td><a href="2026-05-27-targeting-turbineone-frontline-perception-system/">Targeting - TurbineOne Frontline Perception System</a></td>
-      <td><span class="cat-badge cat-news">Industry News</span></td>
+      <td><span class="cat-badge cat-c6">Defence Tech</span></td>
     </tr>
-    <tr data-cat="Industry News" data-title="america downs cheap drones with million-dollar missiles">
+    <tr data-cat="Defence Tech" data-title="america downs cheap drones with million dollar missiles">
       <td>27 May 2026</td>
       <td><a href="2026-05-27-america-downs-cheap-drones-with-million-dollar-missiles-a-fi/">America Downs Cheap Drones with Million-Dollar Missiles</a></td>
-      <td><span class="cat-badge cat-news">Industry News</span></td>
+      <td><span class="cat-badge cat-c6">Defence Tech</span></td>
     </tr>
-    <tr data-cat="Industry News" data-title="ai got the blame for the iran school bombing the truth is far more worrying">
+    <tr data-cat="Military AI" data-title="ai got the blame for the iran school bombing the truth is far more worrying">
       <td>27 May 2026</td>
       <td><a href="2026-05-27-ai-got-the-blame-for-the-iran-school-bombing-the-truth-is-fa/">AI got the blame for the Iran school bombing. The truth is far more worrying</a></td>
-      <td><span class="cat-badge cat-news">Industry News</span></td>
+      <td><span class="cat-badge cat-c3">Military AI</span></td>
     </tr>
-    <tr data-cat="Industry News" data-title="hormuz is not the only weak spot for global trade">
+    <tr data-cat="Geopolitics" data-title="hormuz is not the only weak spot for global trade">
       <td>27 May 2026</td>
       <td><a href="2026-05-27-hormuz-is-not-the-only-weak-spot-for-global-trade/">Hormuz Is Not the Only Weak Spot for Global Trade</a></td>
-      <td><span class="cat-badge cat-news">Industry News</span></td>
+      <td><span class="cat-badge cat-c2">Geopolitics</span></td>
     </tr>
-    <tr data-cat="Industry News" data-title="memory chip price surge hits computer retailers">
+    <tr data-cat="Tech Industry" data-title="memory chip price surge hits computer retailers">
       <td>27 May 2026</td>
       <td><a href="2026-05-27-memory-chip-price-surge-hits-computer-retailers-as-customers/">Memory Chip Price Surge Hits Computer Retailers</a></td>
-      <td><span class="cat-badge cat-news">Industry News</span></td>
+      <td><span class="cat-badge cat-c0">Tech Industry</span></td>
     </tr>
-    <tr data-cat="Industry News" data-title="defence experts warn of fitness tracker risks in singapore military bases">
+    <tr data-cat="Singapore Defence" data-title="defence experts warn of fitness tracker risks in singapore military bases">
       <td>27 May 2026</td>
       <td><a href="2026-05-27-defence-experts-warn-of-fitness-tracker-risks-in-singapore-m/">Defence experts warn of fitness tracker risks in Singapore military bases</a></td>
-      <td><span class="cat-badge cat-news">Industry News</span></td>
+      <td><span class="cat-badge cat-c4">Singapore Defence</span></td>
     </tr>
-    <tr data-cat="Industry News" data-title="refreshed ns medical classification system to take effect from october 2027">
+    <tr data-cat="Singapore Defence" data-title="refreshed ns medical classification system to take effect from october 2027">
       <td>27 May 2026</td>
       <td><a href="2026-05-27-refreshed-ns-medical-classification-system-to-take-effect-fr/">Refreshed NS Medical Classification System to Take Effect from October 2027</a></td>
-      <td><span class="cat-badge cat-news">Industry News</span></td>
+      <td><span class="cat-badge cat-c4">Singapore Defence</span></td>
     </tr>
-    <tr data-cat="Industry News" data-title="singapore must continue to pay particular attention to defence">
+    <tr data-cat="Singapore Defence" data-title="singapore must continue to pay particular attention to defence">
       <td>27 May 2026</td>
       <td><a href="2026-05-27-singapore-must-continue-to-pay-particular-attention-to-defen/">Singapore must continue to pay particular attention to defence</a></td>
-      <td><span class="cat-badge cat-news">Industry News</span></td>
+      <td><span class="cat-badge cat-c4">Singapore Defence</span></td>
     </tr>
-    <tr data-cat="Industry News" data-title="ministry of defence singapore latest release april 2026">
+    <tr data-cat="Singapore Defence" data-title="ministry of defence singapore latest release april 2026">
       <td>27 May 2026</td>
       <td><a href="2026-05-27-ministry-of-defence-singapore-latest-release-april-2026/">Ministry of Defence Singapore Latest Release - April 2026</a></td>
-      <td><span class="cat-badge cat-news">Industry News</span></td>
+      <td><span class="cat-badge cat-c4">Singapore Defence</span></td>
     </tr>
-    <tr data-cat="Industry News" data-title="ukraine iran war coverage">
+    <tr data-cat="Geopolitics" data-title="ukraine iran war coverage">
       <td>27 May 2026</td>
       <td><a href="2026-05-27-ukraine-iran-war-coverage/">Ukraine-Iran War Coverage</a></td>
-      <td><span class="cat-badge cat-news">Industry News</span></td>
+      <td><span class="cat-badge cat-c2">Geopolitics</span></td>
     </tr>
-    <tr data-cat="Other" data-title="our favorite management tips on leading when overwhelmed">
+    <tr data-cat="Leadership" data-title="our favorite management tips on leading when overwhelmed">
       <td>27 May 2026</td>
       <td><a href="2026-05-27-our-favorite-management-tips-on-leading-when-youre-overwhelm/">Our Favorite Management Tips on Leading When You're Overwhelmed</a></td>
-      <td><span class="cat-badge cat-other">Other</span></td>
+      <td><span class="cat-badge cat-c5">Leadership</span></td>
     </tr>
   </tbody>
 </table>

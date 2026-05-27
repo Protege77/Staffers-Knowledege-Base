@@ -3,7 +3,7 @@ title: "AI got the blame for the Iran school bombing. The truth is far more worr
 url: "https://www.theguardian.com/news/2026/mar/26/ai-got-the-blame-for-the-iran-school-bombing-the-truth-is-far-more-worrying"
 date: 2026-05-27
 submitted_by: Herman Tan
-category: Industry News
+category: Military AI
 tags:
   - ai-accountability
   - military-technology

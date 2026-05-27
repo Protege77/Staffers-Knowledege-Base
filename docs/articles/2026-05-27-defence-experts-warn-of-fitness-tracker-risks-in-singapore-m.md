@@ -3,7 +3,7 @@ title: "Defence experts warn of fitness tracker risks in Singapore military base
 url: "https://www.channelnewsasia.com/singapore/strava-military-bases-fitness-tracker-mindef-saf-6076076"
 date: 2026-05-27
 submitted_by: Herman Tan
-category: Industry News
+category: Singapore Defence
 tags:
   - fitness-tracking
   - military-security

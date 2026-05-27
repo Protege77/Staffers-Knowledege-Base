@@ -3,7 +3,7 @@ title: "Ukraine-Iran War Coverage"
 url: "https://www.wsj.com/world/ukraine-iran-war-807d697d?st=MwGx3a"
 date: 2026-05-27
 submitted_by: Herman Tan
-category: Industry News
+category: Geopolitics
 tags:
   - geopolitics
   - conflict-analysis

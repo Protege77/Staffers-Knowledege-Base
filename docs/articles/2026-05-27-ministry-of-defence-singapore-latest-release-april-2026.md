@@ -3,7 +3,7 @@ title: "Ministry of Defence Singapore Latest Release - April 2026"
 url: "https://www.mindef.gov.sg/news-and-events/latest-releases/13apr26-nr/"
 date: 2026-05-27
 submitted_by: Herman Tan
-category: Industry News
+category: Singapore Defence
 tags:
   - geospatial-intelligence
   - defence-applications

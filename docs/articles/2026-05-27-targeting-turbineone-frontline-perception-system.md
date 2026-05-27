@@ -3,7 +3,7 @@ title: "Targeting - TurbineOne Frontline Perception System"
 url: "https://www.turbineone.com/solutions/targeting"
 date: 2026-05-27
 submitted_by: Herman Tan
-category: Industry News
+category: Defence Tech
 tags:
   - machine-learning
   - intelligence-analysis
