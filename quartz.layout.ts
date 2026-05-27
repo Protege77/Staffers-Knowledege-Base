@@ -14,7 +14,11 @@ export const sharedPageComponents: SharedLayout = {
     Component.Search(),
     Component.Darkmode(),
   ],
-  afterBody: [Component.KnowledgeGraphLoader(), Component.AskKnowledgeBaseLoader()],
+  afterBody: [
+    Component.KnowledgeGraphLoader(),
+    Component.AskKnowledgeBaseLoader(),
+    Component.SubmitArticleLoader(),
+  ],
   footer: Component.Footer({
     links: {
       "Articles": "https://protege77.github.io/Staffers-Knowledege-Base/articles",

@@ -25,6 +25,7 @@ import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
 import KnowledgeGraphLoader from "./KnowledgeGraphLoader"
 import AskKnowledgeBaseLoader from "./AskKnowledgeBaseLoader"
+import SubmitArticleLoader from "./SubmitArticleLoader"
 import SiteNav from "./SiteNav"
 
 export {
@@ -55,5 +56,6 @@ export {
   ConditionalRender,
   KnowledgeGraphLoader,
   AskKnowledgeBaseLoader,
+  SubmitArticleLoader,
   SiteNav,
 }

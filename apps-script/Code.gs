@@ -22,9 +22,6 @@
 // ============================================================
 const CONFIG = {
 
-  // Claude API key — read from Script Properties (Project Settings → Script Properties)
-  CLAUDE_API_KEY: PropertiesService.getScriptProperties().getProperty('CLAUDE_API_KEY') || '',
-
   // Drive folder still used when saving new submissions from the form pipeline
   DRIVE_FOLDER_NAME: 'FILO Knowledge Bank Articles',
 
@@ -44,6 +41,11 @@ const CONFIG = {
 
   ALERT_EMAIL: '',
 };
+
+/** Read at call time — not from CONFIG — so web app picks up Script property changes. */
+function getClaudeApiKey() {
+  return PropertiesService.getScriptProperties().getProperty('CLAUDE_API_KEY') || '';
+}
 
 
 // ============================================================
@@ -207,7 +209,7 @@ function askKnowledgeBase(question) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': CONFIG.CLAUDE_API_KEY,
+      'x-api-key': getClaudeApiKey(),
       'anthropic-version': '2023-06-01'
     },
     payload: JSON.stringify(payload),
@@ -602,7 +604,7 @@ function classifyWithClaude(url, article) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': CONFIG.CLAUDE_API_KEY,
+      'x-api-key': getClaudeApiKey(),
       'anthropic-version': '2023-06-01'
     },
     payload: JSON.stringify(payload),
