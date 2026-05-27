@@ -523,10 +523,18 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     const canvasSelection = select<HTMLCanvasElement, NodeData>(app.canvas)
     canvasSelection.call(zoomBehavior)
 
-    // Reset button — returns graph to original position and scale
+    // Reset button — returns graph to original position and scale (local sidebar graph)
     const resetBtn = graph.closest(".graph-outer")?.querySelector(".graph-reset-icon")
     if (resetBtn) {
       resetBtn.addEventListener("click", () => {
+        canvasSelection.transition().duration(500).call(zoomBehavior.transform, zoomIdentity)
+      })
+    }
+
+    // Reset button — global graph (full-screen / graph page)
+    const globalResetBtn = graph.closest(".global-graph-outer")?.querySelector(".global-graph-reset-icon")
+    if (globalResetBtn) {
+      globalResetBtn.addEventListener("click", () => {
         canvasSelection.transition().duration(500).call(zoomBehavior.transform, zoomIdentity)
       })
     }
