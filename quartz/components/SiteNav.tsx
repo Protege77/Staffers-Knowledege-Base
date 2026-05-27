@@ -19,7 +19,7 @@ function navHref(cfg: GlobalConfiguration, slug: FullSlug): string {
   const path = simplifySlug(slug)
   if (path === "/") return `${site}/`
   // Folder index pages must keep a trailing slash or relative links on the listing break under SPA nav.
-  const folderTrailingSlash = slug.endsWith("/index") || slug === "articles" || slug === "map" ? "/" : ""
+  const folderTrailingSlash = slug.endsWith("/index") || slug === "articles" ? "/" : ""
   return `${site}/${path}${folderTrailingSlash}`
 }
 

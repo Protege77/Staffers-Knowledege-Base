@@ -97,9 +97,6 @@ async function _navigate(url: URL, isBack: boolean = false) {
   if (pageSlug?.endsWith("/index") && !resolvedUrl.pathname.endsWith("/")) {
     resolvedUrl.pathname = `${resolvedUrl.pathname}/`
   }
-  if (pageSlug === "map" && !resolvedUrl.pathname.endsWith("/")) {
-    resolvedUrl.pathname = `${resolvedUrl.pathname}/`
-  }
 
   normalizeRelativeURLs(html, resolvedUrl)
 
