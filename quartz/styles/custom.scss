@@ -13,7 +13,9 @@
 }
 
 .sidebar.left {
-  display: none !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  gap: 0 !important;
 }
 
 @media (max-width: 1200px) {
@@ -21,7 +23,9 @@
     grid-template-columns: 0 auto !important;
   }
   .sidebar.right {
-    display: none !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    gap: 0 !important;
   }
 }
 
