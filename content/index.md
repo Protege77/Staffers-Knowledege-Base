@@ -113,7 +113,7 @@ Browse the latest articles, filter by tags, or submit an article worth sharing w
       <svg id="home-graph-svg" style="width:100%;height:100%;"></svg>
     </div>
     <p style="font-size:0.8rem;color:var(--gray);margin-top:0.5rem;">
-      Articles are blue — click to open. Topics are gray — click to search.
+      Articles are teal — click to open. Topics are gray — click to search.
     </p>
   </div>
 

@@ -9,21 +9,21 @@ Ask a question about the articles in this knowledge base. Answers are drawn from
 <style>
 .ask-wrap { max-width: 680px; margin: 0 auto; }
 .ask-form { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
-.ask-input { flex: 1; padding: 0.65rem 1rem; border: 1.5px solid #F0E6D4; border-radius: 8px; font-size: 1rem; font-family: inherit; background: #FFF6E8; color: #3A2A1A; outline: none; min-width: 0; }
-.ask-input:focus { border-color: #7DD5D2; }
-.ask-btn { padding: 0.65rem 1.2rem; background: #7DD5D2; color: #3A2A1A; border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: opacity 0.15s; }
+.ask-input { flex: 1; padding: 0.65rem 1rem; border: 1.5px solid var(--lightgray); border-radius: 8px; font-size: 1rem; font-family: inherit; background: var(--light); color: var(--dark); outline: none; min-width: 0; }
+.ask-input:focus { border-color: var(--secondary); }
+.ask-btn { padding: 0.65rem 1.2rem; background: var(--secondary); color: var(--dark); border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: opacity 0.15s; }
 .ask-btn:hover { opacity: 0.85; }
 .ask-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.answer-box { background: rgba(255, 224, 138, 0.3); border-left: 3px solid #7DD5D2; border-radius: 0 8px 8px 0; padding: 1rem 1.2rem; font-size: 1rem; line-height: 1.75; color: #3A2A1A; display: none; }
-.answer-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #B8A898; font-weight: 600; margin-bottom: 0.4rem; }
+.answer-box { background: var(--highlight); border-left: 3px solid var(--secondary); border-radius: 0 8px 8px 0; padding: 1rem 1.2rem; font-size: 1rem; line-height: 1.75; color: var(--dark); display: none; }
+.answer-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); font-weight: 600; margin-bottom: 0.4rem; }
 .error-box { background: #fee2e2; color: #b91c1c; border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.9rem; display: none; }
-.loading { display: none; align-items: center; gap: 0.5rem; color: #B8A898; font-size: 0.9rem; margin-bottom: 1rem; }
-.spinner { width: 16px; height: 16px; border: 2px solid #F0E6D4; border-top-color: #7DD5D2; border-radius: 50%; animation: spin 0.8s linear infinite; }
+.loading { display: none; align-items: center; gap: 0.5rem; color: var(--gray); font-size: 0.9rem; margin-bottom: 1rem; }
+.spinner { width: 16px; height: 16px; border: 2px solid var(--lightgray); border-top-color: var(--secondary); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .example-questions { margin-bottom: 1.5rem; }
-.example-questions p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: #B8A898; font-weight: 600; margin-bottom: 0.5rem; }
-.example-chip { display: inline-block; margin: 0.2rem 0.3rem 0.2rem 0; padding: 0.25rem 0.7rem; background: #F0E6D4; border-radius: 999px; font-size: 0.82rem; color: #5C4A3A; cursor: pointer; transition: background 0.15s; }
-.example-chip:hover { background: #7DD5D2; color: #3A2A1A; }
+.example-questions p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray); font-weight: 600; margin-bottom: 0.5rem; }
+.example-chip { display: inline-block; margin: 0.2rem 0.3rem 0.2rem 0; padding: 0.25rem 0.7rem; background: var(--lightgray); border-radius: 999px; font-size: 0.82rem; color: var(--darkgray); cursor: pointer; transition: background 0.15s; }
+.example-chip:hover { background: var(--secondary); color: var(--dark); }
 </style>
 
 <div class="ask-wrap">

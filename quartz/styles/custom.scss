@@ -1,5 +1,6 @@
 // ============================================================
-// FILO Knowledge Bank — Warm Editorial Theme
+// The Field Notes — Cool Charcoal + Teal Theme
+// Palette: #22272e · #373e47 · #00adb5 · #ebedef
 // ============================================================
 
 
@@ -232,7 +233,7 @@ li.section-li > .section > .meta {
 
 article a[href^="/"]:not(.tag-link) {
   color: var(--secondary);
-  text-decoration-color: rgba(125, 213, 210, 0.4);
+  text-decoration-color: rgba(0, 173, 181, 0.4);
   transition: color 0.15s;
 
   &:hover {
@@ -261,13 +262,13 @@ blockquote {
 // ============================================================
 
 pre {
-  background-color: #F0E6D4 !important;
+  background-color: var(--lightgray) !important;
   border: 1px solid var(--lightgray);
   border-radius: 8px !important;
 }
 
 [saved-theme="dark"] pre {
-  background-color: #3D2E20 !important;
+  background-color: #373e47 !important;
 }
 
 
@@ -277,7 +278,7 @@ pre {
 
 #search-bar:focus {
   border-color: var(--secondary) !important;
-  box-shadow: 0 0 0 2px rgba(125, 213, 210, 0.3);
+  box-shadow: 0 0 0 2px rgba(0, 173, 181, 0.3);
 }
 
 

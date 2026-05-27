@@ -129,7 +129,7 @@ function initGraphInstance(
     .selectAll("line")
     .data(links)
     .join("line")
-    .attr("stroke", "#D4C4B0")
+    .attr("stroke", "#d4d8dc")
     .attr("stroke-width", 1.5)
 
   const node = g
@@ -138,8 +138,8 @@ function initGraphInstance(
     .data(nodes)
     .join("circle")
     .attr("r", (d: any) => (d.type === "article" ? 18 : 10))
-    .attr("fill", (d: any) => (d.type === "article" ? "#7DD5D2" : "#B8A898"))
-    .attr("stroke", (d: any) => (d.type === "article" ? "#5ABFBB" : "#8A7060"))
+    .attr("fill", (d: any) => (d.type === "article" ? "#00adb5" : "#737b85"))
+    .attr("stroke", (d: any) => (d.type === "article" ? "#008a94" : "#373e47"))
     .attr("stroke-width", 1.5)
     .style("cursor", "pointer")
     .call(
