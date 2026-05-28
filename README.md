@@ -1,17 +1,39 @@
-# Quartz v4
+# The Field Notes
 
-> “[One] who works with the door open gets all kinds of interruptions, but [they] also occasionally gets clues as to what the world is and what might be important.” — Richard Hamming
+GIS & Data Science community knowledge base, published as a static site.
 
-Quartz is a set of tools that helps you publish your [digital garden](https://jzhao.xyz/posts/networked-thought) and notes as a website for free.
+**Live site:** https://protege77.github.io/Staffers-Knowledege-Base/
 
-🔗 Read the documentation and get started: https://quartz.jzhao.xyz/
+## Quick start
 
-[Join the Discord Community](https://discord.gg/cRFFHYye7t)
+```bash
+npm install
+npx quartz build --serve
+```
 
-## Sponsors
+Open http://localhost:8080
 
-<p align="center">
-  <a href="https://github.com/sponsors/jackyzha0">
-    <img src="https://cdn.jsdelivr.net/gh/jackyzha0/jackyzha0/sponsorkit/sponsors.svg" />
-  </a>
-</p>
+## Where things live
+
+| What | Location |
+|------|----------|
+| Published articles | `content/articles/` |
+| Site pages (Home, Map, Graph, Ask, Submit) | `content/` |
+| Quartz theme & layout | `quartz.config.ts`, `quartz.layout.ts`, `quartz/styles/` |
+| Apps Script source (Ask + Submit pipeline) | `apps-script/Code.gs` |
+| Project overview & workflows | [`PROJECT.md`](PROJECT.md) |
+
+## Content workflow (Option A)
+
+1. Draft and research in the local **Obsidian vault** (`../obsidian-vault/` when using the multi-root workspace).
+2. When ready to publish, add or edit markdown under **`content/articles/`**.
+3. Push to `main` — GitHub Actions builds and deploys the Quartz site.
+4. Form submissions via Submit page are handled by the **Field Notes** Apps Script project (see `apps-script/README.md`).
+
+## Deploy
+
+Pushes to `main` run `.github/workflows/deploy.yml` and publish to GitHub Pages.
+
+## Repo name
+
+The GitHub repo is still named `Staffers-Knowledege-Base` for URL stability. The public product name is **The Field Notes**.
