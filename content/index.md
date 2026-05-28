@@ -78,17 +78,17 @@ Browse the latest articles, filter by tags, or submit an article worth sharing w
 
   <div class="home-sidebar">
     <div class="stat-card">
-      <div class="stat-number">20</div>
+      <div class="stat-number">21</div>
       <div class="stat-label">Articles</div>
       <div class="stat-sub">in the knowledge base</div>
     </div>
     <div class="stat-card">
-      <div class="stat-number">90</div>
+      <div class="stat-number">93</div>
       <div class="stat-label">Tags</div>
       <div class="stat-sub">across all articles</div>
     </div>
     <div class="stat-card">
-      <div class="stat-number">67</div>
+      <div class="stat-number">71</div>
       <div class="stat-label">Topics</div>
       <div class="stat-sub">AI-identified connections</div>
     </div>
