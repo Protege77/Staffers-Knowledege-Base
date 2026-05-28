@@ -96,8 +96,9 @@ async function answerFromLocalIndex(question: string): Promise<string> {
 
 async function tryGasAsk(question: string): Promise<string | null> {
   try {
-    const body = new URLSearchParams({ action: "ask", question })
-    const res = await fetch(SCRIPT_URL, { method: "POST", body })
+    const params = new URLSearchParams({ action: "ask", question })
+    // GET avoids Apps Script POST→redirect issues that return HTML instead of JSON.
+    const res = await fetch(`${SCRIPT_URL}?${params.toString()}`)
     const contentType = res.headers.get("content-type") ?? ""
 
     if (!contentType.includes("json")) return null
@@ -107,7 +108,8 @@ async function tryGasAsk(question: string): Promise<string | null> {
     if (data.message) throw new Error(data.message)
 
     return null
-  } catch {
+  } catch (err) {
+    if (err instanceof Error) throw err
     return null
   }
 }

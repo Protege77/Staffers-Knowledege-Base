@@ -123,6 +123,11 @@ function onFormSubmit(e) {
 // WEB APP ENTRY POINT
 // ============================================================
 function doGet(e) {
+  const action = (e.parameter.action || '').trim();
+  if (action === 'ask') {
+    return handleAskApi_(e);
+  }
+
   const page = (e.parameter.page || 'home');
   const slug = (e.parameter.slug || '');
   const tag  = (e.parameter.tag  || '');
@@ -142,17 +147,29 @@ function doGet(e) {
 // ============================================================
 // WEB APP — API ENDPOINT (form submissions + Q&A)
 // ============================================================
+function handleAskApi_(e) {
+  try {
+    const question = (e.parameter.question || '').trim();
+    if (!question) return respond(false, 'No question provided');
+    if (!getClaudeApiKey()) {
+      return respond(false, 'CLAUDE_API_KEY is not set in Script properties');
+    }
+
+    const answer = askKnowledgeBase(question);
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: true, answer: answer }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return respond(false, err.message);
+  }
+}
+
 function doPost(e) {
   const action = (e.parameter.action || '').trim();
 
   try {
     if (action === 'ask') {
-      const question = (e.parameter.question || '').trim();
-      if (!question) return respond(false, 'No question provided');
-      const answer = askKnowledgeBase(question);
-      return ContentService
-        .createTextOutput(JSON.stringify({ success: true, answer: answer }))
-        .setMimeType(ContentService.MimeType.JSON);
+      return handleAskApi_(e);
     }
 
     const url       = (e.parameter.url       || '').trim();
@@ -178,10 +195,10 @@ function doPost(e) {
 // ============================================================
 // ASK THE KNOWLEDGE BASE
 // ============================================================
-function askKnowledgeBase(question) {
+function buildAskContext() {
   const articles = getAllArticles();
 
-  const context = articles.map(function(a) {
+  return articles.map(function(a) {
     const tags = (a.tags || []).join(', ');
     return '## ' + a.title + '\n'
       + (a.category ? 'Category: ' + a.category + '\n' : '')
@@ -189,6 +206,16 @@ function askKnowledgeBase(question) {
       + (a.summary ? a.summary : '')
       + '\n';
   }).join('\n---\n');
+}
+
+function askKnowledgeBase(question) {
+  const cache = CacheService.getScriptCache();
+  const cacheKey = 'ask_article_context_v1';
+  let context = cache.get(cacheKey);
+  if (!context) {
+    context = buildAskContext();
+    if (context) cache.put(cacheKey, context, 600);
+  }
 
   const prompt = 'You are an assistant for "The Field Notes", a GIS and Data Science community knowledge base.\n\n'
     + 'Below are summaries of articles in the knowledge base. Use them to answer the member\'s question as helpfully as possible. '
@@ -1319,6 +1346,13 @@ function testListArticles() {
 function testAsk() {
   const answer = askKnowledgeBase('What GIS tools are used in military operations?');
   Logger.log(answer);
+}
+
+function testAskApiGet() {
+  const output = handleAskApi_({
+    parameter: { action: 'ask', question: 'What GIS tools are used in military operations?' },
+  });
+  Logger.log(output.getContent());
 }
 
 function testPipeline() {

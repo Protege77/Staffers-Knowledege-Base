@@ -44,13 +44,19 @@ Public repo reads work without a token but may hit rate limits when loading 16+ 
 
 ## Current status
 
-The Ask deployment is not returning JSON for `POST action=ask`. The Quartz site now **falls back to local search** over `static/contentIndex.json` when the Apps Script call fails, so Ask works without the backend.
+The Ask page calls the web app with **GET** (`?action=ask&question=...`). Browser `POST` requests to Apps Script often follow a redirect and receive HTML instead of JSON, which forced a fallback to local keyword search.
 
-To restore Claude-powered answers, fix and redeploy the Ask web app (steps below).
+After updating `Code.gs`, redeploy the Ask web app. Answers should show as **"Claude's answer"** when the backend returns JSON.
 
 ## Expected Ask API contract
 
-**Request** (form POST):
+**Request** (GET, preferred for browser clients):
+
+```
+GET .../exec?action=ask&question=<url-encoded question>
+```
+
+**Request** (POST, still supported for curl/scripts):
 
 ```
 action=ask
@@ -88,9 +94,7 @@ The client is in `quartz/components/scripts/ask-knowledge-base.inline.ts`.
 7. Test:
 
    ```bash
-   curl -s -X POST \
-     -d "action=ask&question=What GIS tools are used in military operations?" \
-     "https://script.google.com/macros/s/<DEPLOYMENT_ID>/exec"
+   curl -s "https://script.google.com/macros/s/<DEPLOYMENT_ID>/exec?action=ask&question=What%20GIS%20tools%20are%20used%20in%20military%20operations%3F"
    ```
 
    You should get JSON, not HTML or a redirect error page.
